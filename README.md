@@ -26,7 +26,7 @@ Les exemples pratiques, décisions d'architecture et procédures de vérificatio
 | 11 | Platform Engineering | IDP, Backstage, self-service, FinOps, Green IT |
 | 12 | Advanced Architectures | RHOAI, virtualisation, EDA, banque/assurance, edge |
 
-La longueur cible des volumes est indicative. Elle ne doit jamais primer sur la qualité.
+**Principe éditorial : seul le contenu compte.** Nombre de pages, de mots et de chapitres sont informatifs. Un volume est terminé quand les thèmes prévus sont correctement traités, expliqués et vérifiés, pas quand il atteint une pagination. Voir [la grille qualité](docs/EDITORIAL_STANDARD.md) et le [suivi de fond du Volume 02](docs/V02_CONTENT_ACCEPTANCE.md).
 
 ## Point de départ
 

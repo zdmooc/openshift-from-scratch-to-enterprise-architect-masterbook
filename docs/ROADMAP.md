@@ -1,6 +1,6 @@
 # Roadmap d'édition du Masterbook
 
-**Date de référence : 2026-10-11** · **Découpage initial, non contractuel**
+**Date de référence : 2026-10-11** · **Découpage initial, non contractuel** · **Critères de fin : contenu, pas pages**
 
 ## Itérations structurantes
 
@@ -9,7 +9,7 @@
 | OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | CLOSED (cadrage initial) |
 | OCP-MB-I1 | V01 plan + chapitres de base | 13 chapitres + 3 cas, édition contenu complète | EDITION_1_CONTENT_COMPLETE |
 | OCP-MB-I2 | V01 labs et questions d'architecture | 8 labs, 42 tests offline PASS ; runtime non revendiqué | OFFLINE_TESTS_PASS |
-| OCP-MB-I3 | V02 architecture interne | 10 chapitres enrichis, 3 labs, 1 cas, 4 SVG, PDF v1.1 85 pages | EDITION_1_1_PUBLISHED |
+| OCP-MB-I3 | V02 architecture interne | Périmètre V02 documenté; édition PDF 1.1; écarts de contenu audités | EDITION_1_1_PUBLISHED |
 | OCP-MB-I4 | V03 installation/administration | Topologies et procédures vérifiées | PLANNED |
 | OCP-MB-I5 | V04 réseaux | Architecture des flux + diagnostics | PLANNED |
 | OCP-MB-I6 | V05 storage/data | Workloads stateful + RPO/RTO | PLANNED |
@@ -37,4 +37,4 @@ Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** c
 
 ## Étape immédiatement suivante
 
-Volume 01 PDF v1.0 : 109 pages. Volume 02 PDF v1.1 : 85 pages (v1.0 de 59 pages conservée). 94 tests offline/éditoriaux et 91 liens locaux validés. Le Volume 02 doit encore gagner en profondeur pour atteindre l'ambition initiale de 200–280 pages : schémas Mermaid restants, davantage de labs et séquences opérationnelles. Aucun test HA/PRA ni nouvelle charge CRC. La préparation du Volume 03 attendra la clôture éditoriale du Volume 02.
+Les deux premiers volumes disposent de PDF versionnés. **La pagination décrit le rendu, elle ne détermine jamais la clôture.** Pour le Volume 02, les points de vérification/approfondissement sont suivis dans [V02_CONTENT_ACCEPTANCE.md](V02_CONTENT_ACCEPTANCE.md) : cohérence officielle 4.22, Machine API/OLM, chemins de contrôle, exemples complets, validation des figures et limites des labs. Les 94 tests offline/éditoriaux et 91 liens locaux restent des éléments de contrôle, sans validation HA/PRA ni nouvelle charge CRC. Volume 03 seulement après décision de clôture fondée sur la matière couverte.

@@ -38,4 +38,4 @@
 
 [Télécharger le PDF 1.1 — 85 pages](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.1-20261011/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf) · [Validation du PDF](../../docs/V02_RELEASE_VERIFICATION_1_1.md) · [Notes d'édition](../../docs/V02_RELEASE_NOTES.md) · [Sources officielles](../../docs/SOURCES.md).
 
-Cette première édition enrichie reste en deçà du projet d'une bible exhaustive de 200–280 pages. Les autres figures Mermaid non converties restent dans la source Markdown et sous forme de texte lisible dans le PDF.
+**Le nombre de pages ne mesure pas la complétude.** Cette édition a une couverture technique substantielle, et ses écarts restants sont suivis par domaine dans la [grille de validation du contenu](../../docs/V02_CONTENT_ACCEPTANCE.md). Les autres figures Mermaid non converties restent dans la source Markdown et sous forme de texte lisible dans le PDF.

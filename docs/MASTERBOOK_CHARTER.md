@@ -15,6 +15,24 @@ Construire une bible indépendante et évolutive d'OpenShift, du premier contene
 | P3 Resilience & Security | Tech Lead, SRE, sécurité | Sécuriser, observer, fiabiliser et dépanner |
 | P4 Enterprise Architect | Architecte solutions / plateforme | Produire ADR, architecture de référence, NFR et trajectoires |
 
+## Principe prioritaire : contenu avant pagination
+
+**Le nombre de pages est un indicateur descriptif d'une édition imprimée, jamais un objectif de rédaction, une condition de clôture ni un critère de qualité.** Il en va de même du nombre de chapitres, de figures, de mots et de tests : ces quantités aident à gérer une publication, sans remplacer l'évaluation du fond.
+
+Pour chaque volume, l'éditeur valide selon les questions suivantes :
+
+1. **Couverture du périmètre** : les sujets et frontières de responsabilité prévus sont-ils réellement expliqués, sans trous matériels ?
+2. **Exactitude technique** : notions, comportements, contraintes de versions, alternatives et risques sont-ils conformes aux sources officielles pertinentes ?
+3. **Profondeur utile** : le lecteur peut-il expliquer comment cela fonctionne, pourquoi, quand le choisir, comment l'observer et ce qui peut échouer ?
+4. **Applicabilité** : les exemples ont-ils des prérequis explicites, une portée claire et, lorsque possible, des résultats attendus ou des tests reproductibles ?
+5. **Honnêteté des preuves** : documentation, hypothèse, simulation offline et résultat runtime sont-ils strictement distingués ?
+6. **Pédagogie et décision** : le volume permet-il de raisonner sur de vrais compromis d'architecture, de diagnostiquer et de défendre ses choix ?
+7. **Cohérence éditoriale** : diagrammes, références, terminologie, droits, liens, errata et mise en page sont-ils contrôlés ?
+
+**Décision de clôture** : un volume peut être achevé avec 80 pages ou 400 pages si tous les sujets de son périmètre sont traités avec la profondeur nécessaire. Inversement, 300 pages de répétitions, de captures non expliquées ou de remplissage ne constituent pas un volume terminé.
+
+Une publication PDF peut être une **édition intermédiaire utile** sans que le fond ait reçu la validation finale. Le suivi doit alors afficher les écarts de contenu concrets, et non un « déficit de pages ».
+
 ## Objectifs de qualité
 
 1. Concepts expliqués sans dépendance à un cluster.
