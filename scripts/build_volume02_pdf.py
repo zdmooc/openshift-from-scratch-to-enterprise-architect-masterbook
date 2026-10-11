@@ -68,8 +68,8 @@ def make_pdf(out: Path) -> Path:
       <p>Douze chapitres, six laboratoires, un dossier d'architecture et un glossaire. Il s'agit d'une première édition pédagogique, dont les exemples de résolution de pannes restent documentaires.</p>
       <div class="legal"><b>Propriété intellectuelle.</b> © 2026 Zidane Djamal pour les contenus originaux, sous réserve des droits des tiers. Tous droits réservés en l'absence d'une licence explicite. Red Hat et OpenShift sont des marques de leurs propriétaires. Ce document n'est pas un produit officiel Red Hat.</div>
       <p><b>Sécurité :</b> aucune procédure de restauration, suppression de membre etcd, panne forcée, modification SCC/CVO/MCO ou upgrade n'a été exécutée sur un cluster.</p>
-      <p><b>Preuve :</b> les tests Python valident un modèle mathématique de quorum hors cluster. Ils ne constituent ni un test de consensus Raft effectif, ni une validation de haute disponibilité ou de PRA.</p>
-      <p><b>Mise en page :</b> les schémas Mermaid sont conservés en source lisible lorsqu'une conversion graphique n'est pas disponible; le Markdown versionné reste la source de référence.</p>
+      <p><b>Preuve :</b> les tests Python valident des modèles pédagogiques hors cluster (quorum, filtrage du scheduler et contrat de conversion CRD). Ils ne démontrent ni consensus Raft réel, ni scheduling par kube-scheduler, ni admission/conversion Kubernetes effective, ni haute disponibilité ou PRA.</p>
+      <p><b>Mise en page :</b> quatre schémas SVG originaux sont rendus; les autres schémas Mermaid restent en source lisible lorsqu'une conversion graphique n'est pas disponible; le Markdown versionné reste la source de référence.</p>
     </section>"""
     toc_html = '<section class="front"><h2>Sommaire du Volume 02</h2><ol class="toc-list">' + "".join(toc) + '</ol></section>'
     body = "".join(render_source(p, ident, markdown, annex)

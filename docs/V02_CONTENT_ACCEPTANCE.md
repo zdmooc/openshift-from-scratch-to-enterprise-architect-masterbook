@@ -63,3 +63,18 @@ Le [run GitHub Actions du 11 octobre 2026](https://github.com/zdmooc/openshift-f
 - [Kubernetes CRD conversion](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/) : une conversion ne doit pas servir de validation; l'échec peut bloquer des CR existantes; chapitre 08/lab L04 précisés.
 
 Ces corrections qualifient les concepts documentés, **pas** les résultats runtime d'une installation ou du CRC.
+
+## 7. Aperçu PDF complet vérifié — sans publication définitive
+
+- [GitHub Actions — Content and PDF Preview](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38156129697) : **SUCCESS**.
+- **12 chapitres et 6 labs** effectivement inclus; leurs titres figurent tous dans le texte extrait.
+- 114 tests Python offline/structure réussis, 114 liens Markdown locaux résolus.
+- PDF de prévisualisation : texte extractible (229871 caractères), fichier 403423 octets. La pagination est informative seulement.
+- Les contrôles CI ne constituent pas une revue indépendante complète de chaque commande ou une certification du support pour tous les providers.
+- Le dernier PDF public **1.1 reste inchangé**; l'aperçu sert à détecter les problèmes de composition avant décision de clôture basée sur C1–C7.
+
+### Verdict actualisé
+
+**CONTENT_SCOPE_12_CHAPTERS_6_LABS — SOURCE_CHECKED_KEY_CONTRACTS — PREVIEW_PDF_PASS — FINAL_REVIEW_PENDING.**
+
+Les P0 « rédiger Machine API », « rédiger OLM » et « fournir un vrai exemple CRD » sont résolus sur le plan du contenu. Les réserves suivantes restent explicites : contradiction documentaire RHEL worker 4.22, compatibilité exacte avec les différents providers et packages, absence de test d'admission/convert webhook sur API server, et relecture éditoriale finale des 12 chapitres.
