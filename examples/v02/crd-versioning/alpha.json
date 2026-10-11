@@ -1,0 +1,30 @@
+{
+  "apiVersion": "platform.example.com/v1alpha1",
+  "kind": "CapabilityProfile",
+  "metadata": {
+    "name": "payments-api",
+    "namespace": "team-demo",
+    "uid": "00000000-0000-0000-0000-000000000011",
+    "labels": {
+      "owner": "training"
+    },
+    "annotations": {
+      "revision": "demo-only"
+    },
+    "generation": 4
+  },
+  "spec": {
+    "enabled": true,
+    "retentionDays": 30
+  },
+  "status": {
+    "observedGeneration": 4,
+    "conditions": [
+      {
+        "type": "Ready",
+        "status": "True",
+        "reason": "Simulated"
+      }
+    ]
+  }
+}
