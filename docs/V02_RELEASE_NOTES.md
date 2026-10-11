@@ -40,3 +40,10 @@ Les sources Markdown font foi. Corriger la version 1.0 via errata/édition révi
 - Aucun résultat ne prétend une qualification HA/PRA ou un restore etcd réel.
 
 **La cible de pagination initiale de 200–280 pages reste un objectif d'approfondissement ultérieur, pas le compte réel de l'édition 1.0.**
+
+
+## Révision 1.1 — approfondissements documentaires
+
+Le manuscrit a été enrichi sur les dix chapitres : API/APF, Raft, scheduler, CVO, MCO, runtime, SCC/PSA, CRD, HA et N3. Un troisième laboratoire comporte 20 tests offline sur le filtrage de Pods. Quatre schémas SVG vectoriels originaux sont ajoutés. L'édition 1.0 reste immuable et les limites du contenu initial sont conservées dans ses notes de version.
+
+Erratum vérifié : [ambiguïté de la documentation Red Hat OCP 4.22 sur les workers RHEL](ERRATA_V01_V02_20261011.md).

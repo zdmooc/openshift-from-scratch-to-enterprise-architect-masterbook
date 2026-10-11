@@ -13,7 +13,23 @@ import mistune
 from weasyprint import HTML
 
 # Import only pure typesetting helpers from the already-reviewed Volume 01 builder.
-from build_volume01_pdf import CSS, chapter_title, render_source
+from build_volume01_pdf import CSS, chapter_title, render_source as base_render_source
+import re
+from urllib.parse import urljoin
+
+
+def render_source(path: Path, identifier: str, markdown: mistune.Markdown, annex: bool) -> str:
+    """Resolve authored Markdown vector images relative to their source files."""
+    rendered = base_render_source(path, identifier, markdown, annex)
+    directory = path.parent.resolve().as_uri() + "/"
+    def resolve(match: re.Match[str]) -> str:
+        src = match.group(1)
+        if src.startswith(("http://", "https://", "file://", "data:")):
+            return match.group(0)
+        absolute = urljoin(directory, src)
+        return 'src="' + absolute + '"'
+    return re.sub(r'src="([^"]+)"', resolve, rendered)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CHAPTERS = sorted((ROOT / "volumes/02-platform-internals").glob("[0-9][0-9]-*.md"))
@@ -23,8 +39,8 @@ GLOSSARY = ROOT / "volumes/02-platform-internals/GLOSSARY.md"
 
 
 def make_pdf(out: Path) -> Path:
-    if len(CHAPTERS) != 10 or len(LABS) != 2 or len(CASES) != 1 or not GLOSSARY.exists():
-        raise RuntimeError("Expected 10 chapters, 2 labs, 1 case study and glossary")
+    if len(CHAPTERS) != 10 or len(LABS) != 3 or len(CASES) != 1 or not GLOSSARY.exists():
+        raise RuntimeError("Expected 10 chapters, 3 labs, 1 case study and glossary")
     markdown = mistune.create_markdown(plugins=["table", "strikethrough", "url"])
     sections = (
         [("Chapitre", i, f"chapter-{i:02d}", p, False) for i, p in enumerate(CHAPTERS, 1)]
@@ -43,13 +59,13 @@ def make_pdf(out: Path) -> Path:
       <div class="subtitle">etcd · Scheduler · CVO · MCO<br>
       RHCOS · CRI-O · Admission · N3</div>
       <div class="copyright">Zidane Djamal<br>
-      Édition 1.0 · Octobre 2026<br>
+      Édition 1.1 · Octobre 2026<br>
       Étude indépendante, non affiliée à Red Hat</div>
     </section>"""
     front = """<section class="front">
       <h2>Avant-propos</h2>
       <p>Ce livre décrit les composants internes du plan de contrôle d'OpenShift Container Platform 4.22, sur Kubernetes 1.35, et leurs implications pour l'architecture de plateforme et le support N3.</p>
-      <p>Dix chapitres, deux laboratoires, un dossier d'architecture et un glossaire. Il s'agit d'une première édition pédagogique, dont les exemples de résolution de pannes restent documentaires.</p>
+      <p>Dix chapitres, trois laboratoires, un dossier d'architecture et un glossaire. Il s'agit d'une première édition pédagogique, dont les exemples de résolution de pannes restent documentaires.</p>
       <div class="legal"><b>Propriété intellectuelle.</b> © 2026 Zidane Djamal pour les contenus originaux, sous réserve des droits des tiers. Tous droits réservés en l'absence d'une licence explicite. Red Hat et OpenShift sont des marques de leurs propriétaires. Ce document n'est pas un produit officiel Red Hat.</div>
       <p><b>Sécurité :</b> aucune procédure de restauration, suppression de membre etcd, panne forcée, modification SCC/CVO/MCO ou upgrade n'a été exécutée sur un cluster.</p>
       <p><b>Preuve :</b> les tests Python valident un modèle mathématique de quorum hors cluster. Ils ne constituent ni un test de consensus Raft effectif, ni une validation de haute disponibilité ou de PRA.</p>
@@ -58,7 +74,7 @@ def make_pdf(out: Path) -> Path:
     toc_html = '<section class="front"><h2>Sommaire du Volume 02</h2><ol class="toc-list">' + "".join(toc) + '</ol></section>'
     body = "".join(render_source(p, ident, markdown, annex)
                    for _, _, ident, p, annex in sections)
-    style = CSS.replace("VOLUME 01", "VOLUME 02")
+    style = CSS.replace("VOLUME 01", "VOLUME 02") + "\n.chapter img { display:block; width:100%; height:auto; max-height:195px; margin:6mm auto; }"
     doc = ('<!doctype html><html lang="fr"><head><meta charset="utf-8">'
            '<title>OpenShift Masterbook Volume 02</title><style>' + style +
            '</style></head><body>' + cover + front + toc_html + body + '</body></html>')
@@ -72,6 +88,6 @@ def make_pdf(out: Path) -> Path:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build the OpenShift V02 PDF")
-    parser.add_argument("--out", default="dist/OpenShift_Masterbook_Volume_02_Zidane_Djamal_2026.pdf")
+    parser.add_argument("--out", default="dist/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf")
     opts = parser.parse_args()
     make_pdf(ROOT / opts.out)

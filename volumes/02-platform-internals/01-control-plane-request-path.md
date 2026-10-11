@@ -3,6 +3,9 @@
 **Volume 02 · DRAFT · Référence documentaire OCP 4.22 / Kubernetes 1.35.**  
 **Preuve : PUBLIC_VERIFIED pour les mécanismes documentés. Aucun nouveau test CRC.**
 
+
+![Chemin de la requête API vers le runtime](figures/api-control-plane-flow.svg)
+
 ## Objectifs
 
 Comprendre ce que réalise chaque composant du plan de contrôle, expliquer pourquoi créer un Deployment ne signifie pas obtenir une application Ready, distinguer les refus d'authentification, d'autorisation et d'admission, et concevoir les premières étapes d'un diagnostic de l'API.

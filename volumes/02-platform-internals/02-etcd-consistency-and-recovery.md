@@ -3,6 +3,9 @@
 **Volume 02 · DRAFT · Version cible OCP 4.22**  
 **Source primaire : documentation Red Hat Backup & Restore ; aucune opération mutatrice exécutée.**
 
+
+![Quorum etcd trois zones](figures/etcd-quorum-zones.svg)
+
 ## Objectifs
 
 Comprendre pourquoi etcd est critique dans OpenShift, expliquer le calcul du quorum, différencier une majorité absente d'une simple panne de Pod, et connaître les contraintes Red Hat de sauvegarde/restauration avant de concevoir un runbook de reprise.

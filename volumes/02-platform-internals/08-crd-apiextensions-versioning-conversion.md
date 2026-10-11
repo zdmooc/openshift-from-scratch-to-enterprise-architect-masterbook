@@ -3,6 +3,9 @@
 **Volume 02 · DRAFT · Kubernetes/OpenShift 4.22.**  
 **But : concevoir une API Kubernetes extension sans casser ses consommateurs lors des upgrades.**
 
+
+![Conversion CRD entre versions](figures/crd-conversion.svg)
+
 ## 1. La promesse d'une CustomResourceDefinition
 
 Une **CustomResourceDefinition (CRD)** ajoute un type d'objet à l'API Kubernetes. Elle crée un contrat que peuvent consommer des utilisateurs, des contrôleurs et des pipelines GitOps.

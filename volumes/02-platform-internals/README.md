@@ -1,6 +1,6 @@
 # Volume 02 — Architecture interne d'OpenShift
 
-**Édition 1.0 du manuscrit : 10 chapitres, 2 laboratoires et 1 étude d'architecture.**  
+**Édition 1.0 du manuscrit : 10 chapitres, 3 laboratoires et 1 étude d'architecture.**  
 **Référence : OpenShift Container Platform 4.22 · Kubernetes 1.35.**  
 **Limite : documentation et tests Python offline, sans exécution de changements control plane ni de PRA sur CRC.**
 
@@ -23,6 +23,7 @@
 
 - [V02-L01 — Inventaire read-only du control plane](../../labs/v02-01-control-plane-readonly.md) : procédure documentée, non exécutée.
 - [V02-L02 — Modèle de quorum etcd offline](../../labs/v02-02-etcd-quorum-offline.md) : deux scénarios, Python, 16 tests.
+- [V02-L03 — Filtrage scheduling offline](../../labs/v02-03-scheduling-offline.md) : placement théorique, Python, 20 tests.
 - [V02-C01 — Architecture bancaire : HA et mises à jour](../../case-studies/v02-control-plane/01-architecture-review-ha-upgrade.md) : dossier et ADR fictifs.
 
 ## Réalisation et preuve

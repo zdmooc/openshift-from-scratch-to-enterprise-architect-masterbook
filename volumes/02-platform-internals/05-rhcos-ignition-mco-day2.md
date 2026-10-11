@@ -3,6 +3,9 @@
 **Volume 02 · DRAFT · Version : OpenShift Container Platform 4.22**  
 **Objet : comprendre la gestion déclarative des systèmes de nœuds sans dérive SSH.**
 
+
+![Convergence MachineConfigPool](figures/mco-rollout.svg)
+
 ## 1. Trois temps dans la vie d'un nœud
 
 Une plateforme OpenShift doit traiter la création, la mise en service, la maintenance et le remplacement des nœuds. Trois mécanismes se distinguent :
