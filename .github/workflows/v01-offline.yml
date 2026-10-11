@@ -1,0 +1,29 @@
+name: V01 offline examples and docs checks
+on:
+  push:
+    paths:
+      - "examples/**"
+      - "tests/**"
+      - "scripts/**"
+      - "volumes/**"
+      - "labs/**"
+      - "docs/**"
+      - "README.md"
+      - ".github/workflows/v01-offline.yml"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Python
+        run: python3 --version
+      - name: Run simulator unit tests
+        run: python3 -m unittest discover -s tests -p "test_*.py" -v
+      - name: Validate local documentation links
+        run: python3 scripts/check_local_links.py
