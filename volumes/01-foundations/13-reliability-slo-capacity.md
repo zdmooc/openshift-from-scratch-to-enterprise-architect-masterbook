@@ -1,6 +1,6 @@
 # 13 — Fiabilité, ressources, SLI/SLO et capacité de service sur OpenShift
 
-**Volume 01 — édition 1.0 · Statut : DRAFT avant QA · Niveau : SRE / Architecte Solutions**  
+**Volume 01 — édition 1.0 · Statut : EDITION_1_CONTENT_COMPLETE avant QA · Niveau : SRE / Architecte Solutions**  
 **Concepts Kubernetes et OpenShift 4.22 ; dimensionnements pédagogiques marqués INFERRED.**
 
 ## 1. Pourquoi le statut d'un Pod ne constitue pas un SLO

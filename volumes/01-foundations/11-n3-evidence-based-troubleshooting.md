@@ -1,6 +1,6 @@
 # 11 — Méthode de diagnostic N3 : distinguer incident, symptôme et preuve
 
-**Volume 01 · Statut DRAFT · Cible : Kubernetes / OpenShift 4.22**  
+**Volume 01 · Statut EDITION_1_CONTENT_COMPLETE · Cible : Kubernetes / OpenShift 4.22**  
 **Preuve : PUBLIC_VERIFIED pour les primitives ; scénarios et simulations = REFERENCE_ARCHITECTURE/OFFLINE_TEST.**
 
 ## 1. Objectifs
