@@ -36,7 +36,7 @@ class Volume01SourceTests(unittest.TestCase):
         for p in self.chapters:
             s = p.read_text(encoding="utf-8")
             with self.subTest(p=p.name):
-                self.assertTrue(re.search(r"(DRAFT|édition|Statut)", s, re.I))
+                self.assertTrue(re.search(r"(EDITION_1_CONTENT_COMPLETE|DRAFT|édition|Statut)", s, re.I))
                 self.assertTrue(re.search(r"(preuv|test|vérifi|laboratoire|source)", s, re.I))
 
     def test_bib_has_documentation(self):
