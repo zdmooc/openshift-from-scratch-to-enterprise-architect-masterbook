@@ -9,7 +9,7 @@
 | OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | CLOSED (cadrage initial) |
 | OCP-MB-I1 | V01 plan + chapitres de base | 13 chapitres + 3 cas, édition contenu complète | EDITION_1_CONTENT_COMPLETE |
 | OCP-MB-I2 | V01 labs et questions d'architecture | 8 labs, 42 tests offline PASS ; runtime non revendiqué | OFFLINE_TESTS_PASS |
-| OCP-MB-I3 | V02 architecture interne | Mécanismes, schémas et sources | PLANNED |
+| OCP-MB-I3 | V02 architecture interne | Control plane et etcd, rédaction engagée | IN_PROGRESS |
 | OCP-MB-I4 | V03 installation/administration | Topologies et procédures vérifiées | PLANNED |
 | OCP-MB-I5 | V04 réseaux | Architecture des flux + diagnostics | PLANNED |
 | OCP-MB-I6 | V05 storage/data | Workloads stateful + RPO/RTO | PLANNED |
@@ -21,7 +21,7 @@
 | OCP-MB-I12 | V11 IDP/FinOps/Green IT | Modèle plateforme et mesures | PLANNED |
 | OCP-MB-I13 | V12 Advanced | Cas sectoriels/IA/VM | PLANNED |
 | OCP-MB-I14 | QA transverse, glossaire, index | Contrôles G1–G4 et liens | PLANNED |
-| OCP-MB-I15 | Génération de l'édition | PDF premier volume (EPUB ultérieur) | PDF_BUILD_IN_PROGRESS |
+| OCP-MB-I15 | Génération de l'édition | PDF Volume 01 publié et vérifié, EPUB ultérieur | PDF_V01_PUBLISHED |
 
 Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** comportant autant d'itérations d'écriture, revue et tests que nécessaire. Aucun engagement de pages ou de clôture sans contenu vérifié.
 
@@ -37,4 +37,4 @@ Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** c
 
 ## Étape immédiatement suivante
 
-Terminer la compilation, la vérification du PDF et sa publication pour le Volume 01, puis démarrer les internes de plateforme du Volume 02. Les preuves runtime non exécutées restent des travaux distincts.
+Volume 01 : PDF 109 pages publié, vérifié dans GitHub Actions et inspecté en rendu. Volume 02 en cours : control plane et etcd. Les tests runtime manquants restent explicitement non revendiqués.

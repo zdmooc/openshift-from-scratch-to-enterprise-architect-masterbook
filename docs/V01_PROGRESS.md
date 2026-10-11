@@ -8,7 +8,7 @@
 | Cas bancaires | 3 | REFERENCE_ARCHITECTURE, non déployés |
 | Laboratoires | 8 | 5 procédures/paper labs ; 3 ensembles de tests hors cluster |
 | Tests automatisés | 42 | Python offline en CI, non validés par Kubernetes |
-| PDF | 13 chapitres + études + ateliers + glossaire | Build et vérification CI |
+| PDF | 13 chapitres + études + ateliers + glossaire | PUBLIÉ : 109 pages, CI success, texte extractible |
 | Cible documentaire | OpenShift 4.22 / Kubernetes | Documentation publique, état de support à revérifier |
 
 ## Limitations importantes
@@ -26,4 +26,7 @@ Markdown → revue de la couverture et tests Python offline → liens locaux →
 
 [Sommaire complet](../volumes/01-foundations/README.md) · [Build PDF](../scripts/build_volume01_pdf.py) · [Notes d'édition](V01_RELEASE_NOTES.md).
 
-Le Volume 02 ne commence **qu'après la génération vérifiée du PDF du Volume 01**.
+Le Volume 02 a démarré **après** publication et inspection du PDF de 109 pages du Volume 01.
+
+
+[PDF Volume 01](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v01.0-20261011/OpenShift_Masterbook_Volume_01_Zidane_Djamal_2026.pdf) · [Compte rendu de vérification](V01_RELEASE_VERIFICATION.md).

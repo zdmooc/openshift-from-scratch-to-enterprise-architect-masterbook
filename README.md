@@ -64,3 +64,9 @@ La longueur cible des volumes est indicative. Elle ne doit jamais primer sur la 
 OpenShift, Red Hat et les marques associées appartiennent à leurs titulaires respectifs. Ce projet est indépendant, sans affiliation ni approbation implicite de Red Hat.
 
 © 2026 Zidane Djamal pour les contributions originales, sous réserve des droits des tiers. Voir [RIGHTS_AND_LICENSING.md](docs/RIGHTS_AND_LICENSING.md).
+
+
+## Éditions publiées et rédaction en cours
+
+- **[Volume 01 — PDF édition 1.0 (109 pages)](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v01.0-20261011/OpenShift_Masterbook_Volume_01_Zidane_Djamal_2026.pdf)**. Source figée avec le tag [v01.0-20261011](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v01.0-20261011).
+- **[Volume 02 — Platform Internals](volumes/02-platform-internals/README.md)** : rédaction ouverte après publication du PDF Volume 01.
