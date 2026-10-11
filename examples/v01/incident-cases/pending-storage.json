@@ -1,0 +1,14 @@
+{
+  "case_id": "LAB-N3-002",
+  "service": "ledger-db",
+  "desired_replicas": 1,
+  "ready_replicas": 0,
+  "ready_endpoints": 0,
+  "pod_phase": "Pending",
+  "last_event_reason": "FailedMount",
+  "pvc_phase": "Pending",
+  "dns_operator": "Available",
+  "route_present": false,
+  "service_selector_matches": true,
+  "network_policy_present": false
+}

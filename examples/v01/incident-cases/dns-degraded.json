@@ -1,0 +1,14 @@
+{
+  "case_id": "LAB-N3-003",
+  "service": "id-check",
+  "desired_replicas": 2,
+  "ready_replicas": 2,
+  "ready_endpoints": 2,
+  "pod_phase": "Running",
+  "last_event_reason": "None",
+  "pvc_phase": "NotApplicable",
+  "dns_operator": "Degraded",
+  "route_present": true,
+  "service_selector_matches": true,
+  "network_policy_present": false
+}

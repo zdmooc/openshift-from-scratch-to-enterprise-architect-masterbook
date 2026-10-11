@@ -1,0 +1,14 @@
+{
+  "case_id": "LAB-N3-001",
+  "service": "reader",
+  "desired_replicas": 2,
+  "ready_replicas": 0,
+  "ready_endpoints": 0,
+  "pod_phase": "Running",
+  "last_event_reason": "ReadinessProbeFailed",
+  "pvc_phase": "NotApplicable",
+  "dns_operator": "Available",
+  "route_present": true,
+  "service_selector_matches": true,
+  "network_policy_present": true
+}
