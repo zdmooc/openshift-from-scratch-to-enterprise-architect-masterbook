@@ -1,0 +1,34 @@
+# Sources, versions et veille
+
+**Consultation initiale : 2026-10-11.** Références privilégiées : éditeurs et projets officiels. Il ne s'agit pas d'une licence de recopie.
+
+## Sources primaires pour l'édition de travail
+
+| Sujet | Source |
+|---|---|
+| OpenShift 4.22 — architecture | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/architecture/architecture |
+| OpenShift 4.22 — control plane | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/architecture/control-plane |
+| OpenShift 4.22 — Operators | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/operators/operators-overview |
+| OpenShift 4.22 — présentation générale | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/overview/ocp-overview |
+| Kubernetes — concepts | https://kubernetes.io/docs/concepts/ |
+| Kubernetes — composants | https://kubernetes.io/docs/concepts/overview/components/ |
+| Open Container Initiative — spécifications | https://opencontainers.org/ |
+
+## Politique version
+
+- La documentation OpenShift **4.22** est la base de l'édition initiale, pas une affirmation que toute installation doit utiliser 4.22.
+- Différencier **version de la documentation**, **version observée du labo** et **version cible**.
+- Toute commande ou fonctionnalité marquée comme valable pour une version doit être revérifiée avant publication.
+- Les pratiques support, Operator lifecycle, architectures HA et compatibilités entre versions nécessitent une source officielle actuelle.
+- Traiter le matériel public externe comme preuve documentaire : **PUBLIC_VERIFIED**, et non comme lab **RUNTIME_PROVEN**.
+
+## Veille éditoriale
+
+À chaque nouvelle version OpenShift : relever les changements d'API, installation, architecture, Operators, sécurité, upgrades et documentation. Créer un delta par volume; éviter de changer silencieusement le sens d'un ancien laboratoire.
+
+## À compléter
+
+- Matrice API dépréciées / alternatives.
+- Tableau de compatibilité Operators et produits avec dates de consultation.
+- Index de citations au niveau des chapitres.
+- Registre des figures et licences tiers.
