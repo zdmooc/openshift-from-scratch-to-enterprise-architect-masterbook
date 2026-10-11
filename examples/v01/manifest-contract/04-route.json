@@ -1,0 +1,22 @@
+{
+  "apiVersion": "route.openshift.io/v1",
+  "kind": "Route",
+  "metadata": {
+    "name": "ledger-reader",
+    "namespace": "workshop-v01"
+  },
+  "spec": {
+    "host": "training.example.invalid",
+    "to": {
+      "kind": "Service",
+      "name": "ledger-reader"
+    },
+    "port": {
+      "targetPort": "http"
+    },
+    "tls": {
+      "termination": "edge",
+      "insecureEdgeTerminationPolicy": "Redirect"
+    }
+  }
+}
