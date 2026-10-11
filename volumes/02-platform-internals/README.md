@@ -1,6 +1,6 @@
 # Volume 02 — Architecture interne d'OpenShift
 
-**Édition 1.0 du manuscrit : 10 chapitres, 3 laboratoires et 1 étude d'architecture.**  
+**Édition révisée 1.1 : 10 chapitres approfondis, 3 laboratoires, 1 étude d'architecture et 4 schémas SVG.**  
 **Référence : OpenShift Container Platform 4.22 · Kubernetes 1.35.**  
 **Limite : documentation et tests Python offline, sans exécution de changements control plane ni de PRA sur CRC.**
 
@@ -36,4 +36,6 @@
 
 **Aucun backup/restore etcd, aucune interruption de nœud et aucune modification du MCO, CVO ou SCC n'ont été lancés.**
 
-[Notes d'édition](../../docs/V02_RELEASE_NOTES.md) · [Sources officielles](../../docs/SOURCES.md).
+[Télécharger le PDF 1.1 — 85 pages](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.1-20261011/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf) · [Validation du PDF](../../docs/V02_RELEASE_VERIFICATION_1_1.md) · [Notes d'édition](../../docs/V02_RELEASE_NOTES.md) · [Sources officielles](../../docs/SOURCES.md).
+
+Cette première édition enrichie reste en deçà du projet d'une bible exhaustive de 200–280 pages. Les autres figures Mermaid non converties restent dans la source Markdown et sous forme de texte lisible dans le PDF.
