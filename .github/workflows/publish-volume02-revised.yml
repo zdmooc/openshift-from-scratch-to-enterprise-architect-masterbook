@@ -1,0 +1,78 @@
+name: Publish OpenShift Masterbook Volume 02 Revised PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-volume02-revised.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  revised-edition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout reviewed book sources
+        uses: actions/checkout@v4
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned PDF dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libcairo2 shared-mime-info
+          python -m pip install --disable-pip-version-check "mistune==3.2.0" "weasyprint==68.0" "pypdf==6.3.0"
+      - name: Execute tests and verify links
+        run: |
+          python -m unittest discover -s tests -p "test_*.py" -v
+          python scripts/check_local_links.py
+          python -m examples.v02.scheduling_filter examples/v02/cases/fit-and-taint.json
+          python -m examples.v02.quorum_model examples/v02/cases/etcd-three-zones.json
+          python -m examples.v02.quorum_model examples/v02/cases/etcd-correlated-failure.json
+      - name: Typeset revised Volume 02
+        run: python scripts/build_volume02_pdf.py
+      - name: Validate PDF and textual coverage
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from pypdf import PdfReader
+          p = Path("dist/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf")
+          reader = PdfReader(p)
+          text = "\n".join(page.extract_text() or "" for page in reader.pages)
+          pages = len(reader.pages)
+          print("V02_REVISED_PAGES", pages)
+          print("V02_REVISED_BYTES", p.stat().st_size)
+          print("V02_REVISED_EXTRACTED_CHARS", len(text))
+          assert pages >= 65, "Unexpected short edition: rendering possibly incomplete"
+          assert p.stat().st_size >= 120000
+          assert len(text) > 130000
+          for marker in ("API Priority", "Raft", "Scheduler", "MachineConfig", "SCC", "quorum", "certificat"):
+              assert marker in text, f"Missing body marker {marker}"
+          assert "V02-L03" in text or "Filtrage scheduler" in text
+          print("V02_1_1_DOCUMENT_VALIDATED")
+          PY
+      - name: Upload fixed source-based PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openshift-masterbook-volume02-edition-1-1
+          path: dist/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf
+          retention-days: 90
+          if-no-files-found: error
+      - name: Publish immutable revised release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v02.1-20261011"
+          FILE="dist/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Refusing to overwrite existing immutable edition" >&2
+            exit 1
+          fi
+          gh release create "$TAG" "$FILE" \
+            --title "OpenShift Masterbook — Volume 02 — Edition 1.1" \
+            --notes-file docs/V02_RELEASE_NOTES.md \
+            --target "$GITHUB_SHA"
