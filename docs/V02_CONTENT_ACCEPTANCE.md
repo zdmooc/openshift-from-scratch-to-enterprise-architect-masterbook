@@ -20,7 +20,7 @@ La présence d'un PDF ne fait pas d'un livre une édition **FINAL**. Inversement
 | Operators / OLM | Chapitre 12 : OLM Classic et v1, ClusterExtension et contraintes de version confirmées par l'API 4.22 | Revue indépendante de compatibilité de packages spécifiques et installation réelle non réalisées | PUBLIC_VERIFIED_RUNTIME_PENDING |
 | HA / PKI / LB | Zones, TLS, quorum, hosted control planes, scénarios | Différencier disponibilité mesurée et topologie dessinée | REVOIR |
 | Observabilité / N3 | Runbooks, cas fictifs, critères de preuve | Vérifier qu'aucun exemple n'est présenté comme incident réel; synthèse décisionnelle | REVOIR |
-| Labs | 4 labs : quorum/scheduler/conversion CRD offline, inventaire read-only | 114 tests Python CI réussis au total; conversion live non testée | OFFLINE_TEST_PASS |
+| Labs | 6 labs : 3 modèles/contrôles offline et 3 lectures/exercices sans cluster | Nouveaux L05/L06 : scénarios de Machine API et OLM sur papier; aucune preuve runtime | DOCUMENTED_NOT_RUN / OFFLINE_TEST_PASS |
 | Schémas | 4 SVG originaux, Mermaid en source | Contrôler sémantique et lisibilité; convertir autres schémas **seulement si cela clarifie le fond** | REVOIR |
 | Sources / droits | Références officielles et politique mixte | Revue finale de versions, propriété des exemples et errata | REVOIR |
 

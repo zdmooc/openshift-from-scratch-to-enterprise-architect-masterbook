@@ -1,6 +1,6 @@
 # Volume 02 — Architecture interne d'OpenShift
 
-**Manuscrit de travail après l'édition 1.1 : 12 chapitres techniques, 4 laboratoires, 1 étude d'architecture et 4 schémas SVG.**  
+**Manuscrit de travail après l'édition 1.1 : 12 chapitres techniques, 6 laboratoires, 1 étude d'architecture et 4 schémas SVG.**  
 **Référence : OpenShift Container Platform 4.22 · Kubernetes 1.35.**  
 **Limite : documentation et tests Python offline, sans exécution de changements control plane ni de PRA sur CRC.**
 
@@ -27,6 +27,8 @@
 - [V02-L02 — Modèle de quorum etcd offline](../../labs/v02-02-etcd-quorum-offline.md) : deux scénarios, Python, 16 tests.
 - [V02-L03 — Filtrage scheduling offline](../../labs/v02-03-scheduling-offline.md) : placement théorique, Python, 20 tests.
 - [V02-L04 — Conversion CRD versionnée offline](../../labs/v02-04-crd-conversion-offline.md) : schémas alpha/beta, ConversionReview et 20 tests de compatibilité.
+- [V02-L05 — Machine API et autoscaling](../../labs/v02-05-machine-api-capacity-paper.md) : calcul de capacité et chaîne de contrôleurs, exercice corrigé sur papier.
+- [V02-L06 — OLM Classic versus OLM v1](../../labs/v02-06-olm-operator-lifecycle-paper.md) : choix du cycle de vie, sécurité d'upgrade et CRD, exercice corrigé sur papier.
 - [V02-C01 — Architecture bancaire : HA et mises à jour](../../case-studies/v02-control-plane/01-architecture-review-ha-upgrade.md) : dossier et ADR fictifs.
 
 ## Réalisation et preuve

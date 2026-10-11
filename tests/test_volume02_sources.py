@@ -34,7 +34,7 @@ class Volume02SourceTests(unittest.TestCase):
             s = path.read_text(encoding="utf-8")
             with self.subTest(path=path.name):
                 self.assertTrue(any(x in s for x in ("DOCUMENTED_NOT_RUN", "OFFLINE_TEST")))
-        self.assertEqual(len(list((ROOT / "labs").glob("v02-*.md"))), 4)
+        self.assertEqual(len(list((ROOT / "labs").glob("v02-*.md"))), 6)
 
     def test_quorum_code_does_not_shell_out(self):
         code = (ROOT / "examples/v02/quorum_model.py").read_text(encoding="utf-8")
