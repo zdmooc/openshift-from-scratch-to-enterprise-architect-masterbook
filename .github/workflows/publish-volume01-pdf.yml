@@ -1,0 +1,79 @@
+name: Publish OpenShift Masterbook Volume 01 PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-volume01-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out frozen edition source
+        uses: actions/checkout@v4
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install typesetting and PDF QA dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libcairo2 shared-mime-info
+          python -m pip install --disable-pip-version-check "mistune==3.2.0" "weasyprint==68.0" "pypdf==6.3.0"
+      - name: Execute offline tests and documentation links
+        run: |
+          python -m unittest discover -s tests -p 'test_*.py' -v
+          python scripts/check_local_links.py
+          python -m examples.v01.manifest_contract
+      - name: Build Volume 01 PDF from Markdown
+        run: python scripts/build_volume01_pdf.py
+      - name: Inspect PDF pages and extracted text
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from pypdf import PdfReader
+          paths = list(Path("dist").glob("OpenShift_Masterbook_Volume_01_*.pdf"))
+          if len(paths) != 1:
+              raise SystemExit("Expected exactly one PDF artifact")
+          p = paths[0]
+          reader = PdfReader(p)
+          n = len(reader.pages)
+          text = "\n".join(page.extract_text() or "" for page in reader.pages)
+          print("PDF_PATH", p)
+          print("PDF_PAGES", n)
+          print("PDF_BYTES", p.stat().st_size)
+          print("EXTRACTED_CHARS", len(text))
+          assert n >= 30, "Book unexpectedly short: possible rendering failure"
+          assert p.stat().st_size > 100000, "Book unexpectedly small"
+          assert len(text) > 75000, "Extraction lost substantial body content"
+          for term in ("OpenShift", "Kubernetes", "NetworkPolicy", "StatefulSet", "ServiceAccount"):
+              assert term in text, f"Missing content marker: {term}"
+          print("V01_PDF_BUILD_AND_EXTRACTION_PASS")
+          PY
+      - name: Upload reproducible PDF as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openshift-masterbook-volume01-edition-1
+          path: dist/OpenShift_Masterbook_Volume_01_Zidane_Djamal_2026.pdf
+          retention-days: 90
+          if-no-files-found: error
+      - name: Publish PDF in GitHub Releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v01.0-20261011"
+          FILE="dist/OpenShift_Masterbook_Volume_01_Zidane_Djamal_2026.pdf"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$FILE" --clobber
+          else
+            gh release create "$TAG" "$FILE" \
+              --title "OpenShift Masterbook — Volume 01 — Edition 1.0" \
+              --notes-file docs/V01_RELEASE_NOTES.md \
+              --target "$GITHUB_SHA"
+          fi
