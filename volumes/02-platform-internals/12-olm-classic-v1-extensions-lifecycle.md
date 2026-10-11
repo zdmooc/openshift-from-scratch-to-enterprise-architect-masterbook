@@ -243,3 +243,48 @@ Les trois mécanismes peuvent cohabiter mais ne doivent pas gérer la **même re
 - [Kubernetes — CRD versioning](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)
 
 **Statut :** comparaison documentaire de deux modèles de gestion, non qualification d'un Operator client, sans installation runtime.
+
+
+## 10. Audit de compatibilité d'une ClusterExtension OLM v1 sous OCP 4.22
+
+Le schéma de l'API \`olm.operatorframework.io/v1/ClusterExtension\` impose \`spec.namespace\`, \`spec.serviceAccount\` et \`spec.source\`. Pour une source Catalog, \`sourceType: Catalog\` et \`catalog.packageName\` sont nécessaires. Le champ \`catalog.version\` est une contrainte de version semver; un pin exact peut empêcher un upgrade automatique. Les channels et la version sont combinés avec une logique **ET** quand ils sont fournis ensemble.
+
+### 10.1 Exemple de déclaration non déployable, mais schématiquement explicite
+
+~~~yaml
+apiVersion: olm.operatorframework.io/v1
+kind: ClusterExtension
+metadata:
+  name: demo-extension
+spec:
+  namespace: example-operators
+  serviceAccount:
+    name: demo-installer
+  source:
+    sourceType: Catalog
+    catalog:
+      packageName: demo-extension
+      channels:
+        - stable
+      version: "1.0.0"
+      upgradeConstraintPolicy: CatalogProvided
+~~~
+
+Il n'existe **ni catalogue ni package ni ServiceAccount** fournis par ce livre; le YAML reste strictement illustratif. Si un contrôleur le tentait dans un vrai cluster, la réconciliation échouerait faute de dépendances. Le statut \`Installed=True\` signale une installation du bundle selon le contrôleur, pas un SLO applicatif.
+
+Le mode \`upgradeConstraintPolicy: SelfCertified\` peut contourner les contraintes d'upgrade du catalogue, y compris des chemins risqués. Ne pas le proposer en remède à un échec de résolution : Red Hat avertit de risques majeurs (y compris perte de données) si des versions incompatibles sont installées.
+
+### 10.2 Prérequis réels à qualifier
+
+- La fonctionnalité \`OperatorLifecycleManagerV1\` est-elle activée et disponible sur la version cible ?
+- Le ServiceAccount d'installation existe-t-il dans le namespace désigné avec les **droits minimaux nécessaires** ?
+- Le ClusterCatalog effectivement choisi est-il Serving et pointe-t-il vers une image de catalogue connue (digest) ?
+- Le package utilise-t-il un format de bundle compatible avec OLM v1 ?
+- La version choisie est-elle compatible avec les API Kubernetes et OpenShift de la plateforme ?
+- Les CRDs et webhooks installés sont-ils compatibles avec les consommateurs existants ?
+- Les propriétés de compatibilité, notamment \`olm.maxOpenShiftVersion\`, interdisent-elles l'upgrade cluster visé ?
+- Que se passe-t-il lorsque le catalogue disparaît ou devient inaccessible ?
+
+La réponse doit être établie depuis les objets et logs de l'environnement autorisé, pas à partir d'une installation supposée dans ce livre.
+
+**Sources :** [API officielle ClusterExtension 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/operatorhub_apis/clusterextension-olm-operatorframework-io-v1) ; [capability OLM v1 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installation_overview/cluster-capabilities) ; [Architecture OLM v1](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/extensions/architecture).

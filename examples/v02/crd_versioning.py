@@ -1,6 +1,10 @@
 """Offline structural exercise for CRD versions and ConversionReview contracts.
 
 This code is NOT an admission server and NOT a production webhook.
+The accepted CRD enum (standard/disabled) is deliberately bijective with
+v1alpha1.enabled. Future values must first be validated/restricted by the API
+schema, not rejected by a conversion webhook: conversion failure can disrupt
+GET/LIST/UPDATE and is NOT an admission policy.
 It intentionally supports only two compatible fictional profiles.
 No imports of networking, Kubernetes clients, subprocess, kubeconfigs or secrets.
 """

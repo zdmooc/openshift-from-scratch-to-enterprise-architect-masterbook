@@ -291,3 +291,30 @@ Le **vrai test de compatibilité** exige un serveur API d'essai, un webhook opé
 ## Source complémentaire
 
 - [Kubernetes — Versioning de CustomResourceDefinitions et storedVersions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)
+
+
+## 18. Correctif de sûreté : conversion et validation ne sont pas interchangeables
+
+**Règle Kubernetes :** un webhook de conversion traduit des représentations d'API; il ne doit pas être la ligne principale de validation des données métier. Un échec de conversion peut bloquer les lectures, mises à jour ou suppressions de CRs qui nécessitent cette traduction. Les entrées interdites doivent être rejetées **en amont** par les schemas OpenAPI/CEL et les validations d'admission appropriées.
+
+Dans l'exercice CapabilityProfile, l'enum \`standard|disabled\` de v1beta1 est le **contrat** qui permet un mapping bijectif avec le booléen d'alpha. Une hypothétique valeur \`enhanced\` n'est pas actuellement admise par cette version de CRD : elle nécessite une **nouvelle version d'API et une stratégie de migration** avant d'être acceptée. La vérification défensive Python d'une telle valeur n'est **pas** présentée comme une politique webhook à déployer; elle évite de fournir une conversion mensongère dans une maquette hors cluster.
+
+Tests requis lors d'une évolution ultérieure :
+1. vérifier la validation server-side avant la persistance de nouvelles valeurs;
+2. convertir **tous** les objets déjà persistés, y compris valeurs historiques et champs optionnels;
+3. préserver nom, namespace, UID, ordre des objets et l'UID du ConversionReview;
+4. confirmer qu'aucune lecture ou écriture ne dépend d'un webhook indisponible;
+5. mesurer le déploiement et la rotation des certificats du webhook;
+6. vérifier le cycle \`storedVersions\` sans supprimer une ancienne version encore stockée.
+
+### 18.1 Matrice d'échec
+
+| Condition | Effet possible | Prévention |
+|---|---|---|
+| Conversion webhook non joignable | Liste/lecture/écriture peuvent échouer | HA du service, certificats et bootstrapping |
+| Version cible non servie | Clients hérités reçoivent un refus | Période double served |
+| Nouvelle valeur non représentable dans l'ancienne version | Perte d'information ou conversion échouée | Evolution du contrat et maintien de conversion totale |
+| Changement de storage sans migration | Objets stockés dans des versions antérieures | Migration vérifiée et suivi storedVersions |
+| Modifications de metadata.name/uid | Conversion refusée par l'API | Préservation stricte des identités |
+
+[Référence Kubernetes officielle : Permissible mutations, ConversionReview et échec de conversion](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/).

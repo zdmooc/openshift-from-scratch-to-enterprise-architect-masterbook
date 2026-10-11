@@ -52,3 +52,12 @@ Le modèle Python **n'implémente pas** un serveur HTTP/TLS, les vérifications 
 
 - [Kubernetes — Versions de CRDs](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)
 - [Kubernetes — CRD validation](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)
+
+
+## Point de vigilance : ne jamais confondre validation et conversion
+
+L'enum \`standard|disabled\` **n'admet pas** une valeur \`enhanced\` dans cette version de schema. L'application doit refuser les valeurs invalides au niveau de la validation de l'API. Le module Python les refuse à titre de **défense dans une simulation**, pas comme règle de fonctionnement d'un webhook Kubernetes de production. Un vrai webhook de conversion doit pouvoir traiter **toutes les ressources qui ont été admises par les anciennes versions**; sa défaillance peut bloquer l'accès à ces ressources.
+
+La documentation Kubernetes déconseille expressément d'utiliser un webhook de conversion comme mécanisme principal de validation. Toute future extension du profil nécessite une stratégie de conversion totale ou une restriction des clients avant que de nouvelles valeurs ne soient persistées.
+
+[Source Kubernetes — Conversion webhooks, failure consequences and permissible mutations](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/).

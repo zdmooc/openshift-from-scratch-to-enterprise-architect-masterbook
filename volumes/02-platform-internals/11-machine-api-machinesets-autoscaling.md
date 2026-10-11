@@ -200,3 +200,51 @@ Aucun coût chiffré n'est inventé sans provider, région et mesure des GPU ré
 - [Kubernetes — HPA](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 
 **Statut :** chapitre de référence, sans création, remplacement ni suppression d'une Machine.
+
+
+## 11. Conditions nécessaires au scale-out Machine API
+
+Le diagnostic d'un HPA qui augmente les replicas sans obtenir de nouveaux Pods Ready ne doit pas conclure que « le ClusterAutoscaler est en panne » avant de montrer la chaîne :
+
+~~~text
+HPA souhaite +replicas Pods
+     |
+     v
+Pods réellement Pending et non schedulables ?
+     |
+     +-- non : autres contraintes d'admission, readiness ou runtime
+     |
+     +-- oui : ClusterAutoscaler actif et non bloqué ?
+                  |
+                  v
+               MachineAutoscaler ciblant un MachineSet ?
+                  |
+                  v
+               Bornes min/max, provider quota et policy scale ?
+                  |
+                  v
+               Machine créée -> Node rejoint le cluster ?
+                  |
+                  v
+               MCO/kubelet convergés -> Pod schedulable/Ready ?
+~~~
+
+Avoir \`MachineAutoscaler.maxReplicas > replicas actuel\` n'est pas une preuve de capacité disponible : le provider peut refuser une VM, les quotas peuvent empêcher le lancement, un volume zonal peut limiter le placement, ou des labels et taints exclure le nouveau Node.
+
+### 11.1 Permissions et ownership
+
+L'équipe applicative règle les replicas HPA et la définition de requests de ses Pods dans les budgets approuvés. L'équipe Platform Engineering possède la configuration ClusterAutoscaler/MachineAutoscaler, et l'Infrastructure gère quotas, pools cloud et topologie.
+
+Ces frontières doivent être matérialisées dans RBAC/GitOps. Donner à une équipe produit le pouvoir de scaler sans limite des Machines cloud peut avoir un coût financier et énergétique important, et peut saturer des quotas partagés.
+
+### 11.2 Vérification spécifique à la plateforme
+
+Le document Red Hat 4.22 Machine Management indique :
+- MachineAutoscaler s'applique aux compute MachineSets ciblés quand ClusterAutoscaler existe ;
+- une MachineHealthCheck peut supprimer une Machine malade et déclencher son remplacement sur un provider supporté ;
+- la Machine API n'est pas interchangeable avec la gestion MCO de la configuration système ;
+- certains modes de gestion via Cluster API et certains chemins de migration sont Technology Preview.
+
+Aucun de ces mécanismes ne doit être supposé disponible sur un cluster UPI, CRC ou autre plateforme sans inventaire et vérification des capacités réellement installées.
+
+[Machine management 4.22 : description et limites](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_management/index).

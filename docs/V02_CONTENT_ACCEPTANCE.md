@@ -16,8 +16,8 @@ La présence d'un PDF ne fait pas d'un livre une édition **FINAL**. Inversement
 | Machine API | Chapitre 11 : Machine, MachineSet, ControlPlaneMachineSet, MHC et autoscaling | Vérifier chaque restriction provider/UPI et le statut Cluster API 4.22; relecture technique | RÉDIGÉ_À_VALIDER |
 | kubelet / CRI-O / OCI | Container lifecycle, probes, UID, OOM, SIGTERM | Valider la cohérence des exemples et donner davantage de cas observables si nécessaire | REVOIR |
 | SCC / PSA / webhooks | Contrats d'admission, service accounts et risques de politiques | Expliquer négatif/positif sur un manifest complet; statut non exécuté conservé | REVOIR |
-| CRD / API versioning | Chapitre 08 + L04 : CRD JSON à deux versions, ConversionReview, modèle et 20 tests | Tests offline PASS en CI; admission CRD et conversion dans un vrai API server non exécutées | OFFLINE_TEST_PASS_RUNTIME_PENDING |
-| Operators / OLM | Chapitre 12 : OLM Classic, OLM v1, CatalogSource/ClusterCatalog et ClusterExtension | Relecture des restrictions de support OLM v1 par package/version | RÉDIGÉ_À_VALIDER |
+| CRD / API versioning | Chapitre 08 + L04 : deux versions, ConversionReview, modèle à mapping total pour les états permis | Source officielle Kubernetes vérifiée : la conversion ne remplace pas l'admission; validation sur serveur réel absente | OFFLINE_TEST_PASS_API_PENDING |
+| Operators / OLM | Chapitre 12 : OLM Classic et v1, ClusterExtension et contraintes de version confirmées par l'API 4.22 | Revue indépendante de compatibilité de packages spécifiques et installation réelle non réalisées | PUBLIC_VERIFIED_RUNTIME_PENDING |
 | HA / PKI / LB | Zones, TLS, quorum, hosted control planes, scénarios | Différencier disponibilité mesurée et topologie dessinée | REVOIR |
 | Observabilité / N3 | Runbooks, cas fictifs, critères de preuve | Vérifier qu'aucun exemple n'est présenté comme incident réel; synthèse décisionnelle | REVOIR |
 | Labs | 4 labs : quorum/scheduler/conversion CRD offline, inventaire read-only | 114 tests Python CI réussis au total; conversion live non testée | OFFLINE_TEST_PASS |
@@ -55,3 +55,11 @@ Il reste des sujets spécifiques et vérifiables à compléter. Le travail s'arr
 ## 5. Contrôle CI après les nouveaux chapitres
 
 Le [run GitHub Actions du 11 octobre 2026](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38155313628) est **SUCCESS** : 114 tests Python offline/éditoriaux réussis, 111 liens Markdown internes résolus. Ces résultats comprennent les 20 nouveaux tests de ConversionReview et les contrôles de structure des 12 chapitres. Ils ne valident pas une CRD sur un API server ni l'installation OLM/Machine API.
+
+## 6. Corrections issues de l'audit de sources
+
+- [OLM v1 4.22 : ClusterExtension API](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/operatorhub_apis/clusterextension-olm-operatorframework-io-v1) : champs obligatoires et interaction entre channel, version et upgradeConstraintPolicy vérifiés ; ajout au chapitre 12.
+- [Machine management 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_management/index) : MachineAutoscaler actif avec ClusterAutoscaler, MHC et support provider détaillés ; ajout au chapitre 11.
+- [Kubernetes CRD conversion](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/) : une conversion ne doit pas servir de validation; l'échec peut bloquer des CR existantes; chapitre 08/lab L04 précisés.
+
+Ces corrections qualifient les concepts documentés, **pas** les résultats runtime d'une installation ou du CRC.
