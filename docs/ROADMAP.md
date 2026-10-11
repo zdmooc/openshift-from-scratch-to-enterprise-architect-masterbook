@@ -38,3 +38,5 @@ Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** c
 ## Étape immédiatement suivante
 
 Les deux premiers volumes disposent de PDF versionnés. **La pagination décrit le rendu, elle ne détermine jamais la clôture.** Pour le Volume 02, les points de vérification/approfondissement sont suivis dans [V02_CONTENT_ACCEPTANCE.md](V02_CONTENT_ACCEPTANCE.md) : cohérence officielle 4.22, restrictions Machine API/OLM, contrat réel de conversion CRD, validation des figures et limites des labs. Les 94 tests offline/éditoriaux et 91 liens locaux restent des éléments de contrôle, sans validation HA/PRA ni nouvelle charge CRC. Volume 03 seulement après décision de clôture fondée sur la matière couverte.
+
+**Dernier contrôle V02** : 12 chapitres, 4 labs dont L04 CRD, [114 tests offline et 111 liens PASS](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38155313628). Statut : **MANUSCRIPT_ENRICHED_QA_PENDING** ; le PDF v1.1 reste le snapshot antérieur et sera révisé seulement après clôture du contenu selon C1–C7.

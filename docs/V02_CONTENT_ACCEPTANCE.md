@@ -16,11 +16,11 @@ La présence d'un PDF ne fait pas d'un livre une édition **FINAL**. Inversement
 | Machine API | Chapitre 11 : Machine, MachineSet, ControlPlaneMachineSet, MHC et autoscaling | Vérifier chaque restriction provider/UPI et le statut Cluster API 4.22; relecture technique | RÉDIGÉ_À_VALIDER |
 | kubelet / CRI-O / OCI | Container lifecycle, probes, UID, OOM, SIGTERM | Valider la cohérence des exemples et donner davantage de cas observables si nécessaire | REVOIR |
 | SCC / PSA / webhooks | Contrats d'admission, service accounts et risques de politiques | Expliquer négatif/positif sur un manifest complet; statut non exécuté conservé | REVOIR |
-| CRD / API versioning | Chapitre 08 + L04 : CRD JSON à deux versions, ConversionReview, modèle et 20 tests | Confirmer cohérence du schéma avec un API server d'essai; vérifier storedVersions | OFFLINE_TESTS_A_VALIDER |
+| CRD / API versioning | Chapitre 08 + L04 : CRD JSON à deux versions, ConversionReview, modèle et 20 tests | Tests offline PASS en CI; admission CRD et conversion dans un vrai API server non exécutées | OFFLINE_TEST_PASS_RUNTIME_PENDING |
 | Operators / OLM | Chapitre 12 : OLM Classic, OLM v1, CatalogSource/ClusterCatalog et ClusterExtension | Relecture des restrictions de support OLM v1 par package/version | RÉDIGÉ_À_VALIDER |
 | HA / PKI / LB | Zones, TLS, quorum, hosted control planes, scénarios | Différencier disponibilité mesurée et topologie dessinée | REVOIR |
 | Observabilité / N3 | Runbooks, cas fictifs, critères de preuve | Vérifier qu'aucun exemple n'est présenté comme incident réel; synthèse décisionnelle | REVOIR |
-| Labs | 4 labs : quorum/scheduler/conversion CRD offline, inventaire read-only | Vérifier nouveaux tests L04 en CI; ne pas confondre simulation et runtime | QA_EN_COURS |
+| Labs | 4 labs : quorum/scheduler/conversion CRD offline, inventaire read-only | 114 tests Python CI réussis au total; conversion live non testée | OFFLINE_TEST_PASS |
 | Schémas | 4 SVG originaux, Mermaid en source | Contrôler sémantique et lisibilité; convertir autres schémas **seulement si cela clarifie le fond** | REVOIR |
 | Sources / droits | Références officielles et politique mixte | Revue finale de versions, propriété des exemples et errata | REVOIR |
 
@@ -51,3 +51,7 @@ La présence d'un PDF ne fait pas d'un livre une édition **FINAL**. Inversement
 **VOLUME_02_EDITION_1_1_PUBLISHED — NOT_FINAL_PENDING_CONTENT_REVIEW.**
 
 Il reste des sujets spécifiques et vérifiables à compléter. Le travail s'arrête quand ces sujets sont correctement couverts, **même si le volume conserve une pagination modeste**.
+
+## 5. Contrôle CI après les nouveaux chapitres
+
+Le [run GitHub Actions du 11 octobre 2026](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38155313628) est **SUCCESS** : 114 tests Python offline/éditoriaux réussis, 111 liens Markdown internes résolus. Ces résultats comprennent les 20 nouveaux tests de ConversionReview et les contrôles de structure des 12 chapitres. Ils ne valident pas une CRD sur un API server ni l'installation OLM/Machine API.

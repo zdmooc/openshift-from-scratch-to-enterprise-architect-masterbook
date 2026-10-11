@@ -44,3 +44,5 @@
 **Le PDF 1.1 publié reste un instantané historique de 10 chapitres ; les 2 nouveaux chapitres et le lab L04 ne figurent pas dans ce PDF. Le manuscrit Markdown à jour fait foi.**
 
 **Le nombre de pages ne mesure pas la complétude.** Cette édition a une couverture technique substantielle, et ses écarts restants sont suivis par domaine dans la [grille de validation du contenu](../../docs/V02_CONTENT_ACCEPTANCE.md). Les autres figures Mermaid non converties restent dans la source Markdown et sous forme de texte lisible dans le PDF.
+
+**QA actuelle :** [114 tests offline/éditoriaux et 111 liens locaux réussis](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38155313628). Les éléments de Machine API, OLM et conversion restent soumis à une revue technique de compatibilité et ne portent aucune preuve runtime.
