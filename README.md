@@ -39,6 +39,8 @@ La longueur cible des volumes est indicative. Elle ne doit jamais primer sur la 
 7. [Sources officielles et veille](docs/SOURCES.md)
 8. [Volume 01 — Index, 7 chapitres et glossaire](volumes/01-foundations/README.md)
 9. [État réel du Volume 01 et travaux restant à valider](docs/V01_PROGRESS.md)
+10. [Étude de cas : architecture API bancaire](case-studies/v01-banking-api/01-reference-architecture.md)
+11. [Simulateur de réconciliation Python et tests](labs/06-controller-offline.md)
 
 ## Règles fondamentales
 

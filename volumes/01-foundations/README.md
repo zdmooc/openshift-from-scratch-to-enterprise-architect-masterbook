@@ -23,6 +23,12 @@
 - [L04 — Observer API, Pods, Services et EndpointSlices](../../labs/04-kubernetes-api-triage-readonly.md).
 - [L05 — Revue d'architecture bancaire](../../labs/05-architecture-review-payments.md) (paper lab).
 
+## Étude de cas complète : API bancaire
+
+- [C01 — Architecture de référence](../../case-studies/v01-banking-api/01-reference-architecture.md)
+- [C02 — Diagnostic N3 et preuves](../../case-studies/v01-banking-api/02-n3-triage-and-evidence.md)
+- [C03 — ADR et dimensionnement argumenté](../../case-studies/v01-banking-api/03-adr-and-sizing.md)
+
 ## Validation et progression
 
 Lire [docs/V01_PROGRESS.md](../../docs/V01_PROGRESS.md) pour la couverture effective, les lacunes et les prochains objectifs. Les fichiers portent des statuts **DRAFT / DOCUMENTED_NOT_RUN** ; le texte ne vaut pas preuve de lab.

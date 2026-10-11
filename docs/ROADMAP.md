@@ -7,8 +7,8 @@
 | ID | Objet | Critère de sortie | État |
 |---|---|---|---|
 | OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | CLOSED (cadrage initial) |
-| OCP-MB-I1 | V01 plan + chapitres de base | 7 chapitres rédigés ; approfondissement et QA | CONTENT_DRAFTED_QA_PENDING |
-| OCP-MB-I2 | V01 labs et questions d'architecture | 5 fiches documentées, 0 nouvelle exécution CRC | LABS_DOCUMENTED_VALIDATION_PENDING |
+| OCP-MB-I1 | V01 plan + chapitres de base | 7 chapitres enrichis, 3 études de cas, QA restante | CONTENT_EXPANDED_QA_PENDING |
+| OCP-MB-I2 | V01 labs et questions d'architecture | 6 fiches, simulateur 10 tests offline PASS ; CRC non testé | OFFLINE_TESTS_PASS_CRC_PENDING |
 | OCP-MB-I3 | V02 architecture interne | Mécanismes, schémas et sources | PLANNED |
 | OCP-MB-I4 | V03 installation/administration | Topologies et procédures vérifiées | PLANNED |
 | OCP-MB-I5 | V04 réseaux | Architecture des flux + diagnostics | PLANNED |

@@ -6,6 +6,7 @@ on:
       - "tests/**"
       - "scripts/**"
       - "volumes/**"
+      - "case-studies/**"
       - "labs/**"
       - "docs/**"
       - "README.md"
