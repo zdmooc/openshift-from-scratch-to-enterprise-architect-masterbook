@@ -1,6 +1,6 @@
 # 07 — Évaluation technique et soutenance d'architecture du Volume 01
 
-**Statut : DRAFT · PUBLIC_VERIFIED pour les concepts / PAPER_LAB pour les cas**  
+**Statut : EDITION_1_CONTENT_COMPLETE · PUBLIC_VERIFIED pour les concepts / PAPER_LAB pour les cas**  
 Ce chapitre propose des réponses modèles et non une certification professionnelle.
 
 ## A. Questions de compréhension
@@ -94,4 +94,11 @@ Le seul test existe sur CRC mono-nœud, et le projet annonce un RTO de 15 minute
 - Aucun benchmark runtime effectué pendant cette rédaction.
 - Aucun test de compatibilité ou de security scan des exemples d'image.
 
-La revue technique et la validation des labs sont nécessaires avant de déclarer le Volume 01 **FINAL**.
+Cette évaluation constitue un contenu complet de la première édition. Elle n'est ni une certification professionnelle ni une preuve de HA, PRA ou tests runtime. Les labs non exécutés sont explicitement indiqués.
+
+## Références
+
+- [Kubernetes — concepts](https://kubernetes.io/docs/concepts/)
+- [Kubernetes — scheduling](https://kubernetes.io/docs/concepts/scheduling-eviction/)
+- [OpenShift 4.22 — architecture](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/architecture/architecture-overview)
+- [Open Container Initiative](https://opencontainers.org/)

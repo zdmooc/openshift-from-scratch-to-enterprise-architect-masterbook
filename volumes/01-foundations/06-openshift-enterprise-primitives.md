@@ -1,6 +1,6 @@
 # 06 — OpenShift en entreprise : RHCOS, Operators, Routes, SCC et gouvernance
 
-**Volume 01 · DRAFT · Base : OpenShift Container Platform 4.22**  
+**Volume 01 · EDITION_1_CONTENT_COMPLETE · Base : OpenShift Container Platform 4.22**  
 **Statut documentaire : PUBLIC_VERIFIED ; aucune observation CRC nouvelle.**
 
 ## 1. Pourquoi une distribution Kubernetes intégrée ?
@@ -26,7 +26,7 @@ Une documentation produit décrit ce qui est possible, pas ce qui est automatiqu
 
 ## 2. RHCOS et vie des nœuds
 
-Red Hat Enterprise Linux CoreOS (RHCOS) est conçu pour héberger les composants de la plateforme et les charges conteneurisées; il comprend notamment kubelet et CRI-O. Les nœuds du control plane utilisent RHCOS sur OCP 4.22. Les modalités supportées pour les workers doivent être vérifiées pour la cible d'installation et la version exactes.
+Red Hat Enterprise Linux CoreOS (RHCOS) est conçu pour héberger les composants de la plateforme et les charges conteneurisées; il comprend notamment kubelet et CRI-O. Les notes officielles de version **OpenShift Container Platform 4.22** exigent **RHCOS pour les nœuds control plane et compute**. Ne pas transposer à 4.22 les possibilités des anciennes versions.
 
 **Ignition** fournit la configuration de première initialisation des machines. Le **Machine Config Operator** gère ensuite des changements de configuration du système selon les mécanismes prévus. Modifier manuellement un nœud en SSH pour régler durablement un incident introduit du drift et peut être écrasé par la gestion du cluster.
 
@@ -236,6 +236,8 @@ Le SLA et les exigences réglementaires doivent être contractualisés avec le m
 **Que signifie « GitOps Healthy » ?** C'est un signal du contrôleur GitOps, pas une preuve complète de disponibilité métier ni de validation DR.
 
 ## Références
+
+- [Red Hat OCP 4.22 — Release notes : Kubernetes 1.35, CRI-O, RHCOS control plane et compute](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes)
 
 - [Red Hat — OCP 4.22 architecture](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/architecture/architecture)
 - [Red Hat — OCP 4.22 control plane](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/architecture/control-plane)

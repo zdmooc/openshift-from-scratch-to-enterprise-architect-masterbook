@@ -1,6 +1,6 @@
 # 08 — Admission OpenShift : SCC, PSA, identité, Route et NetworkPolicy
 
-**Volume 01 · Niveau : architecte plateforme / DevSecOps · Statut : DRAFT**  
+**Volume 01 · Niveau : architecte plateforme / DevSecOps · Statut : EDITION_1_CONTENT_COMPLETE**  
 **Périmètre documentaire : OpenShift Container Platform 4.22.**  
 **Preuve : PUBLIC_VERIFIED pour les mécanismes publiés par Red Hat; les exemples et décisions de conception sont REFERENCE_ARCHITECTURE.**
 

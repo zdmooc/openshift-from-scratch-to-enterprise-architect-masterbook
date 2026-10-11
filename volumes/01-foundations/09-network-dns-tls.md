@@ -1,6 +1,6 @@
 # 09 — Réseau Kubernetes/OpenShift : DNS, Services, flux TLS et diagnostic N3
 
-**Volume 01 · Statut DRAFT · Base documentaire OCP 4.22 / Kubernetes**  
+**Volume 01 · Statut EDITION_1_CONTENT_COMPLETE · Base documentaire OCP 4.22 / Kubernetes**  
 **Niveau de preuve : PUBLIC_VERIFIED pour les mécanismes documentés ; aucun test CRC dans cette itération.**
 
 ## 1. Objectifs

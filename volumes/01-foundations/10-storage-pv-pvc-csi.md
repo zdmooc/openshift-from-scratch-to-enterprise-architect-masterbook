@@ -1,6 +1,6 @@
 # 10 — Stockage Kubernetes/OpenShift : PV, PVC, CSI, StatefulSet et restore
 
-**Volume 01 · Statut DRAFT · Périmètre pédagogique : concepts Kubernetes et OCP 4.22**  
+**Volume 01 · Statut EDITION_1_CONTENT_COMPLETE · Périmètre pédagogique : concepts Kubernetes et OCP 4.22**  
 **Preuves : PUBLIC_VERIFIED pour les mécanismes ; REFERENCE_ARCHITECTURE pour les exemples.**
 
 ## 1. Objectifs
