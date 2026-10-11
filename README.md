@@ -69,4 +69,4 @@ OpenShift, Red Hat et les marques associées appartiennent à leurs titulaires r
 ## Éditions publiées et rédaction en cours
 
 - **[Volume 01 — PDF édition 1.0 (109 pages)](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v01.0-20261011/OpenShift_Masterbook_Volume_01_Zidane_Djamal_2026.pdf)**. Source figée avec le tag [v01.0-20261011](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v01.0-20261011).
-- **[Volume 02 — Platform Internals](volumes/02-platform-internals/README.md)** : rédaction ouverte après publication du PDF Volume 01.
+- **[Volume 02 — PDF édition technique 1.0 (59 pages)](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.0-20261011/OpenShift_Masterbook_Volume_02_Zidane_Djamal_2026.pdf)** — [Release]( https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v02.0-20261011 ) · [10 chapitres, deux ateliers et un dossier HA](volumes/02-platform-internals/README.md).

@@ -9,7 +9,7 @@
 | OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | CLOSED (cadrage initial) |
 | OCP-MB-I1 | V01 plan + chapitres de base | 13 chapitres + 3 cas, édition contenu complète | EDITION_1_CONTENT_COMPLETE |
 | OCP-MB-I2 | V01 labs et questions d'architecture | 8 labs, 42 tests offline PASS ; runtime non revendiqué | OFFLINE_TESTS_PASS |
-| OCP-MB-I3 | V02 architecture interne | Control plane et etcd, rédaction engagée | IN_PROGRESS |
+| OCP-MB-I3 | V02 architecture interne | 10 chapitres, 2 labs, 1 étude de cas, PDF 59 pages | EDITION_1_PUBLISHED |
 | OCP-MB-I4 | V03 installation/administration | Topologies et procédures vérifiées | PLANNED |
 | OCP-MB-I5 | V04 réseaux | Architecture des flux + diagnostics | PLANNED |
 | OCP-MB-I6 | V05 storage/data | Workloads stateful + RPO/RTO | PLANNED |
@@ -37,4 +37,4 @@ Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** c
 
 ## Étape immédiatement suivante
 
-Volume 01 : PDF 109 pages publié, vérifié dans GitHub Actions et inspecté en rendu. Volume 02 en cours : control plane et etcd. Les tests runtime manquants restent explicitement non revendiqués.
+Volumes 01 et 02 : premières éditions PDF publiées (109 + 59 pages). Approfondissement et preuves runtime futurs à distinguer des éditions documentaires. Aucun nouveau workload CRC n'a été exécuté.

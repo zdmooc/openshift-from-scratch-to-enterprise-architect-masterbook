@@ -26,3 +26,17 @@
 ## Gouvernance de l'édition
 
 Les sources Markdown font foi. Corriger la version 1.0 via errata/édition révisée plutôt que modifier silencieusement un fichier binaire publié. La génération PDF s'appuie sur un script versionné et une CI de vérification.
+
+
+## Vérification de la publication
+
+- [PDF édition 1.0 — 59 pages A4](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.0-20261011/OpenShift_Masterbook_Volume_02_Zidane_Djamal_2026.pdf).
+- [GitHub Release](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v02.0-20261011).
+- [CI de publication : SUCCESS](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38146269739).
+- 68 tests Python offline et d'édition au total, 87 liens internes Markdown vérifiés.
+- PDF : 199110 octets sur GitHub, texte extractible (111297 caractères par pypdf).
+- Rendu des pages inspecté par échantillonnage visuel (couverture, sommaire, corps, annexes et glossaire).
+- Diagrammes Mermaid conservés comme sources lisibles, non rendus en images.
+- Aucun résultat ne prétend une qualification HA/PRA ou un restore etcd réel.
+
+**La cible de pagination initiale de 200–280 pages reste un objectif d'approfondissement ultérieur, pas le compte réel de l'édition 1.0.**
