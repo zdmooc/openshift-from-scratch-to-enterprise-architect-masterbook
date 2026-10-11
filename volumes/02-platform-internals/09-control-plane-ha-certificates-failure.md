@@ -163,3 +163,104 @@ Ces lectures nécessitent des droits et n'offrent pas à elles seules un test de
 - [Red Hat — Updating clusters 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/updating_clusters/understanding-openshift-updates-1)
 
 **Statut :** architecture/documentation, sans test de panne réelle.
+
+
+## 12. Quantifier une tolérance à la panne : analyse de domaines corrélés
+
+Le calcul de quorum est une propriété mathématique des membres votants. L'architecture physique peut annuler cette tolérance apparente si plusieurs membres partagent un même domaine de panne.
+
+Exemple de trois membres etcd :
+
+| Membre | Zone | Rack | Alimentation |
+|---|---|---|---|
+| A | z1 | r1 | p1 |
+| B | z2 | r2 | p2 |
+| C | z3 | r3 | p3 |
+
+Dans cette architecture fictive, perdre une zone retire un seul membre. Sous hypothèse de connectivité et stockage sains, une majorité reste possible. Mais si B et C utilisent réellement un storage-array unique, la perte du stockage peut retirer **deux membres** et détruire la majorité.
+
+Pour chaque domaine à tester, dresser une matrice binaire composant × domaine de panne. Calculer les membres survivants et vérifier **toutes** les dépendances : etcd, API endpoint, LB, DNS, PKI, storage et réseau.
+
+### 12.1 Un load balancer unique annule-t-il la HA ?
+
+Un trio de kube-apiservers peut être sain, mais inaccessible depuis les clients si le VIP ou le load balancer de l'API est un SPOF. Le système peut continuer certaines opérations internes, mais les administrateurs et automates de déploiement ne peuvent plus interagir normalement.
+
+Le dossier d'architecture doit préciser :
+- nombre d'instances et répartition LB;
+- stratégie de health checks et retrait des backends défaillants;
+- DNS et TTL, mécanisme failover et caches des clients;
+- certificats/API server name, CA et rotation;
+- flux internes distincts du trafic externe;
+- tests de perte d'un backend, puis du LB actif, sous contrat opérationnel.
+
+Une configuration avec plusieurs DNS A records n'est pas nécessairement l'équivalent d'un LB HA : les comportements client, les retries et la stabilité des endpoints comptent.
+
+## 13. Certificats : disponibilité et sécurité indissociables
+
+L'API repose sur des identités TLS. Une erreur de trust CA peut conduire les clients à refuser une connexion, même si kube-apiserver et etcd sont sains. À l'inverse, contourner les vérifications TLS peut exposer des credentials et masquer un MITM ou une mauvaise configuration.
+
+### 13.1 Chaîne de confiance
+
+Pour un client API, quatre propriétés doivent être établies :
+1. le nom demandé correspond aux SAN du certificat;
+2. le certificat n'est pas expiré et son intervalle est valable;
+3. sa chaîne remonte à une CA de confiance configurée;
+4. le handshake et la politique crypto sont compatibles.
+
+Le token OIDC ou kubeconfig n'est pas une solution à une erreur de SAN. Les interventions doivent cibler la couche responsable.
+
+### 13.2 Rotation contrôlée
+
+Une procédure de rotation doit vérifier la coexistence temporaire des anciens et nouveaux certificats, le renouvellement des composants dépendants, les caches de trust et les clients externes. L'objectif n'est pas seulement que le certificat soit signé, mais que les consommateurs **réels** continuent à établir des connexions fiables.
+
+Les certificats et clés privées ne doivent pas être exportés dans le dépôt public. Une documentation peut montrer les champs non secrets : issuer, notBefore/notAfter, SANs anonymisés, identifiant d'autorité et dates de rotation.
+
+## 14. Expérience HA : protocole en préproduction uniquement
+
+On veut démontrer que la perte d'un nœud control plane n'empêche pas durablement l'API de traiter des écritures. Un test sérieux nécessite :
+
+- environnement explicitement autorisé et HA supporté;
+- baseline de santé et backup de control plane;
+- mesure indépendante depuis au moins deux réseaux clients;
+- définition d'un objet de test bénin dont l'écriture est approuvée;
+- chronométrage du changement de leader et du rétablissement si applicable;
+- mesures de latence p95/p99 et d'erreurs de l'API;
+- suivi CVO, etcd et des control plane nodes;
+- preuve d'intégrité des services après retour.
+
+**Il est interdit d'exécuter ce protocole sur CRC partagé.** Un laboratoire mono-nœud permet d'étudier des objets, pas de valider le RTO d'une panne de master.
+
+### 14.1 Rapport attendu
+
+~~~text
+ENV : 3 control-plane / 3 domaines physiques vérifiés
+VERSION : OCP 4.22.x
+MÉTHODE : panne contrôlée d'un membre (approval lié)
+RÉSULTAT AVANT : API requests success / p99 / etcd health
+RÉSULTAT PENDANT : nombre d'échecs / timeout / latence
+RÉSULTAT APRÈS : majorité réelle, Operators, Pods, business SLI
+DURÉE : horodatages UTC et méthode de calcul
+RPO/RTO : valeurs observées, non supposées
+LIMITES : dépendances non couvertes, systèmes externes
+~~~
+
+Il ne faut jamais attribuer un résultat PASS sans trace de test et un périmètre/version documentés.
+
+## 15. Hosted control planes : nouvelle frontière, nouveaux risques
+
+Lorsqu'un hosted control plane héberge les composants de contrôle sur un management cluster, le sort d'un tenant peut dépendre des Services et du réseau du management cluster. La séparation des workers n'implique pas l'indépendance des opérations de contrôle.
+
+Comparer :
+- contrôle des certificats et secrets;
+- responsabilités des upgrades et des APIs;
+- zone d'échec du management cluster;
+- sécurité et séparation des tenants;
+- coûts de support et capacité de récupération;
+- backup et restauration spécifiques au modèle.
+
+Un Hosted Control Plane ne remplace pas un plan de continuité.
+
+## Sources complémentaires
+
+- [Red Hat — Hosted Control Planes 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/hosted_control_planes/hcp-overview)
+- [Red Hat — Backup/restore du control plane](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/control-plane-backup-and-restore)

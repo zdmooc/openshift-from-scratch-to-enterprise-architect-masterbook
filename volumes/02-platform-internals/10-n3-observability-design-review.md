@@ -209,3 +209,97 @@ Le lecteur doit traiter les exemples comme des **méthodes** et non des procédu
 - [Red Hat — Backup/restore control plane](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/control-plane-backup-and-restore)
 
 **Aucun test runtime sur CRC** et aucune preuve HA/PRA nouvelle dans cette édition.
+
+
+## 11. Diagnostic à plusieurs hypothèses : ne pas confondre corrélation et causalité
+
+Une panne d'application après upgrade et un etcd Operator Degraded ne suffisent pas à attribuer l'incident à etcd. Trois événements peuvent coïncider sans causalité directe. Le N3 doit construire un **graphe d'hypothèses** et rechercher des signaux qui départagent.
+
+Exemple fictif : après déploiement, 25 % des appels de consultation bancaire dépassent leur timeout.
+
+Hypothèses :
+- H1 : readiness insuffisamment stricte, Service sélectionne un backend non fonctionnel;
+- H2 : réduction du CPU limit et throttling d'application;
+- H3 : saturation de la base externe;
+- H4 : changement de certificats/identité causant des retries;
+- H5 : lenteur de l'API Kubernetes ayant retardé le rollout, sans causer les timeouts des transactions déjà routées.
+
+Chaque hypothèse demande **une preuve discriminante**. H1 : état des endpoints + logs de readiness; H2 : métriques de throttling et comparaison de releases; H3 : DB pool, requêtes et p99 SQL; H4 : erreurs TLS/validation; H5 : chronologie rollout et latence control plane, puis relation avec les appels HTTP existants.
+
+### 11.1 Table factuelle minimale
+
+| Observation | Ce que cela prouve | Ce que cela ne prouve pas |
+|---|---|---|
+| API kube-apiserver répond /readyz | Health local selon endpoint | Service métier disponible |
+| etcd majorité possible | Topologie théoriquement suffisante | Leader stable et latence acceptable |
+| Pod Running | Processus existant | Requête correctement autorisée |
+| Deployment Available | Critères de disponibilité du contrôleur | SLO banque |
+| GitOps Synced | Révision déclarée reconciliée | Intégrité de données externes |
+| PVC Bound | Claim liée à un volume | Restore testé |
+| CVO Available | Signal opérateur de version | Compatibilité complète des add-ons |
+
+## 12. Un incident N3 doit être reproductible
+
+Le runbook doit contenir :
+1. version OCP, composants et IDs non sensibles;
+2. intervalle de temps en UTC et fuseau de collecte;
+3. commandes read-only et droits utilisés;
+4. sorties expurgées et source de chaque métrique;
+5. hypothèses supportées/refutées;
+6. comparatif avec le dernier état sain;
+7. décision et acteur habilité;
+8. contrôle post-correction par SLI;
+9. risque résiduel et suivi d'actions.
+
+Des logs pris **après** un redémarrage peuvent avoir perdu la séquence critique. Lorsque c'est permis, préserver les observations avant toute mutation.
+
+## 13. Revue d'une plateforme de paiement : gates avant production
+
+| Gate | Question | Preuve nécessaire |
+|---|---|---|
+| API | Existe-t-il un chemin redondant jusqu'à kube-apiserver ? | Test LB/DNS/certificats |
+| Quorum | Des domaines de panne indépendants protègent-ils etcd ? | Topologie et panne contrôlée |
+| MCO | Mise à jour des nœuds sans indisponibilité excessive ? | Preflight PDB + drill |
+| OLM/CRDs | Versions compatibles, conversion sûre ? | Tests objets existants |
+| Sécurité | SCC, PSA et webhooks refusent les mauvaises configs ? | Tests d'admission négatifs |
+| Exécution | kubelet/CRI-O savent démarrer l'image cible ? | Test sandbox par digest |
+| Storage | Snapshot/backup/restore cohérents ? | Contrôle d'intégrité |
+| SRE | SLO métier instrumentés, alertes actionnables ? | Baseline et incident replay |
+| Green IT | Requests/limits et énergie justifiées ? | Sizing, mesures, hypothèses |
+| Changement | Rollback appli ou stratégie recovery cluster explicites ? | ADR, runbook approuvé |
+
+Aucun résultat PASS ne découle de l'existence de ce tableau. Chacun doit recevoir une preuve et une date.
+
+## 14. Séquence de récupération : ne pas « réparer » le mauvais plan
+
+Un N3 intervient souvent sous pression. La première décision de sécurité est **de ne pas ajouter un incident**.
+
+- Si un Pod est Pending, regarder scheduler et volumes, pas redémarrer etcd.
+- Si l'API retourne 403, examiner identity/RBAC, pas manipuler le load balancer.
+- Si un webhook bloque une création, vérifier service/TLS/selector et sa politique; ne pas désactiver tous les webhooks.
+- Si CVO progresse vers une nouvelle release, relever les Conditions et l'historique avant toute décision.
+- Si MCO Degraded, ne pas effacer la rendered MachineConfig sans procédure supportée.
+- Si etcd perd le quorum, ne pas essayer un restore improvisé sur un cluster de production ni sur CRC.
+- Si le service bancaire échoue avec Pods Ready, rechercher dépendances et règles métier.
+
+La remédiation doit toujours être associée au **contrôle de retour à la normale**, avec preuve de transaction si elle concerne un service métier.
+
+## 15. Exercices corrigés
+
+**E1 : Pod Running mais aucun endpoint Ready.** Vérifier labels, selector Service, readiness et EndpointSlices. Running n'assure pas l'éligibilité au routage.
+
+**E2 : 403 à la création d'un Pod.** Distinguer refus RBAC de rejet admission; inspecter la réponse exacte et le service account de workload. Les privileges humains ne suffisent pas à autoriser une SCC pour tous les Pods.
+
+**E3 : PDB bloque un drain.** Calculer replicas disponibles et autorisation d'éviction, puis évaluer la capacité restante. Ne pas supprimer le PDB par réflexe.
+
+**E4 : trois masters mais panne de quorum sur perte d'un rack.** Deux membres partagent le même rack. Réviser la cartographie de domaines de panne : trois membres ne garantissent pas trois domaines indépendants.
+
+**E5 : certificat API invalide mais etcd sain.** Un client peut être bloqué au handshake TLS avant authentification; corriger la chaîne de confiance, pas étendre RBAC.
+
+**E6 : un PV Bound ne remonte plus après panne de zone.** Regarder topology, CSI et volumes physiques; Kubernetes n'invente pas de réplique du volume. RPO/RTO nécessitent backup/restore validés.
+
+## Références complémentaires
+
+- [Kubernetes — Debugging Kubernetes nodes](https://kubernetes.io/docs/tasks/debug/debug-cluster/)
+- [Kubernetes — Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+- [Red Hat OpenShift 4.22 — Monitoring](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/monitoring/index)

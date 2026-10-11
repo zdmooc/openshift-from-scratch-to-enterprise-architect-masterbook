@@ -80,3 +80,60 @@ Aucun résultat n'est enregistré comme PASS. Chaque protocole exige un proprié
 ## 9. Conclusion
 
 L'architecture cible est acceptable seulement lorsque les hypothèses critiques (domaines de panne, sauvegarde, état des certs, admission, MAJ, SLO) deviennent des propriétés mesurables. Le dossier constitue une **architecture de référence**, non une homologation ni un résultat runtime.
+
+
+## 10. Matrice d'impacts croisés : control plane, applications et SI externe
+
+Dans une architecture bancaire, le périmètre « OpenShift » n'est pas une frontière suffisante pour qualifier l'impact d'un incident. Une même panne de domaine peut toucher le control plane, les workers, le registre d'images, le système de décision, les bases et les chemins réseau.
+
+| Domaine de panne | Control plane | Workloads existants | Capacité de remplacement | Données métier |
+|---|---|---|---|---|
+| Un worker | API généralement indépendante | Pods du worker affectés | Dépend des autres workers | CSI/DB selon design |
+| Un master (HA) | Majorité etcd à confirmer | Souvent processus existants inchangés | Dépend de l'API/scheduler | Dépendances externes |
+| Endpoint API / LB | Clients API ne rejoignent plus l'endpoint | Certains traitements continuent | Déploiements/ops perturbés | Peut continuer |
+| CA / DNS | TLS/résolution clients erronés | Effets selon dépendances | Rollouts et pulls possibles affectés | Propagation fonctionnelle |
+| Storage backend commun | etcd/PVs potentiellement affectés | I/O et états perturbés | CSI/attach perturbé | Risque d'intégrité élevé |
+| Broker externe | Control plane potentiellement sain | Consumers en erreur | Nouveaux Pods parfois sans effet | Backlog/doublons |
+| IdP externe | API OCP et authN métiers peuvent varier | Requêtes protégées affectées | Dépend des credentials | Risque de refus/indisponibilité |
+
+Cette matrice est une hypothèse de référence. Chaque application peut réagir différemment selon le mode de connexion, les caches, les timeouts et les stratégies de retry.
+
+## 11. Calcul de capacité après perte d'une zone (papier)
+
+Scénario totalement fictif :
+- 3 zones;
+- 6 workers de 8 CPU allocatables (2 par zone);
+- demande applicative totale de 30 CPU répartie à parts égales;
+- demande système/Daemons par worker de 1 CPU supposée incluse **séparément**.
+
+Capacité CPU totale après perte d'une zone : 4 workers × 8 CPU = 32 CPU allocatables. Si la demande applicative est toujours 30 CPU et les DaemonSets exigent 4 CPU supplémentaires sur les survivors, le total demandé devient 34 CPU. Le cluster **ne peut pas replacer toute la demande** malgré ses 32 CPU disponibles.
+
+Ce calcul ne valide pas non plus l'équilibre mémoire, les volumes et le nombre de Pods. En production, il faudrait une réserve plus large et des mesures de p95/p99 en mode dégradé.
+
+## 12. Plan de tests de reprise et preuves
+
+| Test | Dépendances | Critère |
+|---|---|---|
+| Panne worker | Cluster multinoeud autorisé | Endpoints / SLI rétablis |
+| Panne master | Quorum, LB, autorisation | API read/write maintenues ou restaurées |
+| Perte LB | Redondance d'API | Clients retrouvent endpoint dans RTO |
+| Échec admission webhook | CA/service/selector | Reprise de création sans élargir sécurité |
+| Upgrade MCO | PDB et capacité | Rollout convergé sans dépasser error budget |
+| Restore etcd | Sauvegarde/version/z-stream | État API restauré et cohérent |
+| Reprise base/broker | Backups/offsets/idempotence | Transactions intègres, pas de pertes inconnues |
+
+Ce plan ne constitue **pas** une validation. Les essais destructifs doivent rester sous contrôle strict sur des environnements isolés, avec backups vérifiés et acteurs habilités.
+
+## 13. Registre des décisions à approuver
+
+1. Topologie supportée et indépendance physique des zones.
+2. Responsabilité du load balancing et des certificats API.
+3. Stratégie de backup etcd et conditions de version de restauration.
+4. Politique de gestion des MachineConfigs, rollouts et PDB.
+5. Compatibilité de CRD et d'Operators additionnels.
+6. Politique d'admission de sécurité et disponibilité des webhooks.
+7. Responsabilité de validation du SLO métier et de l'intégrité des données.
+8. Procédure de support N3, chaîne d'escalade et preuve d'incident.
+9. Politique de sobriété, dimensions de capacité réservée et coût de résilience.
+
+Un dossier est prêt à être soumis en comité seulement si les décisions sont accompagnées de risques, responsables, échéances et méthodes de preuve. Le présent exemple reste une architecture de référence.
