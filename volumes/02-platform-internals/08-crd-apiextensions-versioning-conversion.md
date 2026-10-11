@@ -163,3 +163,94 @@ Un test offline de fonction Python peut vérifier une logique d'idempotence. Il 
 - [Red Hat — OpenShift 4.22 Operators](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/operators/understanding-operators)
 
 **Statut :** exemple de conception, non validé sur cluster.
+
+
+## 12. Exemple de migration d'une API de plateforme versionnée
+
+Imaginons que la version v1alpha1 d'une CRD comporte un booléen observability.enabled, tandis que la version v1beta1 remplace ce contrat par un champ profile contenant standard, enhanced ou disabled. Le changement n'est **pas** un simple renommage : il faut définir le mapping fonctionnel et les valeurs par défaut.
+
+### 12.1 Matrice de conversion sur papier
+
+| Entrée v1alpha1 | Sortie v1beta1 proposée | Point à confirmer |
+|---|---|---|
+| enabled=true | profile=standard | Niveau standard est-il équivalent ? |
+| enabled=false | profile=disabled | Les ressources existantes doivent-elles être retirées ? |
+| Champ absent | Profile par défaut explicite | Ancienne version permettait-elle l'absence ? |
+| enabled=true avec option avancée | profile=enhanced | Information conservée sans perte ? |
+
+Une migration doit préserver les informations pertinentes. Si une conversion aller-retour supprime un champ, un opérateur peut écraser silencieusement des données de configuration lorsqu'il écrit l'objet. Des tests avec fixtures d'objets existants sont nécessaires.
+
+### 12.2 storage et served : transitions coordonnées
+
+Le processus comprend :
+1. exposer la nouvelle version served en parallèle de l'ancienne;
+2. mettre en place la conversion si les représentations divergent;
+3. vérifier que chaque version est sérialisable et correctement validée;
+4. définir la nouvelle version de storage lorsqu'elle est prête;
+5. migrer les objets réellement stockés selon la procédure supportée;
+6. vérifier le statut des versions stockées;
+7. retirer l'ancienne version served seulement lorsque tous les clients l'ont abandonnée.
+
+La version storage désignée ne signifie pas que **toutes** les anciennes ressources ont déjà été réécrites dans cette version. D'où le besoin d'inspecter storedVersions et d'employer une migration adaptée.
+
+## 13. Conversion webhook et bootstrap circulaire
+
+Un conversion webhook est appelé pour traduire des objets entre formes. Sa disponibilité et son certificat influencent l'accès aux CRs. Si un upgrade supprime ou dégrade le Service de conversion avant que le nouveau contrôleur ait démarré, certains LIST/GET peuvent échouer. Il faut un protocole de livraison sans dépendance circulaire.
+
+Architecture saine :
+- service webhook disponible avant changement de stratégie de conversion;
+- certificat et CA valides et renouvelables;
+- tests de compatibilité anciens objets;
+- disponibilité et latences surveillées;
+- séquence de décommissionnement d'ancienne version traçable;
+- procédure de récupération qui ne nécessite pas de lire des objets impossibles à convertir.
+
+## 14. Idempotence des contrôleurs et propriété des champs
+
+Une CR déclarée dans GitOps possède un auteur logique. L'Operator construit des ressources filles et publie status. Deux sources de vérité simultanées pour les mêmes champs entraînent des conflits SSA et éventuellement une oscillation de reconciliation.
+
+Définir explicitement :
+
+| Ressource/champ | Gestionnaire autorisé | Politique |
+|---|---|---|
+| CR.spec | GitOps / auteur du contrat | Changement approuvé |
+| CR.status | Operator | Jamais une commande métier |
+| Deployment.spec.image dérivé | Operator | Converge depuis CR |
+| Annotations d'observabilité non détenues | Gestionnaire autorisé distinct | Ne pas écraser |
+| Secret externe | Provider de secrets | Pas de valeur en clair dans CR |
+| Ressource supprimée | Finalizer + deletionPolicy | Retain/Delete expliqué |
+
+### 14.1 observedGeneration et risque de statut périmé
+
+Une Condition Ready=True obtenue pour generation=5 n'est pas un résultat valide pour spec generation=6. Le contrôleur doit publier une observation fraîche quand la génération change, y compris lorsqu'un échec partiel rend certaines ressources filles indisponibles.
+
+Un tableau de bord qui filtre uniquement Ready=True sans examiner observedGeneration peut annoncer à tort un succès après modification de spec.
+
+## 15. Tests de non-régression d'une CRD
+
+Pour une API de plateforme destinée à plusieurs équipes :
+- validation admission positive/négative;
+- round-trip conversion v1alpha1 → v1beta1 → v1alpha1 sur des fixtures;
+- conservation des champs définis comme invariants;
+- upgrade du controller sur des objets déjà stockés;
+- restauration après un crash entre deux créations d'objets;
+- conflits SSA non écrasés;
+- suppression Retain et Delete;
+- mise à jour de status après une nouvelle generation;
+- liveness d'un webhook et gestion de son indisponibilité.
+
+Certains cas peuvent être vérifiés offline sur un modèle Python. Les preuves réelles de conversion/admission nécessitent un API server d'essai (par exemple envtest selon les capacités), des CRDs valides et les éléments d'infrastructure correspondants.
+
+## 16. ADR : publier une nouvelle version
+
+**Contexte :** une vingtaine d'équipes utilisent une CRD v1alpha1. Une version v1beta1 ajoute des validations strictes.
+
+**Décision :** déployer en deux étapes avec double version servie, conversion fiable, tests de préproduction sur CRs existantes et contrôle des clients GitOps. La suppression de v1alpha1 est repoussée jusqu'au retrait complet de ses consommateurs.
+
+**Conséquences :** coût de maintenance transitoire, risque webhook supplémentaire, mais migration contrôlable. Les preuves de tests de conversion sont attachées à la Pull Request et à la release de l'Operator.
+
+## Sources d'approfondissement
+
+- [Kubernetes — Custom Resource Definitions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)
+- [Kubernetes — API Conventions](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md)
+- [Kubernetes — Server Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/)

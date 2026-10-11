@@ -178,3 +178,109 @@ La forme du manifest est pédagogique; l'image/digest n'existe pas. Son admissio
 - [Kubernetes — ResourceQuotas](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
 
 **Limites :** conception et diagnostic documentaires; aucune admission SCC/PSA exécutée sur le CRC durant cette itération.
+
+
+## 10. De la requête Deployment à l'admission du Pod
+
+Le contrôleur de Deployment n'exécute pas les conteneurs. Il demande au ReplicaSet de créer des Pods portant un service account spécifique. L'admission du Pod évalue les droits SCC du sujet concerné et du ServiceAccount selon les règles OpenShift. Les droits du développeur humain ne peuvent pas être transposés sans vérification au compte technique employé par l'application.
+
+### 10.1 Exigences de sécurité minimales
+
+| Propriété | But de sécurité | Condition de succès |
+|---|---|---|
+| runAsNonRoot | Éviter le processus root | Image compatible UID réellement assigné |
+| seccomp RuntimeDefault | Filtrer certains appels système | Profil disponible et compatible |
+| allowPrivilegeEscalation=false | Éviter élévations | Binaires et fonctionnalités compatibles |
+| drop ALL capabilities | Limiter les privilèges Linux | Ajouter exceptions minimales si requises |
+| readOnlyRootFilesystem | Réduire modifications persistantes de l'image | Chemins temporaires/volumes adaptés |
+| automountServiceAccountToken=false | Réduire exposition de credentials API | L'app ne dépend pas de l'API Kubernetes |
+
+Ces options ne remplacent ni l'autorisation métier OIDC ni NetworkPolicy. Elles doivent être testées avec les SCC réellement disponibles.
+
+### 10.2 SCC requise : capacité et risque
+
+OCP 4.22 documente l'annotation openshift.io/required-scc sur un Pod template pour demander explicitement une SCC autorisée. Elle peut permettre de stabiliser une exigence de sécurité lorsque plusieurs SCC seraient applicables, mais elle provoque un échec d'admission si la SCC n'est pas disponible ou pas autorisée pour le workload.
+
+Il faut appliquer l'annotation au **template du contrôleur**, non modifier un Pod déjà en exécution pour contourner un refus. La gestion des droits du verbe use sur une SCC reste un acte d'administration de sécurité.
+
+## 11. Limiter le blast radius des webhooks
+
+Un webhook dynamique peut empêcher la création d'objets de l'API. Il ne s'agit pas seulement d'une bibliothèque appelée par les applications : c'est une dépendance de disponibilité du control plane.
+
+### Scénario d'incident
+
+Une politique de sécurité est exposée par un Service de webhook dont les Pods sont tous non Ready. Le webhook possède failurePolicy=Fail et des règles de sélection trop larges. Certains nouveaux Deployments ne peuvent plus créer de Pods, alors que les Pods déjà démarrés fonctionnent.
+
+Questions diagnostiques :
+1. Quel webhook exact a rejeté ou ralenti la demande ?
+2. Son service Kubernetes possède-t-il des endpoints prêts ?
+3. Le certificat du webhook correspond-il à son service et à sa CA ?
+4. Le timeout est-il observé sur les appels concernés ?
+5. Les namespaceSelectors et objectSelectors excluent-ils les composants critiques si prévu ?
+6. Sa propre infrastructure dépend-elle de ressources qu'il pourrait refuser ?
+7. Quelle procédure approuvée permet de rétablir la policy sans ouvrir toutes les permissions ?
+
+**Ne pas** modifier failurePolicy en Ignore comme correctif universel : cela peut autoriser les objets que le contrôle était chargé de rejeter.
+
+## 12. Revue d'admission à partir d'un objet non déployable
+
+~~~yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-api
+  namespace: example-workshop
+spec:
+  replicas: 2
+  selector:
+    matchLabels: {app: sample-api}
+  template:
+    metadata:
+      labels: {app: sample-api}
+    spec:
+      serviceAccountName: sample-api
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+      - name: api
+        image: registry.example.invalid/sample@sha256:REPLACE_ME
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests: {cpu: 100m, memory: 128Mi}
+          limits: {cpu: 500m, memory: 512Mi}
+~~~
+
+Ce Deployment est explicitement **non déployable** : image fictive, service account et namespace non créés, endpoint applicatif non fourni. Le rôle de l'exercice est de faire une revue de schema et de sécurité sur papier.
+
+Questions :
+- Pourquoi les permissions de créer le Deployment ne prouvent-elles pas la capacité à créer le Pod ?
+- Quelle SCC est utilisable par le service account du template ?
+- Le namespace impose-t-il un profil PSA restrictif ?
+- Un webhook mutateur peut-il toucher des champs possédés par GitOps ?
+- La valeur d'UID de l'image est-elle compatible avec la SCC ?
+
+## 13. Registre d'exceptions de sécurité
+
+Une demande de SCC custom ou privilégiée doit être documentée :
+
+| Champ | Preuve requise |
+|---|---|
+| Besoin | Fonction ne pouvant pas être obtenue en non-root |
+| Périmètre | Service account et namespace concernés |
+| Permissions | Capabilities et volumes précis requis |
+| Alternatives | Solutions sans privilèges étudiées et écartées |
+| Sécurité | Risques d'hôte, réseau et identité |
+| Durée | Date de revue et stratégie de retrait de l'exception |
+| Tests | Admission positive et tentative négative non autorisée |
+
+L'objectif n'est pas de rendre tous les Pods identiques : c'est d'obtenir le niveau de privilège minimal explicable et vérifiable pour chaque responsabilité.
+
+## Sources d'approfondissement
+
+- [Red Hat OCP 4.22 — SCC, required-scc et droits use](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/authentication_and_authorization/managing-pod-security-policies)
+- [Kubernetes — Admission webhook best practices](https://kubernetes.io/docs/concepts/cluster-administration/admission-webhooks-good-practices/)
