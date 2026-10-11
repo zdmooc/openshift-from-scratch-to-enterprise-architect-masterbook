@@ -1,40 +1,45 @@
-# Volume 01 — Foundations
+# Volume 01 — Linux, Kubernetes et OpenShift
 
-**État : 11 chapitres DRAFT et 8 laboratoires documentés, pas encore un volume FINAL.**  
-**Périmètre : Linux → OCI → Kubernetes → OpenShift 4.22 → revue d'architecture.**
+**Édition 1.0 : 13 chapitres éditorialement complets, 8 labs, 3 études d'architecture.**  
+**Périmètre :** bases Linux, OCI, Kubernetes, OpenShift 4.22 et pratiques de diagnostic et d'architecture.
 
-## Contenu technique
+## Chapitres
 
-1. [Pourquoi OpenShift ?](01-what-is-openshift.md) : problématique d'orchestration et valeur de plateforme.
-2. [Desired state et réconciliation](02-desired-state-and-operators.md) : controllers, Operators, Conditions et convergences.
-3. [Linux : namespaces, cgroups et sécurité](03-linux-namespaces-cgroups.md) : PID/network/mount, quotas CPU/mémoire, SELinux/seccomp.
-4. [OCI : images, runtimes et provenance](04-oci-images-runtimes.md) : manifest, index, tags/digests, signatures et distribution.
-5. [Kubernetes API et workloads](05-kubernetes-api-workloads.md) : API, Deployment, Service, EndpointSlice, scheduling, probes, N3.
-6. [OpenShift et capacités d'entreprise](06-openshift-enterprise-primitives.md) : RHCOS, MCO, CVO/OLM, Routes, RBAC/SCC.
-7. [Évaluation et soutenance](07-review-and-evaluation.md) : 25 questions corrigées, 5 scénarios, grille de revue.
-8. [Admission SCC/PSA, Routes TLS et NetworkPolicy](08-security-admission-routes.md) : séparation des contrôles, flux et erreurs d'admission.
-9. [Réseau, DNS, Services et TLS](09-network-dns-tls.md) : flux et diagnostics N3.
-10. [Stockage PV/PVC, CSI et restore](10-storage-pv-pvc-csi.md) : modes d'accès et cycles de vie.
-11. [Méthode N3 : symptômes, hypothèses, preuves](11-n3-evidence-based-troubleshooting.md) : méthode de triage et limites des signaux.
+1. [Pourquoi OpenShift ?](01-what-is-openshift.md)
+2. [Desired state, reconciliation et Operators](02-desired-state-and-operators.md)
+3. [Linux : namespaces, cgroups, isolation](03-linux-namespaces-cgroups.md)
+4. [OCI, images, registries et runtimes](04-oci-images-runtimes.md)
+5. [Kubernetes : API, scheduling et workloads](05-kubernetes-api-workloads.md)
+6. [OpenShift : RHCOS, Operators, SCC et gouvernance](06-openshift-enterprise-primitives.md)
+7. [Évaluation technique et soutenance](07-review-and-evaluation.md)
+8. [Admission SCC/PSA, Routes TLS et NetworkPolicy](08-security-admission-routes.md)
+9. [Réseau DNS, Services, TLS et diagnostic N3](09-network-dns-tls.md)
+10. [Stockage : PV/PVC, CSI, StatefulSets et restore](10-storage-pv-pvc-csi.md)
+11. [Méthodologie de diagnostic N3](11-n3-evidence-based-troubleshooting.md)
+12. [ConfigMaps, Secrets, RBAC et multi-tenancy](12-config-secrets-tenancy.md)
+13. [SRE, SLI/SLO, résilience et dimensionnement](13-reliability-slo-capacity.md)
 
-[Glossaire du Volume 01](GLOSSARY.md)
+[Glossaire](GLOSSARY.md)
 
-## Labs documentés
+## Laboratoires inclus comme annexes dans le PDF
 
-- [L01 — Observation du cluster en lecture seule](../../labs/01-cluster-read-only.md).
-- [L02 — Observer namespaces/cgroups Linux](../../labs/02-linux-cgroup-readonly.md).
-- [L03 — Inspecter des images OCI](../../labs/03-oci-image-readonly.md).
-- [L04 — Observer API, Pods, Services et EndpointSlices](../../labs/04-kubernetes-api-triage-readonly.md).
-- [L05 — Revue d'architecture bancaire](../../labs/05-architecture-review-payments.md) (paper lab).
+- [L01 : observation OpenShift](../../labs/01-cluster-read-only.md) — lecture seule, non exécutée à cette publication.
+- [L02 : namespaces/cgroups Linux](../../labs/02-linux-cgroup-readonly.md) — procédure documentée.
+- [L03 : inspection OCI](../../labs/03-oci-image-readonly.md) — procédure documentée.
+- [L04 : diagnostic API Kubernetes](../../labs/04-kubernetes-api-triage-readonly.md) — procédure documentée.
+- [L05 : revue d'architecture bancaire](../../labs/05-architecture-review-payments.md) — paper lab.
+- [L06 : simulateur de réconciliation](../../labs/06-controller-offline.md) — 10 tests Python hors cluster.
+- [L07 : contrat de manifests OpenShift](../../labs/07-openshift-manifest-contract.md) — 14 tests Python hors cluster.
+- [L08 : triage incident N3](../../labs/08-offline-n3-triage.md) — 18 tests Python hors cluster.
 
-## Étude de cas complète : API bancaire
+## Trois cas d'architecture
 
-- [C01 — Architecture de référence](../../case-studies/v01-banking-api/01-reference-architecture.md)
-- [C02 — Diagnostic N3 et preuves](../../case-studies/v01-banking-api/02-n3-triage-and-evidence.md)
-- [C03 — ADR et dimensionnement argumenté](../../case-studies/v01-banking-api/03-adr-and-sizing.md)
+- [API bancaire : solution cible](../../case-studies/v01-banking-api/01-reference-architecture.md)
+- [Runbook d'incident N3](../../case-studies/v01-banking-api/02-n3-triage-and-evidence.md)
+- [ADR et modèle de dimensionnement](../../case-studies/v01-banking-api/03-adr-and-sizing.md)
 
-## Validation et progression
+## Édition et statut
 
-Lire [docs/V01_PROGRESS.md](../../docs/V01_PROGRESS.md) pour la couverture effective, les lacunes et les prochains objectifs. Les fichiers portent des statuts **DRAFT / DOCUMENTED_NOT_RUN** ; le texte ne vaut pas preuve de lab.
+La rédaction est terminée **pour le périmètre de la première édition**. L'absence de tests HA/DR en production ou sur cluster multi-nœuds reste explicitement déclarée. Les preuves offline ne sont pas des preuves Kubernetes runtime. Le PDF est construit de manière reproductible par [ce script](../../scripts/build_volume01_pdf.py), sans recours au CRC.
 
-Les critères de passage à FINAL restent ceux du [standard éditorial](../../docs/EDITORIAL_STANDARD.md). Aucun nouveau workload CRC n'a été exécuté pendant la rédaction.
+[Statuts de validation](../../docs/V01_PROGRESS.md) · [Notes de version](../../docs/V01_RELEASE_NOTES.md) · [Droits et licences](../../docs/RIGHTS_AND_LICENSING.md).

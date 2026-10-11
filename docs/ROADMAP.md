@@ -7,8 +7,8 @@
 | ID | Objet | Critère de sortie | État |
 |---|---|---|---|
 | OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | CLOSED (cadrage initial) |
-| OCP-MB-I1 | V01 plan + chapitres de base | 11 chapitres en brouillon, 3 études de cas, revue technique restante | ELEVEN_CHAPTERS_DRAFTED_QA_PENDING |
-| OCP-MB-I2 | V01 labs et questions d'architecture | 8 fiches, 42 tests Python offline PASS ; CRC non testé | OFFLINE_TESTS_PASS_CRC_PENDING |
+| OCP-MB-I1 | V01 plan + chapitres de base | 13 chapitres + 3 cas, édition contenu complète | EDITION_1_CONTENT_COMPLETE |
+| OCP-MB-I2 | V01 labs et questions d'architecture | 8 labs, 42 tests offline PASS ; runtime non revendiqué | OFFLINE_TESTS_PASS |
 | OCP-MB-I3 | V02 architecture interne | Mécanismes, schémas et sources | PLANNED |
 | OCP-MB-I4 | V03 installation/administration | Topologies et procédures vérifiées | PLANNED |
 | OCP-MB-I5 | V04 réseaux | Architecture des flux + diagnostics | PLANNED |
@@ -21,7 +21,7 @@
 | OCP-MB-I12 | V11 IDP/FinOps/Green IT | Modèle plateforme et mesures | PLANNED |
 | OCP-MB-I13 | V12 Advanced | Cas sectoriels/IA/VM | PLANNED |
 | OCP-MB-I14 | QA transverse, glossaire, index | Contrôles G1–G4 et liens | PLANNED |
-| OCP-MB-I15 | Génération de l'édition | Build PDF/EPUB + G5 | PLANNED |
+| OCP-MB-I15 | Génération de l'édition | PDF premier volume (EPUB ultérieur) | PDF_BUILD_IN_PROGRESS |
 
 Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** comportant autant d'itérations d'écriture, revue et tests que nécessaire. Aucun engagement de pages ou de clôture sans contenu vérifié.
 
@@ -37,4 +37,4 @@ Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** c
 
 ## Étape immédiatement suivante
 
-OCP-MB-I1 : approfondir les cas pratiques réels, ajouter des exercices testables sans CRC, revoir les chapitres et sources puis valider techniquement les labs dans un environnement autorisé. Le chapitre rédigé ne vaut pas contenu éditorial final.
+Terminer la compilation, la vérification du PDF et sa publication pour le Volume 01, puis démarrer les internes de plateforme du Volume 02. Les preuves runtime non exécutées restent des travaux distincts.

@@ -69,3 +69,7 @@ Les contraintes d'admission sont évaluées à partir de l'environnement et des 
 | Kubernetes debug service | https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/ |
 
 La présence d'une source officielle ne prouve pas l'exécution d'un laboratoire. Les snapshots de volume n'apportent pas seuls de garantie de cohérence applicative.
+
+## OCP 4.22 — version Kubernetes et RHCOS
+
+Les [notes de version officielles](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes) indiquent Kubernetes 1.35 et CRI-O. Elles exigent RHCOS sur les nœuds du control plane et de calcul pour cette version. Ce point a été corrigé dans le chapitre 06.

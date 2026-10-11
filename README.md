@@ -37,7 +37,7 @@ La longueur cible des volumes est indicative. Elle ne doit jamais primer sur la 
 5. [Matrice des preuves et des dépôts](docs/EVIDENCE_CATALOG.md)
 6. [Politique de propriété intellectuelle](docs/RIGHTS_AND_LICENSING.md)
 7. [Sources officielles et veille](docs/SOURCES.md)
-8. [Volume 01 — Index, 11 chapitres et glossaire](volumes/01-foundations/README.md)
+8. [Volume 01 — Édition de contenu 1.0, 13 chapitres et glossaire](volumes/01-foundations/README.md)
 9. [État réel du Volume 01 et travaux restant à valider](docs/V01_PROGRESS.md)
 10. [Étude de cas : architecture API bancaire](case-studies/v01-banking-api/01-reference-architecture.md)
 11. [Simulateur de réconciliation Python et tests](labs/06-controller-offline.md)
@@ -46,6 +46,9 @@ La longueur cible des volumes est indicative. Elle ne doit jamais primer sur la 
 14. [Réseau : DNS, TLS et diagnostic](volumes/01-foundations/09-network-dns-tls.md)
 15. [Stockage : PV/PVC, CSI, snapshots](volumes/01-foundations/10-storage-pv-pvc-csi.md)
 16. [Méthode N3 et triage offline](volumes/01-foundations/11-n3-evidence-based-troubleshooting.md)
+17. [Configuration et multi-tenancy](volumes/01-foundations/12-config-secrets-tenancy.md)
+18. [SLO, fiabilité et dimensionnement](volumes/01-foundations/13-reliability-slo-capacity.md)
+19. [Notes de l'édition PDF du Volume 01](docs/V01_RELEASE_NOTES.md)
 
 ## Règles fondamentales
 
