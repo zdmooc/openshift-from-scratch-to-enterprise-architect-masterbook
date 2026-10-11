@@ -42,3 +42,15 @@
 - Tableau de compatibilité Operators et produits avec dates de consultation.
 - Index de citations au niveau des chapitres.
 - Registre des figures et licences tiers.
+
+## Sécurité et réseau — vérifications ajoutées en octobre 2026
+
+| Sujet | Référence officielle |
+|---|---|
+| OpenShift 4.22 — SCC | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/authentication_and_authorization/managing-pod-security-policies |
+| OpenShift 4.22 — PSA et interactions SCC | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/authentication_and_authorization/understanding-and-managing-pod-security-admission |
+| OpenShift 4.22 — seccomp | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/seccomp-profiles |
+| Kubernetes — NetworkPolicy | https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
+| Kubernetes — Server-Side Apply | https://kubernetes.io/docs/reference/using-api/server-side-apply/ |
+
+Les contraintes d'admission sont évaluées à partir de l'environnement et des politiques effectives : elles ne sont pas prouvées par un validateur local de JSON.

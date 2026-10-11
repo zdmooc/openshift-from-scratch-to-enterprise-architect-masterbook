@@ -26,5 +26,7 @@ jobs:
         run: python3 --version
       - name: Run simulator unit tests
         run: python3 -m unittest discover -s tests -p "test_*.py" -v
+      - name: Check OpenShift manifest teaching contract
+        run: python3 -m examples.v01.manifest_contract
       - name: Validate local documentation links
         run: python3 scripts/check_local_links.py

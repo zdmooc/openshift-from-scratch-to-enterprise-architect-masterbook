@@ -37,10 +37,12 @@ La longueur cible des volumes est indicative. Elle ne doit jamais primer sur la 
 5. [Matrice des preuves et des dépôts](docs/EVIDENCE_CATALOG.md)
 6. [Politique de propriété intellectuelle](docs/RIGHTS_AND_LICENSING.md)
 7. [Sources officielles et veille](docs/SOURCES.md)
-8. [Volume 01 — Index, 7 chapitres et glossaire](volumes/01-foundations/README.md)
+8. [Volume 01 — Index, 8 chapitres et glossaire](volumes/01-foundations/README.md)
 9. [État réel du Volume 01 et travaux restant à valider](docs/V01_PROGRESS.md)
 10. [Étude de cas : architecture API bancaire](case-studies/v01-banking-api/01-reference-architecture.md)
 11. [Simulateur de réconciliation Python et tests](labs/06-controller-offline.md)
+12. [Admission SCC/PSA, Routes TLS et NetworkPolicy](volumes/01-foundations/08-security-admission-routes.md)
+13. [Atelier de validation de manifests OpenShift](labs/07-openshift-manifest-contract.md)
 
 ## Règles fondamentales
 

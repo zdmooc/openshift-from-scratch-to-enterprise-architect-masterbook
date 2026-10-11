@@ -11,15 +11,17 @@
 | API objects, Deployment, scheduling, Services | 05 | Kubernetes docs | DRAFT |
 | Particularités RHCOS, SCC, CVO, Routes | 06 | Red Hat 4.22 | DRAFT |
 | Évaluation, cas métier, 25 questions | 07 | Raisonnement et corrigés éditoriaux | DRAFT |
+| Admission SCC/PSA, Routes TLS et NetworkPolicy | 08 | Red Hat OCP 4.22 + Kubernetes | DRAFT |
 | Observation cluster / Linux / OCI / API | Labs L01–L04 | Procédures uniquement | DOCUMENTED_NOT_RUN |
 | Revue d'architecture de paiements | Lab L05 | Exercice sur papier | REFERENCE_ARCHITECTURE |
 | Simulation d'un contrôleur | Lab L06 + code + 10 tests Python | GitHub Actions, exécution offline | OFFLINE_TESTS_PASS |
+| Manifests inter-reliés, SCC/PSA/Route/Policy | Lab L07 + 6 objets JSON + 14 tests Python | GitHub Actions, exécution offline | OFFLINE_TESTS_PASS |
 | Architecture bancaire, runbook N3, ADR | C01–C03 | Dossier fictif, analyses et scénarios | REFERENCE_ARCHITECTURE |
 
 ## Limites actuelles
 
-- La **rédaction initiale** de sept chapitres est faite; elle est loin d'une édition illustrée de 180–240 pages.
-- Aucun lab n'a été relancé sur CRC au cours de cette itération. Les 10 tests offline du simulateur sont passés dans GitHub Actions, sans prouver une exécution sur OpenShift.
+- La **rédaction initiale** de huit chapitres est faite; elle est loin d'une édition illustrée de 180–240 pages.
+- Aucun lab n'a été relancé sur CRC au cours de cette itération. Les 24 tests offline (10 simulateur + 14 manifeste) sont passés dans GitHub Actions, sans prouver une exécution sur OpenShift.
 - Les extraits de manifeste utilisant registry.example.invalid et des digests fictifs sont **non déployables**; ils servent de supports de conception.
 - Les mécanismes d'admission et la compatibilité doivent être revus selon la version OpenShift cible.
 - La couverture testée de la sécurité de l'image, des architectures multi-nœuds et des restaurations est hors périmètre V01.
@@ -28,9 +30,9 @@
 
 ## Exécution automatisée vérifiée
 
-- [Workflow GitHub Actions vert (tests Python et liens internes)](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38127258100).
+- [Workflow GitHub Actions vert (24 tests Python + liens internes)](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38131212930).
 - Portée : environnement GitHub Actions Ubuntu, tests du simulateur pédagogique et présence des fichiers ciblés par les liens Markdown.
-- Les nouvelles études de cas C01–C03 font partie du corpus à vérifier par la prochaine exécution CI après mise à jour de l'index.
+- Les dossiers C01–C03, l'index et les liens locaux sont inclus dans les vérifications automatiques. La CI ne valide pas les liens externes, les schémas Kubernetes côté serveur ni les tests runtime.
 
 ## Restant avant V01 FINAL
 
@@ -43,4 +45,4 @@
 
 ## État des travaux
 
-OCP-MB-I0 **CLOSED (cadrage)** ; OCP-MB-I1 **CONTENT_EXPANDED_QA_PENDING** ; OCP-MB-I2 **OFFLINE_TESTS_PASS_CRC_VALIDATION_PENDING**. Il reste de la rédaction et des vérifications substantielles pour fermer le Volume 01.
+OCP-MB-I0 **CLOSED (cadrage)** ; OCP-MB-I1 **EIGHT_CHAPTERS_DRAFTED_QA_PENDING** ; OCP-MB-I2 **TWENTY_FOUR_OFFLINE_TESTS_PASS_CRC_VALIDATION_PENDING**. Il reste de la rédaction et des vérifications substantielles pour fermer le Volume 01.
