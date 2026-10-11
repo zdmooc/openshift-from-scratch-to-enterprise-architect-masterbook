@@ -26,7 +26,7 @@ Une documentation produit décrit ce qui est possible, pas ce qui est automatiqu
 
 ## 2. RHCOS et vie des nœuds
 
-Red Hat Enterprise Linux CoreOS (RHCOS) est conçu pour héberger les composants de la plateforme et les charges conteneurisées; il comprend notamment kubelet et CRI-O. Les notes officielles de version **OpenShift Container Platform 4.22** exigent **RHCOS pour les nœuds control plane et compute**. Ne pas transposer à 4.22 les possibilités des anciennes versions.
+Red Hat Enterprise Linux CoreOS (RHCOS) est conçu pour héberger les composants de la plateforme et les charges conteneurisées; il comprend notamment kubelet et CRI-O. La documentation **OCP 4.22** n'est pas entièrement cohérente sur l'OS des *compute nodes* : les notes de version exigent RHCOS pour control plane et compute, tandis que le guide Architecture et certains guides d'installation indiquent que des workers RHEL sont possibles dans des situations spécifiques. **Ne pas conclure à un support général des workers RHEL, ni à leur interdiction universelle**, sans confronter le mode d'installation, la matrice de support et une confirmation Red Hat. Le control plane standard s'appuie sur RHCOS.
 
 **Ignition** fournit la configuration de première initialisation des machines. Le **Machine Config Operator** gère ensuite des changements de configuration du système selon les mécanismes prévus. Modifier manuellement un nœud en SSH pour régler durablement un incident introduit du drift et peut être écrasé par la gestion du cluster.
 

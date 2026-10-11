@@ -20,7 +20,7 @@ Comprendre ce que réalise chaque composant du plan de contrôle, expliquer pour
 | MCO | Configuration et mise à jour de systèmes RHCOS | MachineConfigPools, progression et dégradation |
 | kubelet et CRI-O | Exécution de conteneurs sur les nœuds après placement | Status Pod, runtime et événements |
 
-Pour OpenShift Container Platform 4.22, Red Hat documente Kubernetes 1.35, CRI-O et l'usage obligatoire de RHCOS pour les nœuds du plan de contrôle et de calcul. Les versions futures doivent être vérifiées séparément.
+OCP 4.22 utilise Kubernetes 1.35 et CRI-O. Pour le système des nœuds, les sources Red Hat 4.22 sont **contradictoires** : release notes indiquant RHCOS control plane/compute, guides Architecture/installation évoquant certains compute nodes RHEL. Le choix OS worker doit être vérifié dans les guides propres au mode d'installation et la matrice de support Red Hat. Voir l'erratum de cette édition.
 
 ## 2. Chemin de la création d'un Deployment
 

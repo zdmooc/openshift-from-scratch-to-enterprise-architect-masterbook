@@ -73,3 +73,12 @@ La présence d'une source officielle ne prouve pas l'exécution d'un laboratoire
 ## OCP 4.22 — version Kubernetes et RHCOS
 
 Les [notes de version officielles](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes) indiquent Kubernetes 1.35 et CRI-O. Elles exigent RHCOS sur les nœuds du control plane et de calcul pour cette version. Ce point a été corrigé dans le chapitre 06.
+
+## Erratum vérification de support OS OCP 4.22 (2026-10-11)
+
+Attention : des pages officielles Red Hat 4.22 divergent sur l'emploi de RHEL pour les nœuds worker :
+- [Notes de version 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes) : exigent RHCOS pour control plane et compute.
+- [Architecture 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/architecture/architecture) : indique RHEL possible sur certains workers.
+- [Installing on any platform](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_on_any_platform/installing-platform-agnostic) : mentionne RHEL workers pour certaines installations.
+
+Le Masterbook ne doit pas inférer une règle universelle à partir de l'une de ces pages contradictoires. Exiger une confirmation de support spécifique à la cible. Voir [l'erratum](ERRATA_V01_V02_20261011.md).
