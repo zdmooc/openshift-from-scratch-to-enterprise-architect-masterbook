@@ -160,3 +160,97 @@ Trois replicas d'un consumer n'offrent pas automatiquement exactly-once, pas plu
 - [Red Hat — Machine configuration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/machine-config-index)
 
 **Statut :** étude documentaire. Aucun changement de runtime ou charge sur CRC.
+
+
+## 12. Vue détaillée du cycle Pod : de l'image au processus
+
+Un objet Pod accepté par l'API n'est pas un processus Linux. Le scheduler lui attribue un nœud; le kubelet du nœud prépare le runtime via CRI-O, qui s'appuie sur un runtime compatible OCI et les mécanismes du noyau Linux.
+
+Les erreurs changent de nature au fur et à mesure :
+
+| Étape | Signal observable | Domaine d'enquête |
+|---|---|---|
+| Création Pod refusée | Forbidden / admission denied | RBAC, SCC, PSA, quota, webhook |
+| Non assigné | Pending / FailedScheduling | Scheduler, topology, requests, PVC |
+| Téléchargement image | ErrImagePull / ImagePullBackOff | Registry, digest, CA, pull secrets |
+| Création processus | CreateContainerError | UID, permissions, runtime, mounts |
+| Process lancé puis terminé | CrashLoopBackOff | Exit code, logs, liveness, OOM |
+| Process actif non prêt | Running, Ready=False | Readiness, endpoints, dépendances |
+| Process se termine | Terminating | Hooks, volumes, shutdown, finalizers |
+
+Les Codes Ready/Running ne prouvent pas le succès métier. La séparation des étapes évite d'effectuer des « redémarrages d'essai » qui détruisent l'état disponible pour le diagnostic.
+
+## 13. Arrêt gracieux d'un consommateur MQ
+
+Scénario pédagogique : un Pod traite un message bancaire puis émet un acknowledgement à un broker.
+
+À la réception d'une terminaison volontaire :
+1. cesser de demander de nouveaux messages;
+2. relever les messages en vol et leur statut;
+3. terminer les opérations engagées ou les rendre rejouables;
+4. n'émettre l'ack que dans les conditions fixées par le contrat de transaction;
+5. fermer proprement connexions et ressources;
+6. terminer dans le délai de grâce alloué.
+
+Une perte de connexion après traitement mais avant l'ack peut provoquer une redelivery. Kubernetes ne fournit aucune garantie « exactly once » de la transaction externe. L'application doit utiliser un identifiant stable/idempotent et définir précisément les conséquences des retries.
+
+### 13.1 Probe et interruption
+
+Probes illustratives :
+
+~~~yaml
+startupProbe:
+  httpGet: {path: /startup, port: 8080}
+  failureThreshold: 30
+  periodSeconds: 2
+readinessProbe:
+  httpGet: {path: /ready, port: 8080}
+  periodSeconds: 5
+  timeoutSeconds: 2
+livenessProbe:
+  httpGet: {path: /alive, port: 8080}
+  periodSeconds: 15
+  failureThreshold: 3
+~~~
+
+Ce fragment se place au niveau des conteneurs d'un PodSpec et suppose des endpoints réellement implémentés. Il n'est pas un manifeste applicable seul. La liveness doit répondre à la question de la **capacité du processus à progresser**, pas redémarrer chaque Pod au premier timeout du broker.
+
+## 14. CPU throttling versus mémoire OOM
+
+Exercice fictif :
+
+- request CPU : 200m, limit : 300m;
+- pic nécessaire pendant une fenêtre : 600m;
+- mémoire request : 128Mi, limit : 256Mi;
+- pic de mémoire du processus : 310Mi.
+
+Le CPU peut être throttlé lorsque le processus dépasse son quota, et les temps de réponse augmenter alors que le nœud semble libre. Pour la mémoire, dépasser la limite peut produire une terminaison OOMKilled. Ce sont deux mécanismes différents.
+
+La classe QoS Guaranteed nécessite notamment des requests CPU et mémoire égales aux limits correspondantes pour **tous les conteneurs du Pod**. Une QoS Guaranteed n'est pas une assurance contre un incident matériel ou une mauvaise application.
+
+### 14.1 Filesystem read-only et images compatibles UID arbitraire
+
+Une image conforme à une politique de moindre privilège évite de dépendre de root et écrit ses données transitoires dans des volumes appropriés. Si readOnlyRootFilesystem est activé, un chemin en écriture explicite (par exemple un emptyDir borné pour du cache temporaire) peut être nécessaire.
+
+Un emptyDir est éphémère. Le réutiliser pour des données bancaires persistantes constitue une erreur de durabilité. La persistance/backup doit être conçue sur un système adapté, indépendamment du container filesystem.
+
+## 15. Preuve d'incident runtime
+
+Documenter :
+- date/version et digest de l'image;
+- Node/POD/UID et état des containers;
+- reason/exitCode/lastState (si disponible);
+- requests, limits et QoS;
+- conditions/probes et durée depuis le dernier restart;
+- statut du volume/PVC et du réseau;
+- métriques de throttling, mémoire et dépendances;
+- logs applicatifs anonymisés.
+
+Un rapport de support publiable doit retirer les tokens, données clients et URI internes.
+
+## Références complémentaires
+
+- [Kubernetes — Pod lifecycle](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)
+- [Kubernetes — Quality of Service](https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/)
+- [Kubernetes — Container lifecycle hooks](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/)
+- [Kubernetes — Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)

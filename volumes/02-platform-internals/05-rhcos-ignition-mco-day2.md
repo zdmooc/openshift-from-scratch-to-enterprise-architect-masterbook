@@ -175,3 +175,93 @@ Sur un CRC sous pression RAM/disque, ne jamais appliquer une modification MCO po
 - [Red Hat — Architecture](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/architecture/architecture)
 
 **Validation manquante :** contrôle de comportement sur des nœuds indépendants et exécution du change management. Aucune action CRC.
+
+
+## 11. Approfondissement : render, déploiement et configuration divergente
+
+La rendered MachineConfig matérialise l'état attendu pour un pool. Une MachineConfig ne se traduit pas nécessairement en mise à jour immédiate de tous les nœuds : les pools limitent le nombre de machines temporairement indisponibles, et les changements système peuvent exiger drain, restart de service ou reboot.
+
+Le traitement se schématise ainsi :
+
+~~~mermaid
+sequenceDiagram
+  participant G as Git / change approuvé
+  participant A as API OpenShift
+  participant R as Render controller MCO
+  participant P as MachineConfigPool
+  participant D as Machine Config Daemon
+  participant N as Noeud
+  G->>A: MachineConfig change
+  A->>R: Événement observé
+  R->>P: Rendered config désirée
+  P->>D: Convergence planifiée par pool
+  D->>N: Drain / mise à jour / reboot si requis
+  D-->>P: État actuel, Updated ou Degraded
+~~~
+
+Cette séquence est une abstraction pédagogique. Les mécanismes Kubernetes et MCO réalisent les étapes exactes et les actions varient selon la modification et la politique Day-2.
+
+### 11.1 Une divergence SSH peut ne pas être corrigée automatiquement
+
+Le MCO gère les fichiers et paramètres couverts par les MachineConfigs. Une modification manuelle d'un fichier **géré** peut provoquer du drift détecté. En revanche, Red Hat indique que des modifications manuelles de fichiers qui ne sont **pas** gérés par MCO ne seront pas nécessairement écrasées. Il est donc inexact de croire que le MCO remet systématiquement à zéro tout changement sur le disque.
+
+Le bon contrat de maintenance décrit explicitement la propriété de chaque fichier système, la source de vérité et la méthode de vérification de conformité.
+
+### 11.2 Le piège de maxUnavailable
+
+La valeur effectivement appliquée dépend de la configuration du MachineConfigPool et des règles de défaut du produit. La documentation Day-2 OpenShift 4.22 décrit le batching des workers et une valeur de défaut de **un worker ou 33 % du pool, selon la plus petite** pour le cas documenté. Ne pas généraliser ce résultat à toutes les topologies et catégories de pool : interroger la valeur réelle et les Conditions.
+
+~~~bash
+oc get machineconfigpools
+oc get mcp worker -o jsonpath='{.spec.maxUnavailable}{"\n"}'
+oc describe machineconfigpool worker
+~~~
+
+Une absence de champ dans une réponse API ne signifie pas forcément un défaut zéro; inspecter les règles officielles et le comportement du contrôleur.
+
+## 12. Matrice de changement OS et interruption
+
+| Changement | Risque dominant | Tests nécessaires |
+|---|---|---|
+| Fichier de CA | Trust des API/registries | TLS, downloads, dépendances |
+| Registry configuration | Image pull du nœud | ImagePull et rollback de config |
+| Unité systemd | Restart service / stabilité OS | Service actif après restart/reboot |
+| Paramètre kernel | Comportement hôte et compatibilité | Drivers, volumes, sécurité |
+| Kubelet config | Admission/resources et lifecycle | Probes, scheduling, santé du nœud |
+| Node disruption policy | Évitement inapproprié d'une action | Tests de reload/restart et invariants |
+
+Sur OCP 4.22, les node disruption policies permettent de définir les actions liées à certains changements, mais ne remplacent pas une qualification de la configuration. Un changement combiné qui nécessite reboot n'est pas rendu sans risque par une policy None.
+
+## 13. Diagnostic N3 : MachineConfigPool Degraded
+
+Séquence read-only :
+
+1. relever le nom du pool et sa rendered configuration;
+2. identifier le nombre de machines Ready/Updated/Degraded;
+3. vérifier quel nœud échoue, sa phase et son dernier changement;
+4. observer si le drain est bloqué par un PodDisruptionBudget;
+5. examiner une dépendance au registre, au réseau ou à la configuration systemd;
+6. mesurer les impacts sur le trafic métier et la capacité survivante;
+7. documenter les conditions et les horaires;
+8. obtenir une procédure de correction supportée avant toute mutation.
+
+L'option de supprimer un MachineConfigPool ou une rendered MachineConfig pour réinitialiser l'état est interdite dans un atelier pédagogique : l'effet de bord sur les nœuds peut être majeur.
+
+## 14. Cas d'architecture : capacité pendant maintenance
+
+Cluster fictif avec six workers répartis en deux zones, chacun recevant des Pods critiques. Un MCP ne met à jour qu'un nœud à la fois. Cela ne garantit pas l'absence d'indisponibilité : un PodDisruptionBudget peut bloquer le drain, un volume peut être zonal et la capacité de l'autre nœud peut être saturée par les requests.
+
+La revue d'architecture doit donc calculer :
+- les replicas disponibles **avant** la maintenance;
+- la perte temporaire possible dans chaque zone;
+- la capacité réelle de replacement selon requests et affinités;
+- le temps d'arrêt/reboot et la capacité du runtime à récupérer;
+- l'impact sur les SLI clients.
+
+Le résultat est une proposition de test sur un environnement multinœud autorisé, jamais une preuve de HA sur CRC mono-nœud.
+
+## Références d'approfondissement
+
+- [Red Hat — MachineConfig / MachineConfigPool 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/machine-config-index)
+- [Red Hat — Day-2 worker batching](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/postinstallation_configuration/day-2-operations-for-openshift-container-platform-clusters)
+- [Red Hat — Node disruption policies](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/mco-update-boot-skew-mgmt)
