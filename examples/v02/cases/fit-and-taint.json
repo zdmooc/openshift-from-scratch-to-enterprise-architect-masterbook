@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "name": "worker-a",
+      "zone": "a",
+      "labels": {
+        "pool": "apps"
+      },
+      "taints": [],
+      "cpu_allocatable_m": 4000,
+      "cpu_requested_m": 3500,
+      "memory_allocatable_mib": 8192,
+      "memory_requested_mib": 4096
+    },
+    {
+      "name": "worker-b",
+      "zone": "b",
+      "labels": {
+        "pool": "apps"
+      },
+      "taints": [
+        "reserved"
+      ],
+      "cpu_allocatable_m": 8000,
+      "cpu_requested_m": 4000,
+      "memory_allocatable_mib": 16384,
+      "memory_requested_mib": 10240
+    }
+  ],
+  "pod": {
+    "cpu_m": 1000,
+    "memory_mib": 1024,
+    "node_selector": {
+      "pool": "apps"
+    },
+    "tolerations": [],
+    "eligible_zones": []
+  }
+}
