@@ -37,7 +37,8 @@ La longueur cible des volumes est indicative. Elle ne doit jamais primer sur la 
 5. [Matrice des preuves et des dépôts](docs/EVIDENCE_CATALOG.md)
 6. [Politique de propriété intellectuelle](docs/RIGHTS_AND_LICENSING.md)
 7. [Sources officielles et veille](docs/SOURCES.md)
-8. [Volume 01 — Chapitre 01](volumes/01-foundations/01-what-is-openshift.md)
+8. [Volume 01 — Index, 7 chapitres et glossaire](volumes/01-foundations/README.md)
+9. [État réel du Volume 01 et travaux restant à valider](docs/V01_PROGRESS.md)
 
 ## Règles fondamentales
 

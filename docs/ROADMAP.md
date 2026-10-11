@@ -6,9 +6,9 @@
 
 | ID | Objet | Critère de sortie | État |
 |---|---|---|---|
-| OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | IN_PROGRESS |
-| OCP-MB-I1 | V01 plan + chapitres de base | Couverture complète + sources | PLANNED |
-| OCP-MB-I2 | V01 labs et questions d'architecture | Labs sûrs + validation | PLANNED |
+| OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | CLOSED (cadrage initial) |
+| OCP-MB-I1 | V01 plan + chapitres de base | 7 chapitres rédigés ; approfondissement et QA | CONTENT_DRAFTED_QA_PENDING |
+| OCP-MB-I2 | V01 labs et questions d'architecture | 5 fiches documentées, 0 nouvelle exécution CRC | LABS_DOCUMENTED_VALIDATION_PENDING |
 | OCP-MB-I3 | V02 architecture interne | Mécanismes, schémas et sources | PLANNED |
 | OCP-MB-I4 | V03 installation/administration | Topologies et procédures vérifiées | PLANNED |
 | OCP-MB-I5 | V04 réseaux | Architecture des flux + diagnostics | PLANNED |
@@ -37,4 +37,4 @@ Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** c
 
 ## Étape immédiatement suivante
 
-OCP-MB-I1 : enrichir le V01 avec Linux/cgroups/namespaces/OCI et les primitives Kubernetes. Écrire les objectifs d'apprentissage, le glossaire et des labs non destructifs.
+OCP-MB-I1 : approfondir les cas pratiques réels, ajouter des exercices testables sans CRC, revoir les chapitres et sources puis valider techniquement les labs dans un environnement autorisé. Le chapitre rédigé ne vaut pas contenu éditorial final.

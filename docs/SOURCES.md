@@ -13,6 +13,16 @@
 | Kubernetes — concepts | https://kubernetes.io/docs/concepts/ |
 | Kubernetes — composants | https://kubernetes.io/docs/concepts/overview/components/ |
 | Open Container Initiative — spécifications | https://opencontainers.org/ |
+| OCI — image-spec | https://specs.opencontainers.org/image-spec/ |
+| OCI — distribution-spec | https://specs.opencontainers.org/distribution-spec/ |
+| OCI — runtime-spec | https://specs.opencontainers.org/runtime-spec/ |
+| Linux — namespaces | https://man7.org/linux/man-pages/man7/namespaces.7.html |
+| Linux — cgroup v2 | https://docs.kernel.org/admin-guide/cgroup-v2.html |
+| Kubernetes — resources | https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
+| Kubernetes — scheduling | https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ |
+| Kubernetes — Deployments | https://kubernetes.io/docs/concepts/workloads/controllers/deployment/ |
+| Kubernetes — sécurité noyau | https://kubernetes.io/docs/concepts/security/linux-kernel-security-constraints/ |
+| OpenShift 4.22 — Routes | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/ingress_and_load_balancing/routes |
 
 ## Politique version
 
