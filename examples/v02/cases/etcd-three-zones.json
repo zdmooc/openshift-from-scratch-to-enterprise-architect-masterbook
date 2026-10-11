@@ -1,0 +1,19 @@
+{
+  "members": [
+    {
+      "id": "a",
+      "zone": "az-a"
+    },
+    {
+      "id": "b",
+      "zone": "az-b"
+    },
+    {
+      "id": "c",
+      "zone": "az-c"
+    }
+  ],
+  "lost_zones": [
+    "az-c"
+  ]
+}
