@@ -54,3 +54,18 @@
 | Kubernetes — Server-Side Apply | https://kubernetes.io/docs/reference/using-api/server-side-apply/ |
 
 Les contraintes d'admission sont évaluées à partir de l'environnement et des politiques effectives : elles ne sont pas prouvées par un validateur local de JSON.
+
+## Réseau, stockage et diagnostic — édition Volume 01
+
+| Sujet | Source officielle |
+|---|---|
+| DNS Operator OCP 4.22 | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/networking_operators/dns-operator |
+| OCP 4.22 network security (policies composants critiques) | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html-single/network_security/index |
+| OCP 4.22 networking overview | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html-single/networking_overview/index |
+| OCP 4.22 storage | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/index |
+| DNS for Services and Pods | https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/ |
+| PV/PVC | https://kubernetes.io/docs/concepts/storage/persistent-volumes/ |
+| CSI VolumeSnapshots | https://kubernetes.io/docs/concepts/storage/volume-snapshots/ |
+| Kubernetes debug service | https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/ |
+
+La présence d'une source officielle ne prouve pas l'exécution d'un laboratoire. Les snapshots de volume n'apportent pas seuls de garantie de cohérence applicative.

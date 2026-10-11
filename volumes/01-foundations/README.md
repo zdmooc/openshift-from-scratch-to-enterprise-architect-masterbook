@@ -1,6 +1,6 @@
 # Volume 01 — Foundations
 
-**État : 8 chapitres DRAFT et 7 laboratoires documentés, pas encore un volume FINAL.**  
+**État : 11 chapitres DRAFT et 8 laboratoires documentés, pas encore un volume FINAL.**  
 **Périmètre : Linux → OCI → Kubernetes → OpenShift 4.22 → revue d'architecture.**
 
 ## Contenu technique
@@ -13,6 +13,9 @@
 6. [OpenShift et capacités d'entreprise](06-openshift-enterprise-primitives.md) : RHCOS, MCO, CVO/OLM, Routes, RBAC/SCC.
 7. [Évaluation et soutenance](07-review-and-evaluation.md) : 25 questions corrigées, 5 scénarios, grille de revue.
 8. [Admission SCC/PSA, Routes TLS et NetworkPolicy](08-security-admission-routes.md) : séparation des contrôles, flux et erreurs d'admission.
+9. [Réseau, DNS, Services et TLS](09-network-dns-tls.md) : flux et diagnostics N3.
+10. [Stockage PV/PVC, CSI et restore](10-storage-pv-pvc-csi.md) : modes d'accès et cycles de vie.
+11. [Méthode N3 : symptômes, hypothèses, preuves](11-n3-evidence-based-troubleshooting.md) : méthode de triage et limites des signaux.
 
 [Glossaire du Volume 01](GLOSSARY.md)
 
