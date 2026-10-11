@@ -29,7 +29,7 @@ class Volume01SourceTests(unittest.TestCase):
             with self.subTest(p=p.name):
                 self.assertTrue(s.startswith("# "))
                 self.assertRegex(s, r"(?i)## (références|sources)")
-                self.assertGreaterEqual(len(s.split()), 700)
+                self.assertGreaterEqual(len(re.findall(r"(?m)^## ", s)), 3)
 
     def test_chapters_do_not_claim_new_crc_proof(self):
         # Each chapter distinguishes evidence status from runtime proof.

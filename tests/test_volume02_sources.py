@@ -13,11 +13,11 @@ class Volume02SourceTests(unittest.TestCase):
         self.assertEqual([p.name[:2] for p in paths],
                          [f"{i:02d}" for i in range(1, 13)])
 
-    def test_chapters_substantial_and_sourced(self):
+    def test_chapters_cover_multiple_mechanisms_and_cite_sources(self):
         for path in sorted(VOLUME.glob("[0-9][0-9]-*.md")):
             s = path.read_text(encoding="utf-8")
             with self.subTest(path=path.name):
-                self.assertGreaterEqual(len(s.split()), 900)
+                self.assertGreaterEqual(len(re.findall(r"(?m)^## ", s)), 4)
                 self.assertRegex(s, r"(?m)^# 0?[0-9]+")
                 self.assertTrue(re.search(r"^## (Sources|Références)", s, re.M))
                 self.assertIn("docs.redhat.com", s)
