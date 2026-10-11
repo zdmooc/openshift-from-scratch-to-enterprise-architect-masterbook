@@ -82,3 +82,17 @@ Attention : des pages officielles Red Hat 4.22 divergent sur l'emploi de RHEL po
 - [Installing on any platform](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_on_any_platform/installing-platform-agnostic) : mentionne RHEL workers pour certaines installations.
 
 Le Masterbook ne doit pas inférer une règle universelle à partir de l'une de ces pages contradictoires. Exiger une confirmation de support spécifique à la cible. Voir [l'erratum](ERRATA_V01_V02_20261011.md).
+
+
+## Volume 02 — Machine API, OLM et CRD versioning (2026-10-11)
+
+| Contrat vérifié | Documentation de référence |
+|---|---|
+| Machine, MachineSet, MachineHealthCheck et ControlPlaneMachineSet | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_management/index |
+| ClusterAutoscaler, MachineAutoscaler et restrictions de provider | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_management/applying-autoscaling |
+| Operator Lifecycle Manager (OLM) Classic | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/operators/understanding-operators |
+| OLM v1 : Catalogd, Operator Controller et ClusterExtension | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/extensions/architecture |
+| OLM v1 : ClusterCatalog et catalogs Red Hat | https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/extensions/catalogs |
+| CRD served/storage, webhook et stockage ancien | https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/ |
+
+**Précautions** : les API Machine peuvent dépendre du type de cluster/provider; des fonctionnalités liées à Cluster API sont Technology Preview en 4.22. OLM Classic et OLM v1 ne partagent pas les mêmes objets d'API. Les fixtures de conversion sont hors cluster et ne prouvent pas le comportement d'un vrai admission server.

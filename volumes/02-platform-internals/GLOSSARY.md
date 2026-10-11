@@ -38,3 +38,24 @@
 | Served version | Version de CRD exposée aux clients |
 | Webhook de conversion | Service externe traduisant des objets de CRD entre versions |
 | Zone de panne | Domaine dont l'indisponibilité peut faire tomber plusieurs composants |
+
+| Machine API | Gestion déclarative des Machines d'infrastructure, selon provider/support |
+| Machine | Ressource OCP représentant un hôte/instance gérée et potentiellement liée à un Node |
+| MachineSet | Contrôleur du nombre de Machines de calcul désirées |
+| MachineHealthCheck | Détecte des Machines non saines et peut provoquer leur remplacement selon support |
+| MachineAutoscaler | Bornes de Machines pour un MachineSet ciblé |
+| ClusterAutoscaler | Décide du scaling de capacité selon Pods et limites configurées |
+| ControlPlaneMachineSet | Gestion des Machines control plane sur plateformes compatibles |
+| HPA | Ajuste des replicas de Pods, pas des Machines |
+| OLM Classic | Cycle de vie add-on Operators fondé sur Subscription, CSV, InstallPlan et CatalogSource |
+| OLM v1 | Cycle d'extensions via catalogd, Operator Controller, ClusterCatalog et ClusterExtension |
+| CSV | ClusterServiceVersion, metadata/installation d'une version d'Operator Classic |
+| OperatorGroup | Périmètre de watch/installation de plusieurs Operators Classic |
+| InstallPlan | Plan calculé pour installer/mettre à jour des Operators Classic |
+| CatalogSource | Source de packages et versions utilisable par OLM Classic |
+| ClusterCatalog | Catalogue d'extensions OLM v1 |
+| ClusterExtension | Ressource cluster-scoped de gestion d'une extension via OLM v1 |
+| catalogd | Composant OLM v1 servant les métadonnées de File-Based Catalog |
+| File-Based Catalog (FBC) | Représentation déclarative des packages, channels et bundles d'Operators |
+| ConversionReview | Protocole API utilisé pour convertir des objets custom entre versions |
+| storedVersions | Versions historiques pouvant rester physiquement stockées pour une CRD |

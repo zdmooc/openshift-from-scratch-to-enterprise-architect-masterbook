@@ -1,6 +1,6 @@
 # Volume 02 — Architecture interne d'OpenShift
 
-**Édition révisée 1.1 : 10 chapitres approfondis, 3 laboratoires, 1 étude d'architecture et 4 schémas SVG.**  
+**Manuscrit de travail après l'édition 1.1 : 12 chapitres techniques, 4 laboratoires, 1 étude d'architecture et 4 schémas SVG.**  
 **Référence : OpenShift Container Platform 4.22 · Kubernetes 1.35.**  
 **Limite : documentation et tests Python offline, sans exécution de changements control plane ni de PRA sur CRC.**
 
@@ -16,6 +16,8 @@
 8. [API extensions et CRD versionnées](08-crd-apiextensions-versioning-conversion.md) — storage/served, conversion et status.
 9. [Haute disponibilité du control plane](09-control-plane-ha-certificates-failure.md) — LB, certificats, quorum, domains de panne.
 10. [Diagnostic N3 et soutenance d'architecture](10-n3-observability-design-review.md) — preuves et revue de risques.
+11. [Machine API, MachineSets et autoscaling](11-machine-api-machinesets-autoscaling.md) — Machines, Nodes, MHC, autoscalers, frontières de support.
+12. [OLM Classic et OLM v1](12-olm-classic-v1-extensions-lifecycle.md) — bundles, CSV, InstallPlan, ClusterCatalog et ClusterExtension.
 
 [Glossaire de l'architecture interne](GLOSSARY.md).
 
@@ -24,6 +26,7 @@
 - [V02-L01 — Inventaire read-only du control plane](../../labs/v02-01-control-plane-readonly.md) : procédure documentée, non exécutée.
 - [V02-L02 — Modèle de quorum etcd offline](../../labs/v02-02-etcd-quorum-offline.md) : deux scénarios, Python, 16 tests.
 - [V02-L03 — Filtrage scheduling offline](../../labs/v02-03-scheduling-offline.md) : placement théorique, Python, 20 tests.
+- [V02-L04 — Conversion CRD versionnée offline](../../labs/v02-04-crd-conversion-offline.md) : schémas alpha/beta, ConversionReview et 20 tests de compatibilité.
 - [V02-C01 — Architecture bancaire : HA et mises à jour](../../case-studies/v02-control-plane/01-architecture-review-ha-upgrade.md) : dossier et ADR fictifs.
 
 ## Réalisation et preuve
@@ -37,5 +40,7 @@
 **Aucun backup/restore etcd, aucune interruption de nœud et aucune modification du MCO, CVO ou SCC n'ont été lancés.**
 
 [Télécharger le PDF 1.1 — 85 pages](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.1-20261011/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf) · [Validation du PDF](../../docs/V02_RELEASE_VERIFICATION_1_1.md) · [Notes d'édition](../../docs/V02_RELEASE_NOTES.md) · [Sources officielles](../../docs/SOURCES.md).
+
+**Le PDF 1.1 publié reste un instantané historique de 10 chapitres ; les 2 nouveaux chapitres et le lab L04 ne figurent pas dans ce PDF. Le manuscrit Markdown à jour fait foi.**
 
 **Le nombre de pages ne mesure pas la complétude.** Cette édition a une couverture technique substantielle, et ses écarts restants sont suivis par domaine dans la [grille de validation du contenu](../../docs/V02_CONTENT_ACCEPTANCE.md). Les autres figures Mermaid non converties restent dans la source Markdown et sous forme de texte lisible dans le PDF.

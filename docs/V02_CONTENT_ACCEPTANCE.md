@@ -13,14 +13,14 @@ La présence d'un PDF ne fait pas d'un livre une édition **FINAL**. Inversement
 | Scheduler / contrôleurs | Filters, scoring, priority, cache, workqueues et Lease | Comparer le simulateur offline aux règles réelles et documenter plugins/limites | REVOIR |
 | CVO / OSUS | Release payload, graphes, conditions et upgrades | Vérifier chemins/compatibilités version 4.22; scénario de blocage détaillé | REVOIR |
 | RHCOS / Ignition / MCO | Pools, rendered configs, node disruption policies | Clarifier les divergences documentaires Red Hat sur workers RHEL; approfondir les contraintes de mode de déploiement | REVOIR |
-| Machine API | Mentionnée comme frontière avec MCO | **Approfondir MachineSets/Machines/autoscaling et la différence avec les MCP** | A_COMPLÉTER |
+| Machine API | Chapitre 11 : Machine, MachineSet, ControlPlaneMachineSet, MHC et autoscaling | Vérifier chaque restriction provider/UPI et le statut Cluster API 4.22; relecture technique | RÉDIGÉ_À_VALIDER |
 | kubelet / CRI-O / OCI | Container lifecycle, probes, UID, OOM, SIGTERM | Valider la cohérence des exemples et donner davantage de cas observables si nécessaire | REVOIR |
 | SCC / PSA / webhooks | Contrats d'admission, service accounts et risques de politiques | Expliquer négatif/positif sur un manifest complet; statut non exécuté conservé | REVOIR |
-| CRD / API versioning | Structural schemas, served/storage, conversion, SSA | Ajouter un exemple de CRD/versionnement plus concret et testé offline | A_COMPLÉTER |
-| Operators / OLM | Distinction CVO/add-on Operator | **Préciser l'installation, la compatibilité et le lifecycle OLM selon OCP 4.22** | A_COMPLÉTER |
+| CRD / API versioning | Chapitre 08 + L04 : CRD JSON à deux versions, ConversionReview, modèle et 20 tests | Confirmer cohérence du schéma avec un API server d'essai; vérifier storedVersions | OFFLINE_TESTS_A_VALIDER |
+| Operators / OLM | Chapitre 12 : OLM Classic, OLM v1, CatalogSource/ClusterCatalog et ClusterExtension | Relecture des restrictions de support OLM v1 par package/version | RÉDIGÉ_À_VALIDER |
 | HA / PKI / LB | Zones, TLS, quorum, hosted control planes, scénarios | Différencier disponibilité mesurée et topologie dessinée | REVOIR |
 | Observabilité / N3 | Runbooks, cas fictifs, critères de preuve | Vérifier qu'aucun exemple n'est présenté comme incident réel; synthèse décisionnelle | REVOIR |
-| Labs | 3 labs, modèles quorum/scheduler, inventaire read-only | Vérifier tests et inputs; ne pas confondre simulations et runtime | OFFLINE_TEST_PASS |
+| Labs | 4 labs : quorum/scheduler/conversion CRD offline, inventaire read-only | Vérifier nouveaux tests L04 en CI; ne pas confondre simulation et runtime | QA_EN_COURS |
 | Schémas | 4 SVG originaux, Mermaid en source | Contrôler sémantique et lisibilité; convertir autres schémas **seulement si cela clarifie le fond** | REVOIR |
 | Sources / droits | Références officielles et politique mixte | Revue finale de versions, propriété des exemples et errata | REVOIR |
 
@@ -40,7 +40,7 @@ La présence d'un PDF ne fait pas d'un livre une édition **FINAL**. Inversement
 
 ## 3. Priorités de fond
 
-**P0 — Pour la clôture technique :** approfondir Machine API et OLM; consolider une CRD structurée et la conversion; revue ciblée des assertions liées à OCP 4.22; traiter les divergences de support; assurer la cohérence des cas et du PDF.
+**P0 — Pour la clôture technique :** les trois trous de contenu Machine API, OLM et CRD sont désormais rédigés avec leur propre contrat de preuve. Il reste la revue de compatibilité version 4.22, les validations de schéma et de conversion, la cohérence des cas/sources et l'édition du PDF une fois le fond accepté.
 
 **P1 — Améliorations utiles si elles ajoutent des connaissances :** tests offline supplémentaires qui enseignent une propriété nouvelle, illustrations qui expliquent un mécanisme non évident, diagnostic de panne avec signaux discriminants.
 

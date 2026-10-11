@@ -11,7 +11,7 @@ class Volume02SourceTests(unittest.TestCase):
     def test_chapter_names_are_sequential(self):
         paths = sorted(VOLUME.glob("[0-9][0-9]-*.md"))
         self.assertEqual([p.name[:2] for p in paths],
-                         [f"{i:02d}" for i in range(1, 11)])
+                         [f"{i:02d}" for i in range(1, 13)])
 
     def test_chapters_substantial_and_sourced(self):
         for path in sorted(VOLUME.glob("[0-9][0-9]-*.md")):
@@ -34,7 +34,7 @@ class Volume02SourceTests(unittest.TestCase):
             s = path.read_text(encoding="utf-8")
             with self.subTest(path=path.name):
                 self.assertTrue(any(x in s for x in ("DOCUMENTED_NOT_RUN", "OFFLINE_TEST")))
-        self.assertEqual(len(list((ROOT / "labs").glob("v02-*.md"))), 3)
+        self.assertEqual(len(list((ROOT / "labs").glob("v02-*.md"))), 4)
 
     def test_quorum_code_does_not_shell_out(self):
         code = (ROOT / "examples/v02/quorum_model.py").read_text(encoding="utf-8")

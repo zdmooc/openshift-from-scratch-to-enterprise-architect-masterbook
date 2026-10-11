@@ -257,3 +257,37 @@ Certains cas peuvent être vérifiés offline sur un modèle Python. Les preuves
 - [Kubernetes — Custom Resource Definitions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)
 - [Kubernetes — API Conventions](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md)
 - [Kubernetes — Server Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+
+## 17. Cas complet : une CRD structurée, deux versions servies et conversion sans perte
+
+Le [laboratoire V02-L04](../../labs/v02-04-crd-conversion-offline.md) fournit une **CRD JSON structurelle** représentant exactement deux versions d'une API fictive :
+
+- \`v1alpha1\`, encore servie, avec \`spec.enabled\` booléen;
+- \`v1beta1\`, version de stockage, avec \`spec.profile\` dans \`standard|disabled\`;
+- un champ \`retentionDays\` dont la plage est 1–365 dans les deux versions;
+- un sous-objet \`status\` qui doit garder son contrat séparé de \`spec\`;
+- un ConversionReview v1 qui peut convertir un **batch** d'objets;
+- un service de conversion volontairement **inexistant**, afin d'empêcher toute application accidentelle de la CRD en environnement réel.
+
+[Lire la CRD de démonstration](../../examples/v02/crd-versioning/crd-example-not-deployable.json) et le [code du convertisseur Python offline](../../examples/v02/crd_versioning.py). Cette CRD et ce programme ne forment pas un webhook opérationnel : il manque une implémentation HTTP/TLS, certificat, contrôle d'accès, installation et test d'API server.
+
+### 17.1 Invariants de conversion
+
+1. Ne modifier que \`apiVersion\` et les champs de \`spec\` dont l'évolution est explicitement prévue.
+2. Conserver \`metadata.uid\`, \`name\`, \`namespace\` et autres métadonnées inchangées.
+3. Ne pas écraser \`status\` pendant une conversion.
+4. Retourner **autant d'objets que reçus**, dans le même ordre, avec l'UID du ConversionReview.
+5. Rejeter une valeur de \`profile\` qui ne possède pas de représentation dans l'ancienne version, plutôt que réaliser une conversion avec perte.
+6. Vérifier les anciennes versions **dans \`status.storedVersions\`** avant de les retirer de la CRD.
+
+Le fait que v1beta1 soit marquée \`storage:true\` n'entraîne pas la migration immédiate des objets déjà persistés. Le guide Kubernetes versioning décrit une procédure de storage migration et les préconditions de retrait des anciennes versions.
+
+### 17.2 Limites de la preuve
+
+Les tests Python vérifient les invariants de la maquette et les refus de valeurs invalides. Ils ne prouvent ni que l'API Kubernetes accepterait la CRD, ni que TLS fonctionne, ni que la version OCP cible autorise le même schéma dans toutes les configurations.
+
+Le **vrai test de compatibilité** exige un serveur API d'essai, un webhook opérationnel avec CA, des objets persistés et une procédure de migration mesurée. Cette distinction évite de transformer un bon tutoriel en fausse preuve de production.
+
+## Source complémentaire
+
+- [Kubernetes — Versioning de CustomResourceDefinitions et storedVersions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)

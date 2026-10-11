@@ -73,3 +73,5 @@ OpenShift, Red Hat et les marques associées appartiennent à leurs titulaires r
 
 - **[Volume 02 — PDF édition révisée 1.1 (85 pages)](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.1-20261011/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf)** — [release versionnée](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v02.1-20261011). Contenu enrichi sur 10 chapitres, 3 labs, 4 diagrammes SVG originaux, [94 tests](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38149733777) en CI. Première édition de 59 pages conservée pour traçabilité.
 - [**Erratum OCP 4.22 : divergence des documents de support OS workers**](docs/ERRATA_V01_V02_20261011.md) à lire avec les éditions PDF précédentes.
+
+- [Volume 02 — manuscrit en cours, chapitres Machine API et OLM v1 et lab CRD](volumes/02-platform-internals/README.md) (ces ajouts sont **postérieurs** au PDF 1.1, qui reste inchangé).
