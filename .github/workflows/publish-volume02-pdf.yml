@@ -1,0 +1,76 @@
+name: Publish OpenShift Masterbook Volume 02 PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-volume02-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out volume sources
+        uses: actions/checkout@v4
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install typesetting and PDF QA
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libcairo2 shared-mime-info
+          python -m pip install --disable-pip-version-check "mistune==3.2.0" "weasyprint==68.0" "pypdf==6.3.0"
+      - name: Offline tests and local links
+        run: |
+          python -m unittest discover -s tests -p "test_*.py" -v
+          python scripts/check_local_links.py
+          python -m examples.v02.quorum_model examples/v02/cases/etcd-three-zones.json
+          python -m examples.v02.quorum_model examples/v02/cases/etcd-correlated-failure.json
+      - name: Build Volume 02
+        run: python scripts/build_volume02_pdf.py
+      - name: Validate PDF pages and extractable content
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from pypdf import PdfReader
+          p = Path("dist/OpenShift_Masterbook_Volume_02_Zidane_Djamal_2026.pdf")
+          reader = PdfReader(p)
+          pages = len(reader.pages)
+          content = "\n".join(page.extract_text() or "" for page in reader.pages)
+          print("PDF_PAGES", pages)
+          print("PDF_SIZE", p.stat().st_size)
+          print("EXTRACTED_CHARS", len(content))
+          assert pages >= 35, "PDF unexpectedly short"
+          assert p.stat().st_size > 100000
+          assert len(content) >= 75000, "Substantial Markdown text missing"
+          for word in ("kube-apiserver", "etcd", "CRI-O", "MachineConfig", "SCC", "quorum"):
+              assert word in content, f"Missing {word}"
+          print("V02_PDF_BUILD_AND_EXTRACTION_PASS")
+          PY
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openshift-masterbook-volume02-edition-1
+          path: dist/OpenShift_Masterbook_Volume_02_Zidane_Djamal_2026.pdf
+          retention-days: 90
+          if-no-files-found: error
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v02.0-20261011"
+          FILE="dist/OpenShift_Masterbook_Volume_02_Zidane_Djamal_2026.pdf"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$FILE" --clobber
+          else
+            gh release create "$TAG" "$FILE" \
+              --title "OpenShift Masterbook — Volume 02 — Edition 1.0" \
+              --notes-file docs/V02_RELEASE_NOTES.md \
+              --target "$GITHUB_SHA"
+          fi
