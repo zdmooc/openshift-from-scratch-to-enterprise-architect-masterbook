@@ -148,3 +148,100 @@ Des erreurs RBAC peuvent limiter l'observation. N'essayez pas d'obtenir une sess
 - [Kubernetes — Leases](https://kubernetes.io/docs/concepts/architecture/leases/)
 
 **Limite de preuve :** chapitre documentaire ; aucun nouveau test sur un cluster réel pendant cette rédaction.
+
+
+## 11. Internes de l'API : lecture, écriture, watch et erreurs
+
+### 11.1 Anatomie d'une requête WRITE
+
+La séquence suivante doit être comprise **sans confondre admission et réconciliation** :
+
+1. Le client négocie TLS et fournit ses credentials au serveur API.
+2. L'authentification produit une identité utilisateur, ses groupes et informations additionnelles.
+3. L'autorisation évalue le verbe, la ressource, le namespace et, selon l'opération, le sous-objet.
+4. Les contrôles d'admission applicables à l'opération écrite évaluent puis éventuellement modifient la demande.
+5. La validation de schema et les contraintes du type doivent être satisfaites.
+6. La nouvelle représentation est persistée via le système de stockage de l'API.
+7. L'API retourne un objet et des métadonnées de version.
+8. Les watches/informers rendent progressivement cette modification visible aux contrôleurs.
+9. Le contrôleur propriétaire écrit l'état désiré des ressources filles; les kubelets produisent les statuts.
+10. L'utilisateur doit enfin observer une condition opérationnelle et le comportement métier.
+
+Un HTTP 201 Created ne signifie **pas** que le Pod est prêt. L'API peut valider des objets dont la spec est admissible, mais qui ne seront pas schedulables en raison de ressources futures indisponibles. Le statut doit donc être associé à une **fenêtre temporelle** et à la génération de spec qu'il décrit.
+
+### 11.2 Anatomie d'une requête LIST/WATCH
+
+Un client qui affiche \`oc get pods -w\` reçoit un état puis des évolutions selon les mécanismes list/watch de l'API. Pour un opérateur Go, un SharedInformer maintient une cache d'objets alimentée par des événements. Cette cache est utile, mais ne représente pas forcément la dernière écriture persistée au moment exact où un reconcile lit l'objet.
+
+Le \`metadata.resourceVersion\` est **opaque**. Il faut le passer au serveur API comme défini par le protocole, non le décoder comme un entier global ou un timestamp. Un watch qui retourne une expiration de version historique exige une nouvelle synchronisation conforme à la bibliothèque du client. Les bookmarks ne constituent pas des « checkpoints de transaction métier ».
+
+### 11.3 Concurrence optimiste, conflit et retry
+
+Deux contrôleurs peuvent lire le même objet à la même version, puis tenter de mettre à jour ses champs. Les APIs Kubernetes utilisent des mécanismes de concurrence et de propriété, dont les conditions de ressource et Server-Side Apply. Un conflit n'est pas une invitation à réécrire brutalement la ressource : il peut signifier qu'un autre acteur possède cette portion de l'état.
+
+Pour un retry sûr :
+- relire la version courante;
+- reconstruire l'intention sur l'état le plus récent;
+- ne pas modifier les champs appartenant à un autre contrôleur;
+- borner les reprises avec backoff;
+- publier Conditions/Events qui rendent la contention visible.
+
+Un \`RetryOnConflict\` côté code Go protège une séquence de mise à jour d'un objet sous ses préconditions. Il ne peut pas rendre automatiquement **idempotent** un transfert bancaire, un envoi MQ ou une opération sur une API externe.
+
+## 12. API Priority and Fairness : disponibilité sous pression
+
+L'API Kubernetes peut recevoir des requêtes d'humains, kubelets, controllers, Operators et outils d'automatisation. Sous pression, traiter chaque requête sans distinction peut exposer les opérations vitales à une saturation par des clients non critiques.
+
+Le mécanisme **API Priority and Fairness (APF)** applique des règles de classement et de limitation de concurrence pour certaines requêtes, selon la configuration des objets FlowSchema et PriorityLevelConfiguration. Il ne crée pas de capacité physique et ne protège pas les appels extérieurs à l'API Kubernetes.
+
+Inspection read-only sur cluster autorisé :
+
+~~~bash
+oc get flowschemas.flowcontrol.apiserver.k8s.io
+oc get prioritylevelconfigurations.flowcontrol.apiserver.k8s.io
+oc get --raw /readyz
+~~~
+
+La dernière commande interroge un endpoint de santé; son accès et sa disponibilité peuvent varier selon permissions et configuration. Une réponse positive de \`readyz\` vérifie un contrat de readiness **de l'API**, pas la transaction métier complète.
+
+### Incident hypothétique : contrôleur trop bavard
+
+Un Operator à bug effectue un LIST exhaustif toutes les 100 ms. Ses demandes provoquent de la charge API disproportionnée. Le diagnostic doit corréler les métriques de requêtes par client/ressource (selon disponibilité), les erreurs de throttling et la latence des opérations critiques. Le correctif architectural consiste à utiliser correctement les watches/caches, à ne pas faire de polling agressif et à borner les retries — pas à augmenter arbitrairement les ressources de kube-apiserver.
+
+## 13. Certificats et chemins API : identité versus accessibilité
+
+Un client qui échoue avec \`x509: certificate signed by unknown authority\` a un problème de chaîne de confiance ou de configuration TLS. Ce symptôme n'est pas équivalent à un timeout TCP. Les stratégies de diagnostic divergent :
+
+| Phase | Symptôme indicatif | Contrôle |
+|---|---|---|
+| DNS | Nom API non résolu | DNS et endpoint utilisé |
+| TCP | Connection refused / timeout | LB, firewall, route réseau |
+| TLS | Certificat non fiable/expiré, SAN incorrect | Chaîne CA et nom SNI |
+| Authentification | HTTP 401 | Token, cert utilisateur, horloge, identité |
+| Autorisation | HTTP 403 | RBAC, verbe, namespace, sujet |
+| Admission | Erreur de création/validation | SCC, PSA, webhook, quota, message API |
+| Reconcilation | Objet créé mais non Ready | Contrôleurs, scheduling, runtime |
+
+Ne jamais placer un certificat ou kubeconfig réel dans les annexes du Masterbook. La commande \`--insecure-skip-tls-verify\` contourne une barrière d'authenticité et ne constitue pas une correction supportable.
+
+## 14. Protocole de preuve pour une API lente
+
+**Hypothèse H1 :** le réseau externe ralentit; **H2 :** les contrôles d'admission ralentissent; **H3 :** etcd a une latence d'écriture élevée; **H4 :** le client produit trop de requêtes.
+
+Un protocole autorisé suit :
+1. enregistrer l'heure et le point de mesure;
+2. comparer accès API depuis plusieurs réseaux autorisés;
+3. comparer requêtes simples GET et écritures contrôlées **sur un cluster de test**, pas sur CRC partagé;
+4. examiner les métriques API, l'admission et la santé etcd;
+5. corréler la période avec update CVO/MCO et déploiements d'Operators;
+6. séparer symptômes de requêtes utilisateur et événements des controllers;
+7. documenter **ce qui n'est pas observé** lorsque RBAC ou monitoring restreint la visibilité.
+
+**Résultat attendu :** une classification argumentée et datée, pas un redémarrage d'etcd sous incertitude.
+
+## Références d'approfondissement
+
+- [Kubernetes — API Priority and Fairness](https://kubernetes.io/docs/concepts/cluster-administration/flow-control/)
+- [Kubernetes — API Concepts](https://kubernetes.io/docs/reference/using-api/api-concepts/)
+- [Kubernetes — Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
+- [Red Hat OpenShift 4.22 — API configuration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/config_apis/config-apis)

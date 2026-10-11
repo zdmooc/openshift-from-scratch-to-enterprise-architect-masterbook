@@ -165,3 +165,117 @@ Le control plane restauré ne valide pas automatiquement la cohérence des bases
 - [etcd — Documentation officielle](https://etcd.io/docs/)
 
 **Limite : aucun test de sauvegarde/restauration, de perte de quorum ni d'accès privilégié à etcd n'a été réalisé sur le CRC.**
+
+
+## 11. Raft en détail : term, log index et commit
+
+Le modèle Raft fait intervenir des **terms** (époques logiques d'élection), un leader courant, des followers et un journal répliqué. Chaque entrée porte un index dans le journal et appartient à un term. Les machines partagent un contrat de majorité, pas une horloge transactionnelle globale.
+
+Séquence conceptuelle d'une écriture :
+1. Un client soumet la modification au service etcd.
+2. Le leader compose l'entrée à ajouter au journal.
+3. Le leader propage cette entrée à ses followers.
+4. Lorsque les conditions de majorité et de sécurité du protocole sont satisfaites, l'entrée peut être considérée comme committed.
+5. Le système applique les changements dans l'ordre défini et peut répondre au client.
+6. Un follower isolé doit rattraper son retard après sa reconnexion selon le mécanisme approprié.
+
+~~~mermaid
+sequenceDiagram
+  participant API as kube-apiserver
+  participant A as etcd A, leader
+  participant B as etcd B, follower
+  participant C as etcd C, follower
+  API->>A: Put objet
+  A->>B: AppendEntries
+  A->>C: AppendEntries
+  B-->>A: ack durable selon protocole
+  A->>A: Commit quand majorité acquise
+  A-->>API: succès de l'écriture
+~~~
+
+Ce schéma ne représente pas chaque message de Raft ni les optimisations d'etcd. Il illustre pourquoi une majorité et la latence réseau/disque sont indispensables à une écriture stable.
+
+### 11.1 Term n'est pas une date; index n'est pas une latence
+
+On ne peut pas déduire le délai de commit d'une différence d'index. Un term supérieur peut indiquer une nouvelle élection; cela ne signifie pas nécessairement qu'une donnée a été perdue. Une augmentation fréquente de termes/élections peut toutefois être un signal de stabilité à étudier avec les métriques, les logs et les conditions.
+
+### 11.2 Quorum et scénario de domaine de panne
+
+Trois membres \`A, B, C\` répartis sur trois zones autorisent théoriquement la perte d'une zone, car deux votants restent présents. Trois membres dont \`A\` et \`B\` partagent la même alimentation n'offrent **pas** cette propriété face à la panne de cette alimentation.
+
+La tolérance à une panne n'est donc **pas** seulement \`floor((N-1)/2)\`; elle doit être recalculée pour chaque domaine de panne corrélé (zone, rack, storage, réseau et management).
+
+## 12. Compaction, defragmentation et quota backend : trois sujets séparés
+
+etcd conserve un historique de révisions utilisé notamment par les watches. La **compaction** supprime d'anciennes révisions devenues inutiles; elle n'est pas synonyme de récupération immédiate d'espace physique dans tous les cas. La **défragmentation** réorganise l'espace de la base pour permettre une récupération de taille du fichier backend, selon les procédures supportées.
+
+Le **quota de stockage backend** limite l'augmentation de la base. Une base proche de son quota peut compromettre les écritures API même si certains Pods restent Running.
+
+Il serait dangereux d'exécuter \`etcdctl compact\`, \`defrag\` ou des manipulations de quota depuis ce livre :
+- elles utilisent des accès privilégiés;
+- elles peuvent affecter performance et disponibilité;
+- elles exigent un mode opératoire précis et un ordre de traitement supportés par Red Hat;
+- elles nécessitent des sauvegardes et des mesures pré/post.
+
+Le Masterbook les explique pour le diagnostic, pas comme procédures génériques d'intervention.
+
+### 12.1 Symptômes qui se ressemblent
+
+| Indice | Cause possible | Pourquoi une vérification supplémentaire est nécessaire |
+|---|---|---|
+| API slow | Disque etcd lent | Webhook ou LB peuvent aussi retarder |
+| Watch expiré (410 Gone) | History compaction normale | Ne signifie pas qu'etcd est corrompu |
+| Base etcd volumineuse | Objets et historiques accumulés | Taille seule ne prouve pas une panne |
+| Leader changes fréquents | I/O, réseau, horloges, ressources | Corréler avec Events/métriques |
+| Failed requests lors d'un upgrade | API, etcd, CVO, admission | Identifier la frontière causale |
+
+## 13. Comparer snapshot de control plane et sauvegarde métier
+
+Une archive etcd couvre le **plan API du cluster**, pas nécessairement les données sur les PV des workloads. Une base PostgreSQL ou un broker MQ peuvent poursuivre leurs activités avec leurs propres journaux et protocoles de réplication.
+
+Le PRA doit donc synchroniser plusieurs domaines de reprise :
+- **control plane** : objets Kubernetes, versions, certificats et backup etcd;
+- **infrastructure** : machines, volumes, réseaux et adresses;
+- **application** : artefacts, manifests, secrets et identity;
+- **données métier** : données et WAL, backups, tests d'intégrité et RPO;
+- **événementiel** : offsets/acquittements, replay, idempotency keys et traitement des doublons.
+
+Un restore du snapshot etcd sans test de réconciliation avec les volumes réellement disponibles peut reconstituer des PVC pointant vers un stockage disparu. Il peut aussi faire réapparaître des versions d'objets qui ne correspondent plus aux déploiements et credentials externes.
+
+### 13.1 Tableau de compatibilité de reprise
+
+| Élément | Validation avant restauration | Risque |
+|---|---|---|
+| Version OCP z-stream | Concordance suivant procédure 4.22 | État non supporté |
+| Snapshot et static Pods | Jeu de sauvegarde cohérent complet | Impossibilité de reconstruction |
+| PKI | Certificats/CA sécurisés et valides | API inaccessible |
+| Matériel / topologie | Machines et stockage disponibles | Quorum / volume non remontable |
+| Applications | Versions et contrats de schéma compatibles | Erreurs métier |
+| Données | RPO, cohérence, intégrité | Perte ou duplication |
+| Réseau | VIP/LB/DNS/IP actualisés | Clients ne rejoignent pas API |
+
+## 14. Discussion de sûreté : pourquoi ne pas promouvoir n'importe quel membre
+
+En cas de quorum perdu, choisir un ancien membre doté d'un état incomplet peut conduire à perdre des écritures non répliquées. Dans un SI réglementé, cette différence peut toucher les traces administratives, secrets, ressources et générations des workloads.
+
+Un runbook réel demande une expertise OpenShift, les procédures de support de la version précise, la chronologie et la conservation des données. **Il est exclu de simuler une perte de quorum sur le CRC partagé.**
+
+## 15. Exercice de capacité : estimer l'effet d'un disque lent (papier)
+
+Cas fictif :
+- une opération etcd nécessite des écritures durables;
+- latence disque médiane initiale 2 ms, p99 15 ms;
+- après saturation, médiane 20 ms, p99 150 ms;
+- le nombre de membres reste 3 et tous répondent au ping.
+
+**Question :** le quorum est-il mathématiquement perdu ? Non. Les membres sont présents mais les temps de transaction peuvent augmenter fortement. Les utilisateurs peuvent voir des erreurs d'API alors que la topologie de consensus continue d'exister.
+
+**Question :** peut-on extrapoler le p99 API = p99 disque ? Non. Les communications inter-membres, files d'attente, sérialisation, hooks et séquencement d'opérations contribuent à la latence finale.
+
+La mesure du service doit donc rester indépendante du calcul de majorité.
+
+## Références complémentaires
+
+- [etcd — Documentation du consensus Raft et de la maintenance](https://etcd.io/docs/)
+- [Red Hat OpenShift 4.22 — etcd](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/etcd/index)
+- [Red Hat — Control plane backup and restore 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/control-plane-backup-and-restore)
