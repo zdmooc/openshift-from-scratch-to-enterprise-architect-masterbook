@@ -1,6 +1,6 @@
 # 04 — OCI, images, registries et chaîne d'exécution
 
-**Volume 01 · DRAFT · Niveau : développeur → architecte DevSecOps**  
+**Volume 01 · EDITION_1_CONTENT_COMPLETE · Niveau : développeur → architecte DevSecOps**  
 **Référentiel : OCI Image, Runtime et Distribution Specifications ; OCP 4.22**  
 **Preuve : PUBLIC_VERIFIED, procédures non exécutées lors de cette rédaction.**
 

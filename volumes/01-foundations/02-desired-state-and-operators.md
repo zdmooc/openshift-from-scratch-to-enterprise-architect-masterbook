@@ -1,6 +1,6 @@
 # 02 — Desired state, réconciliation et Operators
 
-**Volume** : 01 · **Statut** : DRAFT · **Portée** : Kubernetes et OCP 4.22  
+**Volume** : 01 · **Statut** : EDITION_1_CONTENT_COMPLETE · **Portée** : Kubernetes et OCP 4.22  
 **Preuve principale** : PUBLIC_VERIFIED · **Vérifié** : 2026-10-11
 
 ## 1. Modèle déclaratif

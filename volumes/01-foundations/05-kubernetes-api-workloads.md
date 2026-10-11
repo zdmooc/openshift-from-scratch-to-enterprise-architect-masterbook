@@ -1,6 +1,6 @@
 # 05 — Kubernetes : API, contrôleurs, scheduling et primitives d'architecture
 
-**Volume 01 · DRAFT · Niveau : administrateur → architecte**  
+**Volume 01 · EDITION_1_CONTENT_COMPLETE · Niveau : administrateur → architecte**  
 **Portée : concepts Kubernetes documentés ; application OpenShift 4.22**  
 **Preuve : PUBLIC_VERIFIED ; tous les YAML ci-dessous sont des exemples explicatifs non déployés.**
 

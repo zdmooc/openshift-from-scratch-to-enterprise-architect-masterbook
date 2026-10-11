@@ -1,6 +1,6 @@
 # 03 — Linux : processus, namespaces, cgroups et isolation des conteneurs
 
-**Volume 01 · DRAFT · Niveau : ingénierie système → architecture de plateforme**  
+**Volume 01 · EDITION_1_CONTENT_COMPLETE · Niveau : ingénierie système → architecture de plateforme**  
 **Base technique : Linux / cgroup v2 ; application OpenShift 4.22**  
 **Preuve : PUBLIC_VERIFIED (documents officiels) ; aucun test runtime réalisé dans cette itération.**
 

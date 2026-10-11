@@ -1,6 +1,6 @@
 # 01 — Pourquoi OpenShift ? Du conteneur à une plateforme d'entreprise
 
-**Volume** : 01 · **Niveau** : Foundations → Architecte · **Statut** : DRAFT  
+**Volume** : 01 · **Niveau** : Foundations → Architecte · **Statut** : EDITION_1_CONTENT_COMPLETE  
 **Base documentaire** : OpenShift Container Platform 4.22 · **Preuve** : PUBLIC_VERIFIED  
 **Dernière vérification des références** : 2026-10-11
 
