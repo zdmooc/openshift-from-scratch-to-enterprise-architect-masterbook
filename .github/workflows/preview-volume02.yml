@@ -1,0 +1,79 @@
+name: Volume 02 Content and PDF Preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/preview-volume02.yml"
+      - "volumes/02-platform-internals/**"
+      - "labs/v02-*.md"
+      - "case-studies/v02-control-plane/**"
+      - "examples/v02/**"
+      - "tests/**"
+      - "scripts/build_volume02_pdf.py"
+      - "scripts/build_volume01_pdf.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out manuscript
+        uses: actions/checkout@v4
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install reproducible PDF stack
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libcairo2 shared-mime-info
+          python -m pip install --disable-pip-version-check "mistune==3.2.0" "weasyprint==68.0" "pypdf==6.3.0"
+      - name: Unit tests and Markdown links
+        run: |
+          python -m unittest discover -s tests -p "test_*.py" -v
+          python scripts/check_local_links.py
+          python -m examples.v02.quorum_model examples/v02/cases/etcd-three-zones.json
+          python -m examples.v02.scheduling_filter examples/v02/cases/fit-and-taint.json
+          python -m examples.v02.crd_versioning examples/v02/crd-versioning/review.json
+      - name: Typeset draft from current Markdown
+        run: python scripts/build_volume02_pdf.py
+      - name: Assert full chapter and lab coverage in preview
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from pypdf import PdfReader
+          from scripts import build_volume02_pdf as book
+          out = Path("dist/OpenShift_Masterbook_Volume_02_DRAFT_Zidane_Djamal_2026.pdf")
+          reader = PdfReader(out)
+          extracted = "\n".join(page.extract_text() or "" for page in reader.pages)
+          assert len(book.CHAPTERS) == 12
+          assert len(book.LABS) == 6
+          assert len(book.CASES) == 1
+          for chap in book.CHAPTERS:
+              title = book.chapter_title(chap)
+              assert title in extracted, f"Missing chapter title: {title}"
+          for lab in book.LABS:
+              title = book.chapter_title(lab)
+              assert title in extracted, f"Missing lab title: {title}"
+          for term in ("Machine API", "ClusterExtension", "ConversionReview", "MachineConfigPool"):
+              assert term in extracted, f"Missing topic: {term}"
+          assert len(reader.pages) >= 30, "Likely truncation in typesetting"
+          assert len(extracted) > 100000, "Likely incomplete text extraction"
+          print("V02_DRAFT_PAGES", len(reader.pages))
+          print("V02_DRAFT_EXTRACTED_CHARACTERS", len(extracted))
+          print("V02_CHAPTERS", len(book.CHAPTERS))
+          print("V02_LABS", len(book.LABS))
+          print("V02_DRAFT_CONTENT_CHECK_PASS")
+          PY
+      - name: Upload draft for editorial review (not a public release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: volume02-manuscript-preview
+          path: dist/OpenShift_Masterbook_Volume_02_DRAFT_Zidane_Djamal_2026.pdf
+          retention-days: 30
+          if-no-files-found: error
