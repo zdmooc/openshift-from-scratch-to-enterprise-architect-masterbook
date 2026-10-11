@@ -47,7 +47,9 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           from pypdf import PdfReader
-          from scripts import build_volume02_pdf as book
+          import sys
+          sys.path.insert(0, str(Path("scripts").resolve()))
+          import build_volume02_pdf as book
           out = Path("dist/OpenShift_Masterbook_Volume_02_DRAFT_Zidane_Djamal_2026.pdf")
           reader = PdfReader(out)
           extracted = "\n".join(page.extract_text() or "" for page in reader.pages)
