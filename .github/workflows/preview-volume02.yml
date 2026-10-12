@@ -1,4 +1,4 @@
-name: Volume 02 Content and PDF Preview
+name: Volume 02 Source and PDF QA
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
           import sys
           sys.path.insert(0, str(Path("scripts").resolve()))
           import build_volume02_pdf as book
-          out = Path("dist/OpenShift_Masterbook_Volume_02_DRAFT_Zidane_Djamal_2026.pdf")
+          out = Path("dist/OpenShift_Masterbook_Volume_02_Edition_1_2_Zidane_Djamal_2026.pdf")
           reader = PdfReader(out)
           extracted = "\n".join(page.extract_text() or "" for page in reader.pages)
           assert len(book.CHAPTERS) == 12
@@ -72,10 +72,10 @@ jobs:
           print("V02_LABS", len(book.LABS))
           print("V02_DRAFT_CONTENT_CHECK_PASS")
           PY
-      - name: Upload draft for editorial review (not a public release)
+      - name: Upload QA PDF artifact (not a public release)
         uses: actions/upload-artifact@v4
         with:
-          name: volume02-manuscript-preview
-          path: dist/OpenShift_Masterbook_Volume_02_DRAFT_Zidane_Djamal_2026.pdf
+          name: volume02-editorial-qa
+          path: dist/OpenShift_Masterbook_Volume_02_Edition_1_2_Zidane_Djamal_2026.pdf
           retention-days: 30
           if-no-files-found: error
