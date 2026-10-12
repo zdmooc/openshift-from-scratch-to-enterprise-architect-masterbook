@@ -1,6 +1,6 @@
 # 11 — Machine API : Machines, MachineSets, autoscaling et santé des nœuds
 
-**Volume 02 · Premier manuscrit technique · OCP 4.22 · PUBLIC_VERIFIED pour les concepts documentés.**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · OCP 4.22 · PUBLIC_VERIFIED pour les concepts documentés.**  
 **Aucune création/suppression de Machine, aucune intervention sur le CRC.**
 
 ## 1. Une Machine n'est pas un Node, un MachineSet n'est pas un MCP

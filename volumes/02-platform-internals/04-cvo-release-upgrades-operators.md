@@ -1,6 +1,6 @@
 # 04 — Cluster Version Operator, release image et gouvernance des mises à jour
 
-**Volume 02 · DRAFT · OpenShift Container Platform 4.22 · Documentation officielle vérifiée.**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · OpenShift Container Platform 4.22 · Documentation officielle vérifiée.**  
 **Aucune commande d'upgrade ni changement de channel n'est exécuté dans ce chapitre.**
 
 ## 1. Pourquoi CVO n'est pas un simple outil de rollout

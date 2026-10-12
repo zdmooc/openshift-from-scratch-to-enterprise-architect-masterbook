@@ -1,6 +1,6 @@
 # 03 — Scheduler, controller-manager, Leases et contrôle de convergence
 
-**Volume 02 · Édition de travail · OpenShift 4.22 / Kubernetes 1.35**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · OpenShift 4.22 / Kubernetes 1.35**  
 **Évidence : DOCUMENTATION_OFFICIELLE ; aucun test runtime nouveau.**
 
 ## 1. Pourquoi distinguer deux boucles ?

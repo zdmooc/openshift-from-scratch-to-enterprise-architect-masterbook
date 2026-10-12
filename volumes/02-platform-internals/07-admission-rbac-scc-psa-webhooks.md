@@ -1,6 +1,6 @@
 # 07 — Admission interne : RBAC, SCC, PSA, webhooks et quotas
 
-**Volume 02 · DRAFT · Référence OCP 4.22.**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · Référence OCP 4.22.**  
 **Ce chapitre distingue contrôles API, sécurité de l'exécution et politique métier.**
 
 ## 1. La demande API traverse plusieurs décisions

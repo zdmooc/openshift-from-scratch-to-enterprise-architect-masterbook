@@ -1,6 +1,6 @@
 # 10 — N3 du control plane : observabilité, diagnostic, preuves et soutenance d'architecture
 
-**Volume 02 · DRAFT · Cible OpenShift Container Platform 4.22**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · Cible OpenShift Container Platform 4.22**  
 **Méthode : read-only par défaut, aucune intervention sur etcd, CVO, MCO ou kube-apiserver.**
 
 ## 1. Reconnaître le plan affecté

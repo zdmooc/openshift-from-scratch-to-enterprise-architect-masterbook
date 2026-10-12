@@ -1,6 +1,6 @@
 # 12 — OLM Classic et OLM v1 : installation, versionnement et cycle de vie des Operators
 
-**Volume 02 · Premier manuscrit technique · OCP 4.22 · PUBLIC_VERIFIED pour les concepts documentés.**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · OCP 4.22 · PUBLIC_VERIFIED pour les concepts documentés.**  
 **But : différencier les modèles de gestion d'extensions réellement décrits pour cette version, sans installer d'Operator sur le CRC.**
 
 ## 1. Trois Operators différents sous le même nom générique

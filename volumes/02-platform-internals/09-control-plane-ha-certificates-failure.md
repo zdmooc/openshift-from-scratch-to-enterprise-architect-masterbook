@@ -1,6 +1,6 @@
 # 09 — Control plane HA : domaines de panne, etcd, DNS, LB et certificats
 
-**Volume 02 · DRAFT · Architecture de référence OCP 4.22**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · Architecture de référence OCP 4.22**  
 **Objectif : mesurer ce que signifie réellement survivre à une panne de contrôle.**
 
 ## 1. Pourquoi compter les masters ne suffit pas

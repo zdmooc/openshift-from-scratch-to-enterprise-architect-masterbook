@@ -1,6 +1,6 @@
 # 06 — kubelet, CRI-O, runtime OCI et cycle de vie d'un Pod
 
-**Volume 02 · DRAFT · OpenShift 4.22 / Kubernetes 1.35**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · OpenShift 4.22 / Kubernetes 1.35**  
 **Objectif : comprendre ce qui se passe après le scheduling, jusqu'aux statuts observables.**
 
 ## 1. La frontière entre API et OS de nœud

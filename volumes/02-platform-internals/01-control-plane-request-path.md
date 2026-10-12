@@ -1,6 +1,6 @@
 # 01 — Anatomie d'une requête OpenShift : du client au control plane
 
-**Volume 02 · DRAFT · Référence documentaire OCP 4.22 / Kubernetes 1.35.**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · Référence documentaire OCP 4.22 / Kubernetes 1.35.**  
 **Preuve : PUBLIC_VERIFIED pour les mécanismes documentés. Aucun nouveau test CRC.**
 
 

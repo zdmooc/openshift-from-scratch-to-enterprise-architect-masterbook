@@ -1,6 +1,6 @@
 # 05 — RHCOS, Ignition, Machine Config Operator et opérations Day-2
 
-**Volume 02 · DRAFT · Version : OpenShift Container Platform 4.22**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · Version : OpenShift Container Platform 4.22**  
 **Objet : comprendre la gestion déclarative des systèmes de nœuds sans dérive SSH.**
 
 

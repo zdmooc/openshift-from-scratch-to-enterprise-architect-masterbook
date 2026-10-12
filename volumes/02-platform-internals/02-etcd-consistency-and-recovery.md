@@ -1,6 +1,6 @@
 # 02 — etcd : Raft, quorum, sauvegarde et reprise du control plane
 
-**Volume 02 · DRAFT · Version cible OCP 4.22**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · Version cible OCP 4.22**  
 **Source primaire : documentation Red Hat Backup & Restore ; aucune opération mutatrice exécutée.**
 
 

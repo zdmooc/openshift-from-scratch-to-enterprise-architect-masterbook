@@ -1,6 +1,6 @@
 # 08 — API extensions : CRD, conversion, versionnement et contrats des Operators
 
-**Volume 02 · DRAFT · Kubernetes/OpenShift 4.22.**  
+**Volume 02 · ÉDITION 1.2 — RELECTURE DOCUMENTAIRE · Kubernetes/OpenShift 4.22.**  
 **But : concevoir une API Kubernetes extension sans casser ses consommateurs lors des upgrades.**
 
 
