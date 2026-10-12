@@ -1,6 +1,6 @@
 # Roadmap d'édition du Masterbook
 
-**Date de référence : 2026-10-11** · **Découpage initial, non contractuel** · **Critères de fin : contenu, pas pages**
+**Date de référence : 2026-10-12** · **Découpage initial, non contractuel** · **Critères de fin : contenu, pas pages**
 
 ## Itérations structurantes
 
@@ -9,8 +9,8 @@
 | OCP-MB-I0 | Dépôt, cadrage, structure, licences, preuves | README, charte, index, référence V01 | CLOSED (cadrage initial) |
 | OCP-MB-I1 | V01 plan + chapitres de base | 13 chapitres + 3 cas, édition contenu complète | EDITION_1_CONTENT_COMPLETE |
 | OCP-MB-I2 | V01 labs et questions d'architecture | 8 labs, 42 tests offline PASS ; runtime non revendiqué | OFFLINE_TESTS_PASS |
-| OCP-MB-I3 | V02 architecture interne | Machine API/OLM/CRD versionnée rédigés, validations CI et de fond restantes | EDITION_1_1_PUBLISHED |
-| OCP-MB-I4 | V03 installation/administration | Topologies et procédures vérifiées | PLANNED |
+| OCP-MB-I3 | V02 architecture interne | 12 chapitres, 6 labs, audit technique, PDF 1.3 contrôlé | CLOSED_DOCUMENTARY_SCOPE |
+| OCP-MB-I4 | V03 installation/administration | Topologies et procédures à rédiger et contrôler | IN_PROGRESS |
 | OCP-MB-I5 | V04 réseaux | Architecture des flux + diagnostics | PLANNED |
 | OCP-MB-I6 | V05 storage/data | Workloads stateful + RPO/RTO | PLANNED |
 | OCP-MB-I7 | V06 sécurité | Modèle menaces + contrôles | PLANNED |
@@ -35,10 +35,10 @@ Une ligne n'équivaut pas à une unique session : chaque volume est un **lot** c
 
 **Contraintes CRC** : pas de nouveaux labs lourds tant que le cluster local est contraint. Privilégier les preuves historiques, les schémas, les lectures seules et la documentation de référence, avec statut correspondant.
 
-## Étape immédiatement suivante
+## Statut actuel et prochaine étape
 
-Les deux premiers volumes disposent de PDF versionnés. **La pagination décrit le rendu, elle ne détermine jamais la clôture.** Pour le Volume 02, les points de vérification/approfondissement sont suivis dans [V02_CONTENT_ACCEPTANCE.md](V02_CONTENT_ACCEPTANCE.md) : cohérence officielle 4.22, restrictions Machine API/OLM, contrat réel de conversion CRD, validation des figures et limites des labs. Les 94 tests offline/éditoriaux et 91 liens locaux restent des éléments de contrôle, sans validation HA/PRA ni nouvelle charge CRC. Volume 03 seulement après décision de clôture fondée sur la matière couverte.
+**Volume 02 : CLOSED_DOCUMENTARY_SCOPE.** La [publication PDF 1.3](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v02.3-20261012) a réussi ses [contrôles CI](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38217687784) : 117 tests, 125 liens Markdown, texte et sections du PDF, et contrôle spécifique du glossaire. La dernière page a été vérifiée visuellement après correction du tableau. Aucune preuve runtime de HA/PRA ni d'installation d'Operator n'est revendiquée.
 
-**Dernier contrôle V02** : 12 chapitres, 4 labs dont L04 CRD, [114 tests offline et 111 liens PASS](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38155313628). Statut : **MANUSCRIPT_ENRICHED_QA_PENDING** ; le PDF v1.1 reste le snapshot antérieur et sera révisé seulement après clôture du contenu selon C1–C7.
+**Volume 03 : IN_PROGRESS**, sur [installation et Day-1](../volumes/03-install-operate/README.md). La rédaction suit les matrices officielles OCP 4.22, sans lancer de nouvelle charge sur le CRC.
 
-**Prévisualisation complète Volume 02** : [CI 38156129697 — SUCCESS](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38156129697), 12 chapitres et 6 ateliers présents dans le PDF draft. La publication finale attend la validation du contenu C1–C7, **pas une pagination**. L'édition publique v1.1 n'a pas été écrasée.
+**Critère de fin :** qualité et couverture du contenu, jamais nombre de pages.

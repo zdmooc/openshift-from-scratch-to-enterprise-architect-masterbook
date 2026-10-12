@@ -1,6 +1,6 @@
 # Volume 02 — Architecture interne d'OpenShift
 
-**Édition documentaire 1.2 : couverture de contenu terminée pour 12 chapitres, 6 laboratoires, 1 étude d'architecture et 4 schémas SVG; aucune preuve runtime inventée.**  
+**Édition documentaire 1.3 : couverture de contenu terminée pour 12 chapitres, 6 laboratoires, 1 étude d'architecture et 4 schémas SVG; aucune preuve runtime inventée.**  
 **Référence : OpenShift Container Platform 4.22 · Kubernetes 1.35.**  
 **Limite : documentation et tests Python offline, sans exécution de changements control plane ni de PRA sur CRC.**
 
@@ -41,18 +41,12 @@
 
 **Aucun backup/restore etcd, aucune interruption de nœud et aucune modification du MCO, CVO ou SCC n'ont été lancés.**
 
-[Télécharger le PDF 1.1 — 85 pages](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.1-20261011/OpenShift_Masterbook_Volume_02_Edition_1_1_Zidane_Djamal_2026.pdf) · [Validation du PDF](../../docs/V02_RELEASE_VERIFICATION_1_1.md) · [Notes d'édition](../../docs/V02_RELEASE_NOTES.md) · [Sources officielles](../../docs/SOURCES.md).
+## Édition documentaire finale pour ce périmètre
 
-**Le PDF 1.1 publié reste un instantané historique de 10 chapitres ; les 2 nouveaux chapitres et le lab L04 ne figurent pas dans ce PDF. Le manuscrit Markdown à jour fait foi.**
+- [PDF édition 1.3 — téléchargement](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/download/v02.3-20261012/OpenShift_Masterbook_Volume_02_Edition_1_3_Zidane_Djamal_2026.pdf) · [Release GitHub](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v02.3-20261012)
+- [Compte rendu de publication et contrôle visuel](../../docs/V02_RELEASE_VERIFICATION_1_3.md)
+- [Audit technique et statut des preuves](../../docs/V02_TECHNICAL_AUDIT_20261012.md)
+- [Erratum relatif à OCP 4.22](../../docs/ERRATA_V01_V02_20261011.md)
+- [Sources et politique des droits](../../docs/RIGHTS_AND_LICENSING.md)
 
-**Le nombre de pages ne mesure pas la complétude.** Cette édition a une couverture technique substantielle, et ses écarts restants sont suivis par domaine dans la [grille de validation du contenu](../../docs/V02_CONTENT_ACCEPTANCE.md). Les autres figures Mermaid non converties restent dans la source Markdown et sous forme de texte lisible dans le PDF.
-
-**QA actuelle :** [114 tests offline/éditoriaux et 111 liens locaux réussis](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38155313628). Les éléments de Machine API, OLM et conversion restent soumis à une revue technique de compatibilité et ne portent aucune preuve runtime.
-
-
-## Prévisualisation du manuscrit actuel
-
-L'édition PDF 1.1 reste la dernière release publique; elle ne contient pas les chapitres Machine API et OLM ajoutés ensuite. [Un PDF brouillon contenant les 12 chapitres et 6 ateliers a été construit et vérifié par GitHub Actions](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38156129697) (artefact téléchargeable depuis le run). Il est réservé à la relecture avant une nouvelle édition. Aucun quota de pages n'est utilisé pour décider de la clôture.
-
-
-[Revue technique et décision de clôture documentaire](../../docs/V02_TECHNICAL_AUDIT_20261012.md) · [Avis au lecteur](../../docs/V02_1_2_READER_NOTICE.md). L'édition 1.2 remplace l'édition 1.1 comme référence documentaire dès publication vérifiée sur GitHub Releases; l'édition 1.1 reste archivée.
+**CLOSED_DOCUMENTARY_SCOPE.** Le contenu prévu de l'architecture interne OCP 4.22 est couvert; ce statut ne prouve pas de tests runtime multinœuds, d'upgrade de cluster, de restore etcd ni de conversion CRD déployée. Les éditions 1.0, 1.1 et 1.2 restent archivées.

@@ -40,3 +40,8 @@ Une édition documentaire techniquement close peut conserver des **limites de pr
 ## Décision
 
 **V02_CONTENT_CLOSED_DOCUMENTARY_SCOPE** une fois la CI de validation PDF 1.2 réussie. Ne pas considérer cette décision comme une homologation, une certification OpenShift ou un test HA/PRA.
+
+
+## Publication vérifiée de l'édition 1.3
+
+Le [contrôle de publication](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38217687784) est PASS (117 tests/125 liens). L'édition 1.2 présentait un défaut visuel de glossaire; une source Markdown corrigée, un test de régression et une vérification visuelle de la dernière page ont permis de publier [l'édition 1.3](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases/tag/v02.3-20261012) sans écraser les éditions antérieures. **C7 : PASS.** La décision **V02_CONTENT_CLOSED_DOCUMENTARY_SCOPE** est effective. Aucune revendication runtime supplémentaire.
