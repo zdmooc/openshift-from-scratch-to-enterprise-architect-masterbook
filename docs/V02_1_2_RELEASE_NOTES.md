@@ -23,6 +23,6 @@ L'architecture d'installation détaillée sera traitée dans le Volume 03; les i
 
 © 2026 Zidane Djamal pour les créations originales, **tous droits réservés** pour cette édition en l'absence de licence expresse; respect des droits tiers. Red Hat/OpenShift appartiennent à leurs titulaires respectifs. Ouvrage indépendant.
 
-Voir [le rapport technique et les limites](docs/V02_TECHNICAL_AUDIT_20261012.md), [l'avis au lecteur](docs/V02_1_2_READER_NOTICE.md), [l'erratum](docs/ERRATA_V01_V02_20261011.md) et [la politique de droits](docs/RIGHTS_AND_LICENSING.md).
+Voir [le rapport technique et les limites](V02_TECHNICAL_AUDIT_20261012.md), [l'avis au lecteur](V02_1_2_READER_NOTICE.md), [l'erratum](ERRATA_V01_V02_20261011.md) et [la politique de droits](RIGHTS_AND_LICENSING.md).
 
 La pagination de ce PDF est informative; elle n'est pas un critère de clôture. Les éditions 1.0 et 1.1 sont conservées.
