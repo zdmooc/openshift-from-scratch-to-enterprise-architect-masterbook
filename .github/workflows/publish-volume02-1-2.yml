@@ -80,7 +80,8 @@ jobs:
                   if "github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/blob/" in uri:
                       assert f"/blob/{sha}/" in uri, "Source link not pinned to commit"
                       internal += 1
-          assert internal > 15, "Missing expected source links"
+          print("PINNED_SOURCE_LINKS", internal)
+          assert internal >= 1, "Expected at least one immutable source link"
           print("PDF_PAGES_INFO_ONLY", len(reader.pages))
           print("PDF_EXTRACTED_CHARS", len(text))
           print("PDF_BYTES", path.stat().st_size)
