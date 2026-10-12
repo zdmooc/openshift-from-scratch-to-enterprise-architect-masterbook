@@ -82,3 +82,9 @@ Les P0 « rédiger Machine API », « rédiger OLM » et « fournir un vrai exem
 ## 8. Vérifications officielles ciblées au 12 octobre 2026
 
 Les assertions sensibles à la version ont été confrontées aux sources primaires : [release notes 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes), [Machine management](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_management/applying-autoscaling), [ClusterExtension API](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/operatorhub_apis/clusterextension-olm-operatorframework-io-v1), [PRA/etcd](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/control-plane-backup-and-restore) et [Kubernetes CRD versioning](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/). Les corrections portent sur l'absence de règle universelle maxUnavailable, la distinction des fonctions OLM v1 Technology Preview, la compatibilité restore z-stream, les limites autoscaling/provider et le contrat des webhooks de conversion. La divergence RHEL worker reste traitée en erratum.
+
+## 9. Décision éditoriale du 12 octobre 2026
+
+Les mécanismes et risques fondamentaux du Volume 02 sont couverts pour la **cible documentaire OpenShift 4.22**. La [revue technique](V02_TECHNICAL_AUDIT_20261012.md) fixe la conclusion **CONTENT_CLOSED_DOCUMENTARY_SCOPE** et les caveats des sources contradictoires, des exigences de support et des exercices non exécutés.
+
+La clôture de **publication** devient effective **après** le passage vert de la CI de publication de l'édition PDF 1.2 : présence des 12 chapitres et 6 labs, avis au lecteur et erratum, texte extractible et contrôle des liens. Aucun quota de pages ne sert de condition.

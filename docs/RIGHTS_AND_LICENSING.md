@@ -39,3 +39,12 @@ Red Hat et OpenShift sont des marques de leurs titulaires. Utiliser les noms de 
 **IP-GATE-5** Vérification sécurité/confidentialité.
 
 Le dépôt étant public, garder les brouillons sûrs dès le premier commit. La licence définitive reste ouverte jusqu'à validation.
+
+
+## Modalités de publication documentaire des volumes 01 et 02 (12 octobre 2026)
+
+Les PDF publiés ne constituent **pas** une concession de licence ouverte. **Par défaut, tous droits réservés pour les textes, schémas et exemples originaux**, sous réserve des droits et licences applicables aux œuvres et marques tierces. Les URL vers la documentation Kubernetes/Red Hat sont des citations/sources, non une intégration de leurs contenus sous licence propre au livre.
+
+Cette modalité permet de distribuer **les éditions numériques à la lecture** sans prétendre autoriser la reproduction, la modification ou la redistribution de composants logiciels. La **politique mixte de licences souhaitée** restera à appliquer quand les textes de licence précis seront choisis et vérifiés; elle ne doit pas être présumée rétroactive.
+
+Pour le Volume 02, les schémas SVG ont été créés directement dans le dépôt et les exemples n'incorporent pas volontairement de secrets ou captures d'un client. La revue G4 du PDF 1.2 est documentée dans [l'audit](V02_TECHNICAL_AUDIT_20261012.md). Ce constat ne vaut pas audit juridique indépendant ni confirmation du droit de réutiliser du matériel tiers non identifié.

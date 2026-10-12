@@ -23,6 +23,17 @@ class Volume02SourceTests(unittest.TestCase):
                 self.assertIn("docs.redhat.com", s)
                 self.assertIn("4.22", s)
 
+    def test_editorial_status_is_not_draft(self):
+        for path in sorted(VOLUME.glob("[0-9][0-9]-*.md")):
+            s = path.read_text(encoding="utf-8")
+            with self.subTest(path=path.name):
+                self.assertIn("ÉDITION 1.2", s.splitlines()[2])
+                self.assertNotIn(" · DRAFT · ", s[:300])
+
+    def test_reader_notice_and_erratum_exist(self):
+        self.assertTrue((ROOT / "docs/V02_1_2_READER_NOTICE.md").exists())
+        self.assertTrue((ROOT / "docs/ERRATA_V01_V02_20261011.md").exists())
+
     def test_glossary_and_case_study(self):
         glossary = (VOLUME / "GLOSSARY.md").read_text(encoding="utf-8")
         self.assertIn("MachineConfigPool", glossary)

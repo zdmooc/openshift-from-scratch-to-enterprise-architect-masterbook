@@ -1,6 +1,6 @@
 # Volume 02 — Architecture interne d'OpenShift
 
-**Manuscrit de travail après l'édition 1.1 : 12 chapitres techniques, 6 laboratoires, 1 étude d'architecture et 4 schémas SVG.**  
+**Édition documentaire 1.2 : couverture de contenu terminée pour 12 chapitres, 6 laboratoires, 1 étude d'architecture et 4 schémas SVG; aucune preuve runtime inventée.**  
 **Référence : OpenShift Container Platform 4.22 · Kubernetes 1.35.**  
 **Limite : documentation et tests Python offline, sans exécution de changements control plane ni de PRA sur CRC.**
 
@@ -53,3 +53,6 @@
 ## Prévisualisation du manuscrit actuel
 
 L'édition PDF 1.1 reste la dernière release publique; elle ne contient pas les chapitres Machine API et OLM ajoutés ensuite. [Un PDF brouillon contenant les 12 chapitres et 6 ateliers a été construit et vérifié par GitHub Actions](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/actions/runs/38156129697) (artefact téléchargeable depuis le run). Il est réservé à la relecture avant une nouvelle édition. Aucun quota de pages n'est utilisé pour décider de la clôture.
+
+
+[Revue technique et décision de clôture documentaire](../../docs/V02_TECHNICAL_AUDIT_20261012.md) · [Avis au lecteur](../../docs/V02_1_2_READER_NOTICE.md). L'édition 1.2 remplace l'édition 1.1 comme référence documentaire dès publication vérifiée sur GitHub Releases; l'édition 1.1 reste archivée.
