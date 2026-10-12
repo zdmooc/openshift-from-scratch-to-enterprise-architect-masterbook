@@ -71,7 +71,7 @@ def make_pdf(out: Path) -> Path:
       <div class="subtitle">etcd · Scheduler · CVO · MCO<br>
       RHCOS · CRI-O · Admission · N3</div>
       <div class="copyright">Zidane Djamal<br>
-      Édition documentaire 1.2 · 12 octobre 2026<br>
+      Édition documentaire 1.3 · 12 octobre 2026<br>
       Étude indépendante, non affiliée à Red Hat</div>
     </section>"""
     front = """<section class="front">
@@ -88,7 +88,7 @@ def make_pdf(out: Path) -> Path:
                    for _, _, ident, p, annex in sections)
     style = CSS.replace("VOLUME 01", "VOLUME 02") + "\n.chapter img { display:block; width:100%; height:auto; max-height:195px; margin:6mm auto; }"
     doc = ('<!doctype html><html lang="fr"><head><meta charset="utf-8">'
-           '<title>OpenShift Masterbook Volume 02 - Edition 1.2</title><style>' + style +
+           '<title>OpenShift Masterbook Volume 02 - Edition 1.3</title><style>' + style +
            '</style></head><body>' + cover + front + toc_html + body + '</body></html>')
     out.parent.mkdir(parents=True, exist_ok=True)
     HTML(string=doc, base_url=ROOT.as_uri() + "/").write_pdf(out)
@@ -100,6 +100,6 @@ def make_pdf(out: Path) -> Path:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build the OpenShift V02 PDF")
-    parser.add_argument("--out", default="dist/OpenShift_Masterbook_Volume_02_Edition_1_2_Zidane_Djamal_2026.pdf")
+    parser.add_argument("--out", default="dist/OpenShift_Masterbook_Volume_02_Edition_1_3_Zidane_Djamal_2026.pdf")
     opts = parser.parse_args()
     make_pdf(ROOT / opts.out)

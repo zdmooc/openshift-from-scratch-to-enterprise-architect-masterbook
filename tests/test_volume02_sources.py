@@ -30,6 +30,12 @@ class Volume02SourceTests(unittest.TestCase):
                 self.assertIn("ÉDITION 1.2", s.splitlines()[2])
                 self.assertNotIn(" · DRAFT · ", s[:300])
 
+    def test_glossary_has_no_detached_markdown_table_rows(self):
+        source = (VOLUME / "GLOSSARY.md").read_text(encoding="utf-8")
+        self.assertNotIn("\\n\\n| Machine API |", source)
+        self.assertIn("| ClusterExtension |", source)
+        self.assertIn("| Machine API |", source)
+
     def test_reader_notice_and_erratum_exist(self):
         self.assertTrue((ROOT / "docs/V02_1_2_READER_NOTICE.md").exists())
         self.assertTrue((ROOT / "docs/ERRATA_V01_V02_20261011.md").exists())

@@ -38,7 +38,6 @@
 | Served version | Version de CRD exposée aux clients |
 | Webhook de conversion | Service externe traduisant des objets de CRD entre versions |
 | Zone de panne | Domaine dont l'indisponibilité peut faire tomber plusieurs composants |
-
 | Machine API | Gestion déclarative des Machines d'infrastructure, selon provider/support |
 | Machine | Ressource OCP représentant un hôte/instance gérée et potentiellement liée à un Node |
 | MachineSet | Contrôleur du nombre de Machines de calcul désirées |
