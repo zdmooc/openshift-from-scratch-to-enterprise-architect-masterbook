@@ -318,3 +318,9 @@ Tests requis lors d'une évolution ultérieure :
 | Modifications de metadata.name/uid | Conversion refusée par l'API | Préservation stricte des identités |
 
 [Référence Kubernetes officielle : Permissible mutations, ConversionReview et échec de conversion](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/).
+
+## 19. Règles vérifiées de la ConversionReview Kubernetes
+
+Selon le [guide officiel de versioning CRD](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/), le webhook renvoie un objet `ConversionReview` avec le même UID de requête, un tableau `convertedObjects` dans le même ordre et une version de destination conforme. Le **nom**, l'UID et le namespace d'un objet ne doivent pas être modifiés; ces mutations provoquent un échec. Seules certaines métadonnées comme labels/annotations peuvent être adaptées selon le contrat.
+
+Une conversion qui échoue peut interrompre la lecture ou la mise à jour des CRs, y compris celles nécessaires à la réparation d'un Operator. **Ne pas utiliser ce webhook comme validation métier** : placer la validation des nouvelles valeurs dans le schema de la CRD ou dans un contrôleur d'admission distinct. Cet exercice reste un **modèle offline**, pas un serveur HTTPS de conversion supporté.

@@ -248,3 +248,9 @@ Le document Red Hat 4.22 Machine Management indique :
 Aucun de ces mécanismes ne doit être supposé disponible sur un cluster UPI, CRC ou autre plateforme sans inventaire et vérification des capacités réellement installées.
 
 [Machine management 4.22 : description et limites](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_management/index).
+
+## 12. Précision de support — autoscaling et plateformes
+
+La documentation officielle [Machine management 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_management/applying-autoscaling) indique que le ClusterAutoscaler requiert une **Machine API Operator opérationnelle**. Elle précise que `minReplicas: 0` est applicable à certains providers, notamment AWS, Google Cloud, Azure, RHOSP et vSphere, mais ne doit pas être utilisé pour les trois compute MachineSets initiaux d'une installation IPI. D'autres providers peuvent imposer des restrictions plus fortes.
+
+La formule « scale to zero est possible » sans nommer le provider, la classe de MachineSet et le chemin de support est donc insuffisante. Le chapitre distingue capacités disponibles de configurations autorisées pour l'environnement visé.

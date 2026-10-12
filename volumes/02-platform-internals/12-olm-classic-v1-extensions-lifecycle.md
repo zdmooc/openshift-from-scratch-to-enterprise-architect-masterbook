@@ -288,3 +288,24 @@ Le mode \`upgradeConstraintPolicy: SelfCertified\` peut contourner les contraint
 La réponse doit être établie depuis les objets et logs de l'environnement autorisé, pas à partir d'une installation supposée dans ce livre.
 
 **Sources :** [API officielle ClusterExtension 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/operatorhub_apis/clusterextension-olm-operatorframework-io-v1) ; [capability OLM v1 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installation_overview/cluster-capabilities) ; [Architecture OLM v1](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/extensions/architecture).
+
+## 11. Matrice de statut des fonctionnalités OLM v1 en OCP 4.22
+
+L'expression « OLM v1 est supporté » est trop générale pour qualifier toutes les extensions et fonctions associées. Les [notes de version OCP 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes) indiquent notamment :
+
+| Fonctionnalité | Statut dans le suivi officiel 4.22 | Conséquence d'architecture |
+|---|---|---|
+| Validation d'images par signatures sigstore | General Availability | Vérifier la politique de signatures et les exigences propres à l'extension |
+| Installation d'extensions avec webhooks | General Availability | Préparer certificats, CA, disponibilité et procédures de reprise |
+| Contrôles préflight de permissions d'extension | Technology Preview | Ne pas les traiter comme un garde-fou de production garanti par SLA |
+| Installation d'une extension dans un namespace spécifié | Technology Preview | Examiner le support exact du scénario avant déploiement critique |
+| `deploymentConfig` pour personnalisation de Pod Operator | Technology Preview | Éviter de l'exiger comme dépendance supportée d'une application critique |
+| `ClusterObjectSet` pour rollouts séquencés | Technology Preview | Ne pas confondre avec une garantie GA de migration/rollout |
+
+Ce tableau est **daté du 12 octobre 2026 pour la documentation 4.22**; les autres versions et mises à jour z-stream doivent être revérifiées. Le statut de fonctionnalité n'implique pas la certification de tout package tiers livré par ce mécanisme.
+
+### Cas de décision
+
+Une équipe souhaite intégrer `deploymentConfig` dans son installation Operator pour imposer une affinité de Pod dans un cluster de production bancaire. La documentation 4.22 classe cette API en Technology Preview. La décision prudente est d'étudier une configuration supportée par l'Operator/package, ou de maintenir une exception explicitement acceptée hors SLA si la politique du client le permet. Il serait incorrect d'affirmer « OLM v1 existe donc cette API est GA ».
+
+**Source principale :** [OCP 4.22 — Extensions Technology Preview tracker et nouveautés](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/release_notes/ocp-4-22-release-notes).

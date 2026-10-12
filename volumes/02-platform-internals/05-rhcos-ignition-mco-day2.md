@@ -68,7 +68,7 @@ Selon les paramètres et la nature des changements, toutes ces étapes ne sont p
 
 ### 4.1 maxUnavailable et sécurité de quorum
 
-Red Hat documente une valeur par défaut de maxUnavailable=1 pour les pools de MachineConfig. Le processus de mise à jour doit éviter que plusieurs machines de contrôle soient indisponibles simultanément d'une manière qui détruit le quorum etcd.
+Le comportement de `maxUnavailable` varie selon le pool, sa configuration effective, sa taille et la documentation de la version. Le processus de mise à jour doit préserver le quorum etcd et éviter d'indisponibiliser plusieurs membres critiques. **Ne pas supposer une valeur universelle de 1 pour tous les pools**; lire `spec.maxUnavailable` et les règles documentées du MCP concerné.
 
 **Anti-pattern :** augmenter brutalement maxUnavailable sur les masters pour accélérer un upgrade. Les gains de temps apparents ne compensent pas la perte possible du control plane. Pour une topologie critique, ce paramètre doit suivre strictement les recommandations de la plateforme.
 

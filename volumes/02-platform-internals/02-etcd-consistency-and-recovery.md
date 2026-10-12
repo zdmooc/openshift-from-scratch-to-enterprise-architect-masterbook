@@ -282,3 +282,11 @@ La mesure du service doit donc rester indépendante du calcul de majorité.
 - [etcd — Documentation du consensus Raft et de la maintenance](https://etcd.io/docs/)
 - [Red Hat OpenShift 4.22 — etcd](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/etcd/index)
 - [Red Hat — Control plane backup and restore 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/control-plane-backup-and-restore)
+
+## 16. Vérification documentaire — compatibilité des sauvegardes
+
+Le guide [OCP 4.22 : contrôle de sauvegarde/restauration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/control-plane-backup-and-restore) confirme qu'une restauration vers un état antérieur doit utiliser une sauvegarde issue de **la même version z-stream**. Exemple documentaire : un cluster 4.22.2 attend une sauvegarde créée sous 4.22.2.
+
+Le guide précise également qu'une sauvegarde manuelle du control plane est réalisée **une seule fois sur un hôte de contrôle**, et qu'elle réunit le snapshot etcd et les ressources nécessaires des static Pods. Il ne faut **pas** prendre indépendamment un backup sur chaque master puis sélectionner arbitrairement des fichiers provenant de plusieurs époques.
+
+Ces éléments sont des contraintes de lecture et de préparation d'un PRA. Aucune commande backup ou restore n'a été exécutée pour le livre.

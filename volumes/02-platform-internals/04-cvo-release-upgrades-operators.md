@@ -193,7 +193,7 @@ Le simple fait de connaître le nom du ClusterOperator en difficulté ne confirm
 
 ### 12.1 Ce qui n'est pas un rollback supporté
 
-La documentation OpenShift 4.22 ne prend pas en charge un retour ordinaire à la version précédente du cluster. La restauration etcd est une procédure exceptionnelle, potentiellement destructrice et n'est pas destinée à être utilisée comme mécanisme de rollback de mise à jour. <Voir la référence officielle en fin de chapitre.>
+La documentation OpenShift 4.22 ne prend pas en charge un retour ordinaire à la version précédente du cluster. La restauration etcd est une procédure exceptionnelle, potentiellement destructrice et n'est pas destinée à être utilisée comme mécanisme de rollback de mise à jour. Voir les références Red Hat OpenShift 4.22 ci-dessous.
 
 Un revert Git sur une application ne remet pas CRI-O, RHCOS ou les APIs Kubernetes à une ancienne version.
 

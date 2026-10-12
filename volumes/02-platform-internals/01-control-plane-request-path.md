@@ -248,3 +248,9 @@ Un protocole autorisé suit :
 - [Kubernetes — API Concepts](https://kubernetes.io/docs/reference/using-api/api-concepts/)
 - [Kubernetes — Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
 - [Red Hat OpenShift 4.22 — API configuration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/config_apis/config-apis)
+
+## 15. Frontière de confiance — résultat du fact-check 4.22
+
+Pour cette édition, le support des workers RHEL demeure un point de **contradiction entre documents Red Hat 4.22**. Les notes de version et certains guides d'installation/d'architecture ne présentent pas le même périmètre. La règle de conception reste de confirmer les possibilités selon le mode d'installation et la matrice de support, sans transformer une phrase de documentation en verdict universel. Voir [l'erratum](../../docs/ERRATA_V01_V02_20261011.md).
+
+Un schéma technique de control plane sur RHCOS ne prouve pas que tous les types d'installation OCP, dans toutes les variantes, imposent exactement le même OS à chaque worker.
