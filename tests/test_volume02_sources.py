@@ -37,7 +37,7 @@ class Volume02SourceTests(unittest.TestCase):
         self.assertIn("| Machine API |", source)
 
     def test_reader_notice_and_erratum_exist(self):
-        self.assertTrue((ROOT / "docs/V02_1_2_READER_NOTICE.md").exists())
+        self.assertTrue((ROOT / "docs/V02_1_3_READER_NOTICE.md").exists())
         self.assertTrue((ROOT / "docs/ERRATA_V01_V02_20261011.md").exists())
 
     def test_glossary_and_case_study(self):

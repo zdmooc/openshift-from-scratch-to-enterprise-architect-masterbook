@@ -44,7 +44,7 @@ CHAPTERS = sorted((ROOT / "volumes/02-platform-internals").glob("[0-9][0-9]-*.md
 LABS = sorted((ROOT / "labs").glob("v02-[0-9][0-9]-*.md"))
 CASES = sorted((ROOT / "case-studies/v02-control-plane").glob("[0-9][0-9]-*.md"))
 GLOSSARY = ROOT / "volumes/02-platform-internals/GLOSSARY.md"
-READER_NOTICE = ROOT / "docs/V02_1_2_READER_NOTICE.md"
+READER_NOTICE = ROOT / "docs/V02_1_3_READER_NOTICE.md"
 ERRATUM = ROOT / "docs/ERRATA_V01_V02_20261011.md"
 
 
