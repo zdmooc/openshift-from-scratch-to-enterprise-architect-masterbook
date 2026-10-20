@@ -73,3 +73,7 @@ OpenShift, Red Hat et les marques associées appartiennent à leurs titulaires r
 - **[Volume 03 — installation et exploitation](volumes/03-install-operate/README.md)** : rédaction ouverte après publication et contrôle du Volume 02.
 
 Les anciennes éditions PDF restent disponibles dans [GitHub Releases](https://github.com/zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook/releases). La pagination reste informative; c'est la couverture technique vérifiée qui fixe la clôture.
+
+## Historical Docker / Podman laboratory (20 October 2026)
+
+The archived [Docker + Podman Masterclass](legacy/docker-podman-masterclass/README.md) is preserved intact in `legacy/docker-podman-masterclass/` with **31/31 source blobs and a [SHA manifest](legacy/docker-podman-masterclass-source-map.json)**. Its 10 labs and original license remain available independently of the Volume 01 text. This preservation does not prove container execution; deletion of the archived source remains the repository owner's manual choice.
