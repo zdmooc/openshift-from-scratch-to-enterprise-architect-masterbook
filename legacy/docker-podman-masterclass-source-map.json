@@ -11,7 +11,7 @@
   "source_files": 31,
   "method": "byte_exact_git_blob_recreation_sha_verified",
   "runtime_claim": "NO_LAB_RUNTIME_VERIFIED",
-  "deletion_status": "PENDING_OWNER_MANUAL_DELETE_AFTER_MAIN_VERIFICATION",
+  "deletion_status": "DELETED_BY_OWNER_VERIFIED_404_2026-10-20",
   "files": [
     {
       "source": ".gitignore",
@@ -230,5 +230,9 @@
       "mode": "100644",
       "size": 227
     }
-  ]
+  ],
+  "deletion_verified_on": "2026-10-20",
+  "deletion_evidence": "GitHub get_repo returned 404; source absent in 74-repository inventory",
+  "target_main_integrity_reverified": true,
+  "target_main_exact_sha_count": 31
 }
