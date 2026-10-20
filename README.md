@@ -76,4 +76,4 @@ Les anciennes éditions PDF restent disponibles dans [GitHub Releases](https://g
 
 ## Historical Docker / Podman laboratory (20 October 2026)
 
-The archived [Docker + Podman Masterclass](legacy/docker-podman-masterclass/README.md) is preserved intact in `legacy/docker-podman-masterclass/` with **31/31 source blobs and a [SHA manifest](legacy/docker-podman-masterclass-source-map.json)**. Its 10 labs and original license remain available independently of the Volume 01 text. This preservation does not prove container execution; deletion of the archived source remains the repository owner's manual choice.
+The archived [Docker + Podman Masterclass](legacy/docker-podman-masterclass/README.md) is preserved intact in `legacy/docker-podman-masterclass/` with **31/31 source blobs and a [SHA manifest](legacy/docker-podman-masterclass-source-map.json)**. Its 10 labs and original license remain available independently of the Volume 01 text. This preservation does not prove container execution; the archived source was **manually deleted by its owner on 20 October 2026**, with 404 GitHub verification; **31/31 blobs remain intact on `main`**.
