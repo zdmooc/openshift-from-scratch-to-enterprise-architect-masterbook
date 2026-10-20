@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "source_repository": "zdmooc/docker-podman-complete-masterclass",
+  "source_branch": "main",
+  "source_commit": "6f623e544d358ee7058a24f5a35226cc06960dc5",
+  "source_tree": "bb54c4f44a966f102b5c013f5c92d07d473de3c5",
+  "target_repository": "zdmooc/openshift-from-scratch-to-enterprise-architect-masterbook",
+  "source_archived": true,
+  "source_history_preserved": false,
+  "source_files": 31,
+  "method": "byte_exact_git_blob_recreation_sha_verified",
+  "runtime_claim": "NO_LAB_RUNTIME_VERIFIED",
+  "deletion_status": "PENDING_OWNER_MANUAL_DELETE_AFTER_MAIN_VERIFICATION",
+  "files": [
+    {
+      "source": ".gitignore",
+      "target": "legacy/docker-podman-masterclass/.gitignore",
+      "sha": "b2e1d03440e16cfc2eab72e347a3084f8cfebce5",
+      "mode": "100644",
+      "size": 43
+    },
+    {
+      "source": "CONTRIBUTING.md",
+      "target": "legacy/docker-podman-masterclass/CONTRIBUTING.md",
+      "sha": "aba57e9fc48caf74550cda313259a86f67007edc",
+      "mode": "100644",
+      "size": 198
+    },
+    {
+      "source": "LICENSE",
+      "target": "legacy/docker-podman-masterclass/LICENSE",
+      "sha": "588b71f14773be0b0f526a480a65a5711f0c9949",
+      "mode": "100644",
+      "size": 32
+    },
+    {
+      "source": "Makefile",
+      "target": "legacy/docker-podman-masterclass/Makefile",
+      "sha": "5091137a17a3d8510b484ae5b13aa96fba3e374c",
+      "mode": "100644",
+      "size": 738
+    },
+    {
+      "source": "README.md",
+      "target": "legacy/docker-podman-masterclass/README.md",
+      "sha": "651520b7460b10931996a8115236722f7367e528",
+      "mode": "100644",
+      "size": 1432
+    },
+    {
+      "source": "compose/stack01-nginx/docker-compose.yaml",
+      "target": "legacy/docker-podman-masterclass/compose/stack01-nginx/docker-compose.yaml",
+      "sha": "a3707d0c0525aae0688049d91fd90dfa57cb429b",
+      "mode": "100644",
+      "size": 70
+    },
+    {
+      "source": "compose/stack02-postgres-adminer/docker-compose.yaml",
+      "target": "legacy/docker-podman-masterclass/compose/stack02-postgres-adminer/docker-compose.yaml",
+      "sha": "af285ee1bde9c8d8cf2dd31422cacdd056b51c0e",
+      "mode": "100644",
+      "size": 477
+    },
+    {
+      "source": "docs/00-overview.md",
+      "target": "legacy/docker-podman-masterclass/docs/00-overview.md",
+      "sha": "3f2eb0940ad98f47bc7fa89d1c238983ec8f884b",
+      "mode": "100644",
+      "size": 501
+    },
+    {
+      "source": "docs/docker-vs-podman.md",
+      "target": "legacy/docker-podman-masterclass/docs/docker-vs-podman.md",
+      "sha": "47fd546a3f9fd362bb3d63992440e7270b2a753c",
+      "mode": "100644",
+      "size": 742
+    },
+    {
+      "source": "docs/roadmap-6-weeks.md",
+      "target": "legacy/docker-podman-masterclass/docs/roadmap-6-weeks.md",
+      "sha": "477d27b717ed787c871dbf31ae8111bcab32cc45",
+      "mode": "100644",
+      "size": 675
+    },
+    {
+      "source": "examples/flask/Containerfile",
+      "target": "legacy/docker-podman-masterclass/examples/flask/Containerfile",
+      "sha": "e96d0cdf478a998905894ab5846f959d88d12d82",
+      "mode": "100644",
+      "size": 440
+    },
+    {
+      "source": "examples/flask/Dockerfile",
+      "target": "legacy/docker-podman-masterclass/examples/flask/Dockerfile",
+      "sha": "e96d0cdf478a998905894ab5846f959d88d12d82",
+      "mode": "100644",
+      "size": 440
+    },
+    {
+      "source": "examples/flask/app.py",
+      "target": "legacy/docker-podman-masterclass/examples/flask/app.py",
+      "sha": "e0ddc1f976ebcc53f4ddf4f09d61a4c754796372",
+      "mode": "100644",
+      "size": 238
+    },
+    {
+      "source": "examples/flask/requirements.txt",
+      "target": "legacy/docker-podman-masterclass/examples/flask/requirements.txt",
+      "sha": "064745096d86a1239907eb62ea62a085486e834f",
+      "mode": "100644",
+      "size": 13
+    },
+    {
+      "source": "examples/nginx/Containerfile",
+      "target": "legacy/docker-podman-masterclass/examples/nginx/Containerfile",
+      "sha": "6a5835f297cf8ee0d716500c01044bed9c1f9440",
+      "mode": "100644",
+      "size": 50
+    },
+    {
+      "source": "examples/nginx/Dockerfile",
+      "target": "legacy/docker-podman-masterclass/examples/nginx/Dockerfile",
+      "sha": "6a5835f297cf8ee0d716500c01044bed9c1f9440",
+      "mode": "100644",
+      "size": 50
+    },
+    {
+      "source": "examples/nginx/html/index.html",
+      "target": "legacy/docker-podman-masterclass/examples/nginx/html/index.html",
+      "sha": "fcb5f3694edb49ea9b90feb77fbd9ff1355a99b8",
+      "mode": "100644",
+      "size": 42
+    },
+    {
+      "source": "labs/lab01-build-run.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab01-build-run.sh",
+      "sha": "3f650b13dfaa97b45662799242e1d7be549b1d9f",
+      "mode": "100644",
+      "size": 472
+    },
+    {
+      "source": "labs/lab02-volumes.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab02-volumes.sh",
+      "sha": "1ab37ef67ded3f05d42f9676b453feeecde1eae6",
+      "mode": "100644",
+      "size": 677
+    },
+    {
+      "source": "labs/lab03-networks.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab03-networks.sh",
+      "sha": "1f96c73c558d04ee71f3f99e4a1759148c77012f",
+      "mode": "100644",
+      "size": 571
+    },
+    {
+      "source": "labs/lab04-compose-stack.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab04-compose-stack.sh",
+      "sha": "8f718149b09b0794252f17c78939a800cb6b5b21",
+      "mode": "100644",
+      "size": 374
+    },
+    {
+      "source": "labs/lab05-multistage.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab05-multistage.sh",
+      "sha": "23cae136330fcc07397a89433b24bb4d06a9165f",
+      "mode": "100644",
+      "size": 450
+    },
+    {
+      "source": "labs/lab06-rootless-podman.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab06-rootless-podman.sh",
+      "sha": "d9476a13a73409e5aca29e5717cb89fa02bae961",
+      "mode": "100644",
+      "size": 468
+    },
+    {
+      "source": "labs/lab07-pods-podman.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab07-pods-podman.sh",
+      "sha": "a5c212d12a56e12bd5d14b9f651e7069aadfee59",
+      "mode": "100644",
+      "size": 490
+    },
+    {
+      "source": "labs/lab08-registry.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab08-registry.sh",
+      "sha": "9bc6a2ebf851dd0df5f4c279e8c383c8249dbb93",
+      "mode": "100644",
+      "size": 790
+    },
+    {
+      "source": "labs/lab09-security-basics.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab09-security-basics.sh",
+      "sha": "8e36a79902fe0120c491fa3ce6984c58dd34da46",
+      "mode": "100644",
+      "size": 850
+    },
+    {
+      "source": "labs/lab10-debugging.sh",
+      "target": "legacy/docker-podman-masterclass/labs/lab10-debugging.sh",
+      "sha": "e643e70e61288f139cf76de1b898d4fb65c421db",
+      "mode": "100644",
+      "size": 551
+    },
+    {
+      "source": "scripts/cleanup.sh",
+      "target": "legacy/docker-podman-masterclass/scripts/cleanup.sh",
+      "sha": "3320458e91f27885bfdfb3565c5a5153b5262953",
+      "mode": "100644",
+      "size": 386
+    },
+    {
+      "source": "scripts/compose.sh",
+      "target": "legacy/docker-podman-masterclass/scripts/compose.sh",
+      "sha": "7ff48a74dee759ed054232be438ec4b277ec322d",
+      "mode": "100644",
+      "size": 646
+    },
+    {
+      "source": "scripts/engine.sh",
+      "target": "legacy/docker-podman-masterclass/scripts/engine.sh",
+      "sha": "e4aea60b0424cf1918da88f5bbf05b88d20ddfdd",
+      "mode": "100644",
+      "size": 364
+    },
+    {
+      "source": "scripts/info.sh",
+      "target": "legacy/docker-podman-masterclass/scripts/info.sh",
+      "sha": "a48df7362f86c34cb31817db0059d1e78793b909",
+      "mode": "100644",
+      "size": 227
+    }
+  ]
+}
